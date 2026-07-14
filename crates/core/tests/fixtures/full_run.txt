@@ -1,0 +1,415 @@
+2026/07/12 08:00:00 1000000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:00:00 1000000 deadbeef [DEBUG Client 7777] Generating level 1 area "1_1_1" with seed 4242
+2026/07/12 08:00:03 1003000 deadbeef [INFO Client 7777] : You have entered The Twilight Strand.
+2026/07/12 08:01:03 1063000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:01:03 1063000 deadbeef [DEBUG Client 7777] Generating level 1 area "1_1_town" with seed 4243
+2026/07/12 08:01:06 1066000 deadbeef [INFO Client 7777] : You have entered Lioneye's Watch.
+2026/07/12 08:02:06 1126000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:02:06 1126000 deadbeef [DEBUG Client 7777] Generating level 2 area "1_1_2" with seed 4244
+2026/07/12 08:02:09 1129000 deadbeef [INFO Client 7777] : You have entered The Coast.
+2026/07/12 08:03:09 1189000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:03:09 1189000 deadbeef [DEBUG Client 7777] Generating level 4 area "1_1_3" with seed 4245
+2026/07/12 08:03:12 1192000 deadbeef [INFO Client 7777] : You have entered The Mud Flats.
+2026/07/12 08:04:12 1252000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:04:12 1252000 deadbeef [DEBUG Client 7777] Generating level 5 area "1_1_4" with seed 4246
+2026/07/12 08:04:15 1255000 deadbeef [INFO Client 7777] : You have entered The Submerged Passage.
+2026/07/12 08:04:35 1275000 deadbeef [INFO Client 7777] : Fixturina (Witch) is now level 3
+2026/07/12 08:05:15 1315000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:05:15 1315000 deadbeef [DEBUG Client 7777] Generating level 6 area "1_1_5" with seed 4247
+2026/07/12 08:05:18 1318000 deadbeef [INFO Client 7777] : You have entered The Ledge.
+2026/07/12 08:06:18 1378000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:06:18 1378000 deadbeef [DEBUG Client 7777] Generating level 7 area "1_1_6" with seed 4248
+2026/07/12 08:06:21 1381000 deadbeef [INFO Client 7777] : You have entered The Climb.
+2026/07/12 08:07:21 1441000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:07:21 1441000 deadbeef [DEBUG Client 7777] Generating level 8 area "1_1_7" with seed 4249
+2026/07/12 08:07:24 1444000 deadbeef [INFO Client 7777] : You have entered The Lower Prison.
+2026/07/12 08:08:24 1504000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:08:24 1504000 deadbeef [DEBUG Client 7777] Generating level 9 area "1_1_8" with seed 4250
+2026/07/12 08:08:27 1507000 deadbeef [INFO Client 7777] : You have entered The Upper Prison.
+2026/07/12 08:09:27 1567000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:09:27 1567000 deadbeef [DEBUG Client 7777] Generating level 10 area "1_1_9" with seed 4251
+2026/07/12 08:09:30 1570000 deadbeef [INFO Client 7777] : You have entered Prisoner's Gate.
+2026/07/12 08:09:50 1590000 deadbeef [INFO Client 7777] : Fixturina (Witch) is now level 5
+2026/07/12 08:09:50 1590000 deadbeef [INFO Client 7777] #SomeTrader: You have entered my shop, WTS leveling uniques
+2026/07/12 08:09:50 1590000 deadbeef [INFO Client 7777] : RandomGuy: Bob (Witch) is now level 3
+2026/07/12 08:10:30 1630000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:10:30 1630000 deadbeef [DEBUG Client 7777] Generating level 11 area "1_1_10" with seed 4252
+2026/07/12 08:10:33 1633000 deadbeef [INFO Client 7777] : You have entered The Ship Graveyard.
+2026/07/12 08:11:33 1693000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:11:33 1693000 deadbeef [DEBUG Client 7777] Generating level 12 area "1_1_11" with seed 4253
+2026/07/12 08:11:36 1696000 deadbeef [INFO Client 7777] : You have entered The Cavern of Wrath.
+2026/07/12 08:12:36 1756000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:12:36 1756000 deadbeef [DEBUG Client 7777] Generating level 13 area "1_1_12" with seed 4254
+2026/07/12 08:12:39 1759000 deadbeef [INFO Client 7777] : You have entered The Cavern of Anger.
+2026/07/12 08:13:39 1819000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:13:39 1819000 deadbeef [DEBUG Client 7777] Generating level 12 area "1_2_1" with seed 4255
+2026/07/12 08:13:42 1822000 deadbeef [INFO Client 7777] : You have entered The Southern Forest.
+2026/07/12 08:14:42 1882000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:14:42 1882000 deadbeef [DEBUG Client 7777] Generating level 13 area "1_2_town" with seed 4256
+2026/07/12 08:14:45 1885000 deadbeef [INFO Client 7777] : You have entered The Forest Encampment.
+2026/07/12 08:15:05 1905000 deadbeef [INFO Client 7777] : Fixturina (Witch) is now level 7
+2026/07/12 08:15:45 1945000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:15:45 1945000 deadbeef [DEBUG Client 7777] Generating level 14 area "1_2_2" with seed 4257
+2026/07/12 08:15:48 1948000 deadbeef [INFO Client 7777] : You have entered The Old Fields.
+2026/07/12 08:16:48 2008000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:16:48 2008000 deadbeef [DEBUG Client 7777] Generating level 15 area "1_2_3" with seed 4258
+2026/07/12 08:16:51 2011000 deadbeef [INFO Client 7777] : You have entered The Crossroads.
+2026/07/12 08:17:51 2071000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:17:51 2071000 deadbeef [DEBUG Client 7777] Generating level 17 area "1_2_4" with seed 4259
+2026/07/12 08:17:54 2074000 deadbeef [INFO Client 7777] : You have entered The Chamber of Sins Level 1.
+2026/07/12 08:18:54 2134000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:18:54 2134000 deadbeef [DEBUG Client 7777] Generating level 18 area "1_2_5" with seed 4260
+2026/07/12 08:18:57 2137000 deadbeef [INFO Client 7777] : You have entered The Chamber of Sins Level 2.
+2026/07/12 08:19:57 2197000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:19:57 2197000 deadbeef [DEBUG Client 7777] Generating level 18 area "1_2_6" with seed 4261
+2026/07/12 08:20:00 2200000 deadbeef [INFO Client 7777] : You have entered The Riverways.
+2026/07/12 08:20:20 2220000 deadbeef [INFO Client 7777] : Fixturina (Witch) is now level 9
+2026/07/12 08:20:20 2220000 deadbeef [INFO Client 7777] #SomeTrader: You have entered my shop, WTS leveling uniques
+2026/07/12 08:20:20 2220000 deadbeef [INFO Client 7777] : RandomGuy: Bob (Witch) is now level 3
+2026/07/12 08:21:00 2260000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:21:00 2260000 deadbeef [DEBUG Client 7777] Generating level 19 area "1_2_7" with seed 4262
+2026/07/12 08:21:03 2263000 deadbeef [INFO Client 7777] : You have entered The Western Forest.
+2026/07/12 08:22:03 2323000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:22:03 2323000 deadbeef [DEBUG Client 7777] Generating level 20 area "1_2_8" with seed 4263
+2026/07/12 08:22:06 2326000 deadbeef [INFO Client 7777] : You have entered The Wetlands.
+2026/07/12 08:23:06 2386000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:23:06 2386000 deadbeef [DEBUG Client 7777] Generating level 21 area "1_2_9" with seed 4264
+2026/07/12 08:23:09 2389000 deadbeef [INFO Client 7777] : You have entered The Vaal Ruins.
+2026/07/12 08:24:09 2449000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:24:09 2449000 deadbeef [DEBUG Client 7777] Generating level 22 area "1_2_10" with seed 4265
+2026/07/12 08:24:12 2452000 deadbeef [INFO Client 7777] : You have entered The Northern Forest.
+2026/07/12 08:25:12 2512000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:25:12 2512000 deadbeef [DEBUG Client 7777] Generating level 23 area "1_2_11" with seed 4266
+2026/07/12 08:25:15 2515000 deadbeef [INFO Client 7777] : You have entered The Caverns.
+2026/07/12 08:25:35 2535000 deadbeef [INFO Client 7777] : Fixturina (Witch) is now level 11
+2026/07/12 08:26:15 2575000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:26:15 2575000 deadbeef [DEBUG Client 7777] Generating level 24 area "1_2_12" with seed 4267
+2026/07/12 08:26:18 2578000 deadbeef [INFO Client 7777] : You have entered The Ancient Pyramid.
+2026/07/12 08:27:18 2638000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:27:18 2638000 deadbeef [DEBUG Client 7777] Generating level 23 area "1_3_1" with seed 4268
+2026/07/12 08:27:21 2641000 deadbeef [INFO Client 7777] : You have entered The City of Sarn.
+2026/07/12 08:28:21 2701000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:28:21 2701000 deadbeef [DEBUG Client 7777] Generating level 23 area "1_3_town" with seed 4269
+2026/07/12 08:28:24 2704000 deadbeef [INFO Client 7777] : You have entered The Sarn Encampment.
+2026/07/12 08:29:24 2764000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:29:24 2764000 deadbeef [DEBUG Client 7777] Generating level 24 area "1_3_2" with seed 4270
+2026/07/12 08:29:27 2767000 deadbeef [INFO Client 7777] : You have entered The Slums.
+2026/07/12 08:30:27 2827000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:30:27 2827000 deadbeef [DEBUG Client 7777] Generating level 25 area "1_3_3" with seed 4271
+2026/07/12 08:30:30 2830000 deadbeef [INFO Client 7777] : You have entered The Crematorium.
+2026/07/12 08:30:50 2850000 deadbeef [INFO Client 7777] : Fixturina (Witch) is now level 13
+2026/07/12 08:30:50 2850000 deadbeef [INFO Client 7777] #SomeTrader: You have entered my shop, WTS leveling uniques
+2026/07/12 08:30:50 2850000 deadbeef [INFO Client 7777] : RandomGuy: Bob (Witch) is now level 3
+2026/07/12 08:31:30 2890000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:31:30 2890000 deadbeef [DEBUG Client 7777] Generating level 26 area "1_3_4" with seed 4272
+2026/07/12 08:31:33 2893000 deadbeef [INFO Client 7777] : You have entered The Sewers.
+2026/07/12 08:32:33 2953000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:32:33 2953000 deadbeef [DEBUG Client 7777] Generating level 27 area "1_3_5" with seed 4273
+2026/07/12 08:32:36 2956000 deadbeef [INFO Client 7777] : You have entered The Marketplace.
+2026/07/12 08:33:36 3016000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:33:36 3016000 deadbeef [DEBUG Client 7777] Generating level 28 area "1_3_6" with seed 4274
+2026/07/12 08:33:39 3019000 deadbeef [INFO Client 7777] : You have entered The Battlefront.
+2026/07/12 08:34:39 3079000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:34:39 3079000 deadbeef [DEBUG Client 7777] Generating level 28 area "1_3_7" with seed 4275
+2026/07/12 08:34:42 3082000 deadbeef [INFO Client 7777] : You have entered The Solaris Temple Level 1.
+2026/07/12 08:35:42 3142000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:35:42 3142000 deadbeef [DEBUG Client 7777] Generating level 29 area "1_3_8" with seed 4276
+2026/07/12 08:35:45 3145000 deadbeef [INFO Client 7777] : You have entered The Solaris Temple Level 2.
+2026/07/12 08:36:05 3165000 deadbeef [INFO Client 7777] : Fixturina (Witch) is now level 15
+2026/07/12 08:36:45 3205000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:36:45 3205000 deadbeef [DEBUG Client 7777] Generating level 29 area "1_3_9" with seed 4277
+2026/07/12 08:36:48 3208000 deadbeef [INFO Client 7777] : You have entered The Docks.
+2026/07/12 08:37:48 3268000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:37:48 3268000 deadbeef [DEBUG Client 7777] Generating level 30 area "1_3_10" with seed 4278
+2026/07/12 08:37:51 3271000 deadbeef [INFO Client 7777] : You have entered The Ebony Barracks.
+2026/07/12 08:38:51 3331000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:38:51 3331000 deadbeef [DEBUG Client 7777] Generating level 31 area "1_3_11" with seed 4279
+2026/07/12 08:38:54 3334000 deadbeef [INFO Client 7777] : You have entered The Lunaris Temple Level 1.
+2026/07/12 08:39:54 3394000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:39:54 3394000 deadbeef [DEBUG Client 7777] Generating level 32 area "1_3_12" with seed 4280
+2026/07/12 08:39:57 3397000 deadbeef [INFO Client 7777] : You have entered The Lunaris Temple Level 2.
+2026/07/12 08:40:57 3457000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:40:57 3457000 deadbeef [DEBUG Client 7777] Generating level 32 area "1_3_13" with seed 4281
+2026/07/12 08:41:00 3460000 deadbeef [INFO Client 7777] : You have entered The Imperial Gardens.
+2026/07/12 08:41:20 3480000 deadbeef [INFO Client 7777] : Fixturina (Witch) is now level 17
+2026/07/12 08:41:20 3480000 deadbeef [INFO Client 7777] #SomeTrader: You have entered my shop, WTS leveling uniques
+2026/07/12 08:41:20 3480000 deadbeef [INFO Client 7777] : RandomGuy: Bob (Witch) is now level 3
+2026/07/12 08:42:00 3520000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:42:00 3520000 deadbeef [DEBUG Client 7777] Generating level 33 area "1_3_14" with seed 4282
+2026/07/12 08:42:03 3523000 deadbeef [INFO Client 7777] : You have entered The Sceptre of God.
+2026/07/12 08:43:03 3583000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:43:03 3583000 deadbeef [DEBUG Client 7777] Generating level 34 area "1_3_15" with seed 4283
+2026/07/12 08:43:06 3586000 deadbeef [INFO Client 7777] : You have entered The Upper Sceptre of God.
+2026/07/12 08:44:06 3646000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:44:06 3646000 deadbeef [DEBUG Client 7777] Generating level 33 area "1_4_1" with seed 4284
+2026/07/12 08:44:09 3649000 deadbeef [INFO Client 7777] : You have entered The Aqueduct.
+2026/07/12 08:45:09 3709000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:45:09 3709000 deadbeef [DEBUG Client 7777] Generating level 33 area "1_4_town" with seed 4285
+2026/07/12 08:45:12 3712000 deadbeef [INFO Client 7777] : You have entered Highgate.
+2026/07/12 08:46:12 3772000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:46:12 3772000 deadbeef [DEBUG Client 7777] Generating level 35 area "1_4_2" with seed 4286
+2026/07/12 08:46:15 3775000 deadbeef [INFO Client 7777] : You have entered The Dried Lake.
+2026/07/12 08:46:35 3795000 deadbeef [INFO Client 7777] : Fixturina (Witch) is now level 19
+2026/07/12 08:46:35 3795000 deadbeef [INFO Client 7777] : Fixturina has been slain.
+2026/07/12 08:47:15 3835000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:47:15 3835000 deadbeef [DEBUG Client 7777] Generating level 36 area "1_4_3" with seed 4287
+2026/07/12 08:47:18 3838000 deadbeef [INFO Client 7777] : You have entered The Mines Level 1.
+2026/07/12 08:48:18 3898000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:48:18 3898000 deadbeef [DEBUG Client 7777] Generating level 37 area "1_4_4" with seed 4288
+2026/07/12 08:48:21 3901000 deadbeef [INFO Client 7777] : You have entered The Mines Level 2.
+2026/07/12 08:49:21 3961000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:49:21 3961000 deadbeef [DEBUG Client 7777] Generating level 37 area "1_4_5" with seed 4289
+2026/07/12 08:49:24 3964000 deadbeef [INFO Client 7777] : You have entered The Crystal Veins.
+2026/07/12 08:50:24 4024000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:50:24 4024000 deadbeef [DEBUG Client 7777] Generating level 38 area "1_4_6" with seed 4290
+2026/07/12 08:50:27 4027000 deadbeef [INFO Client 7777] : You have entered Kaom's Dream.
+2026/07/12 08:51:27 4087000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:51:27 4087000 deadbeef [DEBUG Client 7777] Generating level 39 area "1_4_7" with seed 4291
+2026/07/12 08:51:30 4090000 deadbeef [INFO Client 7777] : You have entered Kaom's Stronghold.
+2026/07/12 08:51:50 4110000 deadbeef [INFO Client 7777] : Fixturina (Witch) is now level 21
+2026/07/12 08:51:50 4110000 deadbeef [INFO Client 7777] #SomeTrader: You have entered my shop, WTS leveling uniques
+2026/07/12 08:51:50 4110000 deadbeef [INFO Client 7777] : RandomGuy: Bob (Witch) is now level 3
+2026/07/12 08:52:30 4150000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:52:30 4150000 deadbeef [DEBUG Client 7777] Generating level 38 area "1_4_8" with seed 4292
+2026/07/12 08:52:33 4153000 deadbeef [INFO Client 7777] : You have entered Daresso's Dream.
+2026/07/12 08:53:33 4213000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:53:33 4213000 deadbeef [DEBUG Client 7777] Generating level 39 area "1_4_9" with seed 4293
+2026/07/12 08:53:36 4216000 deadbeef [INFO Client 7777] : You have entered The Grand Arena.
+2026/07/12 08:54:36 4276000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:54:36 4276000 deadbeef [DEBUG Client 7777] Generating level 39 area "1_4_10" with seed 4294
+2026/07/12 08:54:39 4279000 deadbeef [INFO Client 7777] : You have entered The Belly of the Beast Level 1.
+2026/07/12 08:55:39 4339000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:55:39 4339000 deadbeef [DEBUG Client 7777] Generating level 40 area "1_4_11" with seed 4295
+2026/07/12 08:55:42 4342000 deadbeef [INFO Client 7777] : You have entered The Belly of the Beast Level 2.
+2026/07/12 08:56:42 4402000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:56:42 4402000 deadbeef [DEBUG Client 7777] Generating level 40 area "1_4_12" with seed 4296
+2026/07/12 08:56:45 4405000 deadbeef [INFO Client 7777] : You have entered The Harvest.
+2026/07/12 08:57:05 4425000 deadbeef [INFO Client 7777] : Fixturina (Witch) is now level 23
+2026/07/12 08:57:45 4465000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:57:45 4465000 deadbeef [DEBUG Client 7777] Generating level 40 area "1_4_13" with seed 4297
+2026/07/12 08:57:48 4468000 deadbeef [INFO Client 7777] : You have entered The Ascent.
+2026/07/12 08:58:48 4528000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:58:48 4528000 deadbeef [DEBUG Client 7777] Generating level 41 area "1_5_1" with seed 4298
+2026/07/12 08:58:51 4531000 deadbeef [INFO Client 7777] : You have entered The Slave Pens.
+2026/07/12 08:59:51 4591000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 08:59:51 4591000 deadbeef [DEBUG Client 7777] Generating level 41 area "1_5_town" with seed 4299
+2026/07/12 08:59:54 4594000 deadbeef [INFO Client 7777] : You have entered Overseer's Tower.
+2026/07/12 09:00:54 4654000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:00:54 4654000 deadbeef [DEBUG Client 7777] Generating level 42 area "1_5_2" with seed 4300
+2026/07/12 09:00:57 4657000 deadbeef [INFO Client 7777] : You have entered The Control Blocks.
+2026/07/12 09:01:57 4717000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:01:57 4717000 deadbeef [DEBUG Client 7777] Generating level 43 area "1_5_3" with seed 4301
+2026/07/12 09:02:00 4720000 deadbeef [INFO Client 7777] : You have entered Oriath Square.
+2026/07/12 09:02:20 4740000 deadbeef [INFO Client 7777] : Fixturina (Witch) is now level 25
+2026/07/12 09:02:20 4740000 deadbeef [INFO Client 7777] #SomeTrader: You have entered my shop, WTS leveling uniques
+2026/07/12 09:02:20 4740000 deadbeef [INFO Client 7777] : RandomGuy: Bob (Witch) is now level 3
+2026/07/12 09:03:00 4780000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:03:00 4780000 deadbeef [DEBUG Client 7777] Generating level 44 area "1_5_4" with seed 4302
+2026/07/12 09:03:03 4783000 deadbeef [INFO Client 7777] : You have entered The Templar Courts.
+2026/07/12 09:04:03 4843000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:04:03 4843000 deadbeef [DEBUG Client 7777] Generating level 45 area "1_5_5" with seed 4303
+2026/07/12 09:04:06 4846000 deadbeef [INFO Client 7777] : You have entered The Chamber of Innocence.
+2026/07/12 09:05:06 4906000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:05:06 4906000 deadbeef [DEBUG Client 7777] Generating level 46 area "1_5_6" with seed 4304
+2026/07/12 09:05:09 4909000 deadbeef [INFO Client 7777] : You have entered The Torched Courts.
+2026/07/12 09:06:09 4969000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:06:09 4969000 deadbeef [DEBUG Client 7777] Generating level 47 area "1_5_7" with seed 4305
+2026/07/12 09:06:12 4972000 deadbeef [INFO Client 7777] : You have entered The Ruined Square.
+2026/07/12 09:07:12 5032000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:07:12 5032000 deadbeef [DEBUG Client 7777] Generating level 49 area "1_5_8" with seed 4306
+2026/07/12 09:07:15 5035000 deadbeef [INFO Client 7777] : You have entered The Cathedral Rooftop.
+2026/07/12 09:07:35 5055000 deadbeef [INFO Client 7777] : Fixturina (Witch) is now level 27
+2026/07/12 09:08:15 5095000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:08:15 5095000 deadbeef [DEBUG Client 7777] Generating level 44 area "2_6_1" with seed 4307
+2026/07/12 09:08:18 5098000 deadbeef [INFO Client 7777] : You have entered The Twilight Strand.
+2026/07/12 09:09:18 5158000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:09:18 5158000 deadbeef [DEBUG Client 7777] Generating level 44 area "2_6_town" with seed 4308
+2026/07/12 09:09:21 5161000 deadbeef [INFO Client 7777] : You have entered Lioneye's Watch.
+2026/07/12 09:10:21 5221000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:10:21 5221000 deadbeef [DEBUG Client 7777] Generating level 45 area "2_6_2" with seed 4309
+2026/07/12 09:10:24 5224000 deadbeef [INFO Client 7777] : You have entered The Coast.
+2026/07/12 09:11:24 5284000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:11:24 5284000 deadbeef [DEBUG Client 7777] Generating level 46 area "2_6_3" with seed 4310
+2026/07/12 09:11:27 5287000 deadbeef [INFO Client 7777] : You have entered The Mud Flats.
+2026/07/12 09:12:27 5347000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:12:27 5347000 deadbeef [DEBUG Client 7777] Generating level 47 area "2_6_4" with seed 4311
+2026/07/12 09:12:30 5350000 deadbeef [INFO Client 7777] : You have entered The Ridge.
+2026/07/12 09:12:50 5370000 deadbeef [INFO Client 7777] : Fixturina (Witch) is now level 29
+2026/07/12 09:12:50 5370000 deadbeef [INFO Client 7777] #SomeTrader: You have entered my shop, WTS leveling uniques
+2026/07/12 09:12:50 5370000 deadbeef [INFO Client 7777] : RandomGuy: Bob (Witch) is now level 3
+2026/07/12 09:13:30 5410000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:13:30 5410000 deadbeef [DEBUG Client 7777] Generating level 48 area "2_6_5" with seed 4312
+2026/07/12 09:13:33 5413000 deadbeef [INFO Client 7777] : You have entered The Lower Prison.
+2026/07/12 09:14:33 5473000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:14:33 5473000 deadbeef [DEBUG Client 7777] Generating level 49 area "2_6_6" with seed 4313
+2026/07/12 09:14:36 5476000 deadbeef [INFO Client 7777] : You have entered Shavronne's Tower.
+2026/07/12 09:15:36 5536000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:15:36 5536000 deadbeef [DEBUG Client 7777] Generating level 50 area "2_6_7" with seed 4314
+2026/07/12 09:15:39 5539000 deadbeef [INFO Client 7777] : You have entered Prisoner's Gate.
+2026/07/12 09:16:39 5599000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:16:39 5599000 deadbeef [DEBUG Client 7777] Generating level 50 area "2_6_8" with seed 4315
+2026/07/12 09:16:42 5602000 deadbeef [INFO Client 7777] : You have entered The Riverways.
+2026/07/12 09:17:42 5662000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:17:42 5662000 deadbeef [DEBUG Client 7777] Generating level 51 area "2_6_9" with seed 4316
+2026/07/12 09:17:45 5665000 deadbeef [INFO Client 7777] : You have entered The Wetlands.
+2026/07/12 09:18:05 5685000 deadbeef [INFO Client 7777] : Fixturina (Witch) is now level 31
+2026/07/12 09:18:45 5725000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:18:45 5725000 deadbeef [DEBUG Client 7777] Generating level 51 area "2_6_10" with seed 4317
+2026/07/12 09:18:48 5728000 deadbeef [INFO Client 7777] : You have entered The Southern Forest.
+2026/07/12 09:19:48 5788000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:19:48 5788000 deadbeef [DEBUG Client 7777] Generating level 52 area "2_6_11" with seed 4318
+2026/07/12 09:19:51 5791000 deadbeef [INFO Client 7777] : You have entered The Beacon.
+2026/07/12 09:20:51 5851000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:20:51 5851000 deadbeef [DEBUG Client 7777] Generating level 53 area "2_6_12" with seed 4319
+2026/07/12 09:20:54 5854000 deadbeef [INFO Client 7777] : You have entered Brine King's Reef.
+2026/07/12 09:21:54 5914000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:21:54 5914000 deadbeef [DEBUG Client 7777] Generating level 54 area "2_7_1" with seed 4320
+2026/07/12 09:21:57 5917000 deadbeef [INFO Client 7777] : You have entered The Broken Bridge.
+2026/07/12 09:22:57 5977000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:22:57 5977000 deadbeef [DEBUG Client 7777] Generating level 54 area "2_7_town" with seed 4321
+2026/07/12 09:23:00 5980000 deadbeef [INFO Client 7777] : You have entered The Bridge Encampment.
+2026/07/12 09:23:20 6000000 deadbeef [INFO Client 7777] : Fixturina (Witch) is now level 33
+2026/07/12 09:23:20 6000000 deadbeef [INFO Client 7777] #SomeTrader: You have entered my shop, WTS leveling uniques
+2026/07/12 09:23:20 6000000 deadbeef [INFO Client 7777] : RandomGuy: Bob (Witch) is now level 3
+2026/07/12 09:24:00 6040000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:24:00 6040000 deadbeef [DEBUG Client 7777] Generating level 55 area "2_7_2" with seed 4322
+2026/07/12 09:24:03 6043000 deadbeef [INFO Client 7777] : You have entered The Crossroads.
+2026/07/12 09:25:03 6103000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:25:03 6103000 deadbeef [DEBUG Client 7777] Generating level 56 area "2_7_3" with seed 4323
+2026/07/12 09:25:06 6106000 deadbeef [INFO Client 7777] : You have entered The Chamber of Sins Level 1.
+2026/07/12 09:26:06 6166000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:26:06 6166000 deadbeef [DEBUG Client 7777] Generating level 57 area "2_7_4" with seed 4324
+2026/07/12 09:26:09 6169000 deadbeef [INFO Client 7777] : You have entered The Chamber of Sins Level 2.
+2026/07/12 09:27:09 6229000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:27:09 6229000 deadbeef [DEBUG Client 7777] Generating level 57 area "2_7_5" with seed 4325
+2026/07/12 09:27:12 6232000 deadbeef [INFO Client 7777] : You have entered The Ashen Fields.
+2026/07/12 09:28:12 6292000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:28:12 6292000 deadbeef [DEBUG Client 7777] Generating level 58 area "2_7_6" with seed 4326
+2026/07/12 09:28:15 6295000 deadbeef [INFO Client 7777] : You have entered The Northern Forest.
+2026/07/12 09:28:35 6315000 deadbeef [INFO Client 7777] : Fixturina (Witch) is now level 35
+2026/07/12 09:29:15 6355000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:29:15 6355000 deadbeef [DEBUG Client 7777] Generating level 59 area "2_7_7" with seed 4327
+2026/07/12 09:29:18 6358000 deadbeef [INFO Client 7777] : You have entered The Causeway.
+2026/07/12 09:30:18 6418000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:30:18 6418000 deadbeef [DEBUG Client 7777] Generating level 59 area "2_7_8" with seed 4328
+2026/07/12 09:30:21 6421000 deadbeef [INFO Client 7777] : You have entered The Vaal City.
+2026/07/12 09:31:21 6481000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:31:21 6481000 deadbeef [DEBUG Client 7777] Generating level 60 area "2_7_9" with seed 4329
+2026/07/12 09:31:24 6484000 deadbeef [INFO Client 7777] : You have entered The Temple of Decay Level 1.
+2026/07/12 09:32:24 6544000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:32:24 6544000 deadbeef [DEBUG Client 7777] Generating level 60 area "2_7_10" with seed 4330
+2026/07/12 09:32:27 6547000 deadbeef [INFO Client 7777] : You have entered The Temple of Decay Level 2.
+2026/07/12 09:33:27 6607000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:33:27 6607000 deadbeef [DEBUG Client 7777] Generating level 60 area "2_8_1" with seed 4331
+2026/07/12 09:33:30 6610000 deadbeef [INFO Client 7777] : You have entered The Sarn Ramparts.
+2026/07/12 09:33:50 6630000 deadbeef [INFO Client 7777] : Fixturina (Witch) is now level 37
+2026/07/12 09:33:50 6630000 deadbeef [INFO Client 7777] #SomeTrader: You have entered my shop, WTS leveling uniques
+2026/07/12 09:33:50 6630000 deadbeef [INFO Client 7777] : RandomGuy: Bob (Witch) is now level 3
+2026/07/12 09:34:30 6670000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:34:30 6670000 deadbeef [DEBUG Client 7777] Generating level 60 area "2_8_town" with seed 4332
+2026/07/12 09:34:33 6673000 deadbeef [INFO Client 7777] : You have entered The Sarn Encampment.
+2026/07/12 09:35:33 6733000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:35:33 6733000 deadbeef [DEBUG Client 7777] Generating level 61 area "2_8_2" with seed 4333
+2026/07/12 09:35:36 6736000 deadbeef [INFO Client 7777] : You have entered The Toxic Conduits.
+2026/07/12 09:36:36 6796000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:36:36 6796000 deadbeef [DEBUG Client 7777] Generating level 61 area "2_8_3" with seed 4334
+2026/07/12 09:36:39 6799000 deadbeef [INFO Client 7777] : You have entered Doedre's Cesspool.
+2026/07/12 09:37:39 6859000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:37:39 6859000 deadbeef [DEBUG Client 7777] Generating level 62 area "2_8_4" with seed 4335
+2026/07/12 09:37:42 6862000 deadbeef [INFO Client 7777] : You have entered The Grand Promenade.
+2026/07/12 09:38:42 6922000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:38:42 6922000 deadbeef [DEBUG Client 7777] Generating level 62 area "2_8_5" with seed 4336
+2026/07/12 09:38:45 6925000 deadbeef [INFO Client 7777] : You have entered The Bath House.
+2026/07/12 09:39:05 6945000 deadbeef [INFO Client 7777] : Fixturina (Witch) is now level 39
+2026/07/12 09:39:45 6985000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:39:45 6985000 deadbeef [DEBUG Client 7777] Generating level 63 area "2_8_6" with seed 4337
+2026/07/12 09:39:48 6988000 deadbeef [INFO Client 7777] : You have entered The Lunaris Concourse.
+2026/07/12 09:40:48 7048000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:40:48 7048000 deadbeef [DEBUG Client 7777] Generating level 63 area "2_8_7" with seed 4338
+2026/07/12 09:40:51 7051000 deadbeef [INFO Client 7777] : You have entered The Lunaris Temple Level 1.
+2026/07/12 09:41:51 7111000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:41:51 7111000 deadbeef [DEBUG Client 7777] Generating level 64 area "2_8_8" with seed 4339
+2026/07/12 09:41:54 7114000 deadbeef [INFO Client 7777] : You have entered The Lunaris Temple Level 2.
+2026/07/12 09:42:54 7174000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:42:54 7174000 deadbeef [DEBUG Client 7777] Generating level 62 area "2_8_9" with seed 4340
+2026/07/12 09:42:57 7177000 deadbeef [INFO Client 7777] : You have entered The Grain Gate.
+2026/07/12 09:43:57 7237000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:43:57 7237000 deadbeef [DEBUG Client 7777] Generating level 62 area "2_8_10" with seed 4341
+2026/07/12 09:44:00 7240000 deadbeef [INFO Client 7777] : You have entered The Imperial Fields.
+2026/07/12 09:44:20 7260000 deadbeef [INFO Client 7777] : Fixturina (Witch) is now level 41
+2026/07/12 09:44:20 7260000 deadbeef [INFO Client 7777] #SomeTrader: You have entered my shop, WTS leveling uniques
+2026/07/12 09:44:20 7260000 deadbeef [INFO Client 7777] : RandomGuy: Bob (Witch) is now level 3
+2026/07/12 09:45:00 7300000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:45:00 7300000 deadbeef [DEBUG Client 7777] Generating level 63 area "2_8_11" with seed 4342
+2026/07/12 09:45:03 7303000 deadbeef [INFO Client 7777] : You have entered The Solaris Concourse.
+2026/07/12 09:46:03 7363000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:46:03 7363000 deadbeef [DEBUG Client 7777] Generating level 63 area "2_8_12" with seed 4343
+2026/07/12 09:46:06 7366000 deadbeef [INFO Client 7777] : You have entered The Solaris Temple Level 1.
+2026/07/12 09:47:06 7426000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:47:06 7426000 deadbeef [DEBUG Client 7777] Generating level 64 area "2_8_13" with seed 4344
+2026/07/12 09:47:09 7429000 deadbeef [INFO Client 7777] : You have entered The Solaris Temple Level 2.
+2026/07/12 09:48:09 7489000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:48:09 7489000 deadbeef [DEBUG Client 7777] Generating level 64 area "2_8_14" with seed 4345
+2026/07/12 09:48:12 7492000 deadbeef [INFO Client 7777] : You have entered The Harbour Bridge.
+2026/07/12 09:49:12 7552000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:49:12 7552000 deadbeef [DEBUG Client 7777] Generating level 64 area "2_9_1" with seed 4346
+2026/07/12 09:49:15 7555000 deadbeef [INFO Client 7777] : You have entered The Blood Aqueduct.
+2026/07/12 09:49:35 7575000 deadbeef [INFO Client 7777] : Fixturina (Witch) is now level 43
+2026/07/12 09:50:15 7615000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:50:15 7615000 deadbeef [DEBUG Client 7777] Generating level 64 area "2_9_town" with seed 4347
+2026/07/12 09:50:18 7618000 deadbeef [INFO Client 7777] : You have entered Highgate.
+2026/07/12 09:51:18 7678000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:51:18 7678000 deadbeef [DEBUG Client 7777] Generating level 65 area "2_9_2" with seed 4348
+2026/07/12 09:51:21 7681000 deadbeef [INFO Client 7777] : You have entered The Descent.
+2026/07/12 09:52:21 7741000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:52:21 7741000 deadbeef [DEBUG Client 7777] Generating level 65 area "2_9_3" with seed 4349
+2026/07/12 09:52:24 7744000 deadbeef [INFO Client 7777] : You have entered The Vastiri Desert.
+2026/07/12 09:53:24 7804000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:53:24 7804000 deadbeef [DEBUG Client 7777] Generating level 66 area "2_9_4" with seed 4350
+2026/07/12 09:53:27 7807000 deadbeef [INFO Client 7777] : You have entered The Foothills.
+2026/07/12 09:54:27 7867000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:54:27 7867000 deadbeef [DEBUG Client 7777] Generating level 67 area "2_9_5" with seed 4351
+2026/07/12 09:54:30 7870000 deadbeef [INFO Client 7777] : You have entered The Tunnel.
+2026/07/12 09:54:50 7890000 deadbeef [INFO Client 7777] : Fixturina (Witch) is now level 45
+2026/07/12 09:54:50 7890000 deadbeef [INFO Client 7777] #SomeTrader: You have entered my shop, WTS leveling uniques
+2026/07/12 09:54:50 7890000 deadbeef [INFO Client 7777] : RandomGuy: Bob (Witch) is now level 3
+2026/07/12 09:55:30 7930000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:55:30 7930000 deadbeef [DEBUG Client 7777] Generating level 68 area "2_9_6" with seed 4352
+2026/07/12 09:55:33 7933000 deadbeef [INFO Client 7777] : You have entered The Quarry.
+2026/07/12 09:56:33 7993000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:56:33 7993000 deadbeef [DEBUG Client 7777] Generating level 68 area "2_9_7" with seed 4353
+2026/07/12 09:56:36 7996000 deadbeef [INFO Client 7777] : You have entered The Belly of the Beast.
+2026/07/12 09:57:36 8056000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:57:36 8056000 deadbeef [DEBUG Client 7777] Generating level 68 area "2_9_8" with seed 4354
+2026/07/12 09:57:39 8059000 deadbeef [INFO Client 7777] : You have entered The Rotting Core.
+2026/07/12 09:58:39 8119000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:58:39 8119000 deadbeef [DEBUG Client 7777] Generating level 67 area "2_10_1" with seed 4355
+2026/07/12 09:58:42 8122000 deadbeef [INFO Client 7777] : You have entered The Cathedral Rooftop.
+2026/07/12 09:59:42 8182000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 09:59:42 8182000 deadbeef [DEBUG Client 7777] Generating level 67 area "2_10_town" with seed 4356
+2026/07/12 09:59:45 8185000 deadbeef [INFO Client 7777] : You have entered Oriath Docks.
+2026/07/12 10:00:05 8205000 deadbeef [INFO Client 7777] : Fixturina (Witch) is now level 47
+2026/07/12 10:00:45 8245000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 10:00:45 8245000 deadbeef [DEBUG Client 7777] Generating level 68 area "2_10_2" with seed 4357
+2026/07/12 10:00:48 8248000 deadbeef [INFO Client 7777] : You have entered The Ravaged Square.
+2026/07/12 10:01:48 8308000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 10:01:48 8308000 deadbeef [DEBUG Client 7777] Generating level 69 area "2_10_3" with seed 4358
+2026/07/12 10:01:51 8311000 deadbeef [INFO Client 7777] : You have entered The Torched Courts.
+2026/07/12 10:02:51 8371000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 10:02:51 8371000 deadbeef [DEBUG Client 7777] Generating level 70 area "2_10_4" with seed 4359
+2026/07/12 10:02:54 8374000 deadbeef [INFO Client 7777] : You have entered The Desecrated Chambers.
+2026/07/12 10:03:54 8434000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 10:03:54 8434000 deadbeef [DEBUG Client 7777] Generating level 70 area "2_10_5" with seed 4360
+2026/07/12 10:03:57 8437000 deadbeef [INFO Client 7777] : You have entered The Canals.
+2026/07/12 10:04:57 8497000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 10:04:57 8497000 deadbeef [DEBUG Client 7777] Generating level 71 area "2_10_6" with seed 4361
+2026/07/12 10:05:00 8500000 deadbeef [INFO Client 7777] : You have entered The Feeding Trough.
+2026/07/12 10:05:20 8520000 deadbeef [INFO Client 7777] : Fixturina (Witch) is now level 49
+2026/07/12 10:05:20 8520000 deadbeef [INFO Client 7777] #SomeTrader: You have entered my shop, WTS leveling uniques
+2026/07/12 10:05:20 8520000 deadbeef [INFO Client 7777] : RandomGuy: Bob (Witch) is now level 3
+2026/07/12 10:06:00 8560000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 10:06:00 8560000 deadbeef [DEBUG Client 7777] Generating level 60 area "2_11_town" with seed 4362
+2026/07/12 10:06:03 8563000 deadbeef [INFO Client 7777] : You have entered Karui Shores.
+2026/07/12 10:07:03 8623000 deadbeef [DEBUG Client 7777] Got Instance Details from login server
+2026/07/12 10:07:03 8623000 deadbeef [DEBUG Client 7777] Generating level 68 area "MapWorldsBeach" with seed 4363
+2026/07/12 10:07:06 8626000 deadbeef [INFO Client 7777] : You have entered Beach.

@@ -1,0 +1,30 @@
+2026/07/12 11:00:00 300000 abc1234 [DEBUG Client 9999] Got Instance Details from login server
+2026/07/12 11:00:01 301000 abc1234 [DEBUG Client 9999] Generating level 1 area "1_1_1" with seed 900
+2026/07/12 11:00:03 303000 abc1234 [INFO Client 9999] : You have entered The Twilight Strand.
+2026/07/12 11:00:20 320000 abc1234 [INFO Client 9999] : Exilena (Witch) is now level 2
+2026/07/12 11:29:00 2040000 abc1234 [DEBUG Client 9999] Got Instance Details from login server
+2026/07/12 11:29:01 2041000 abc1234 [DEBUG Client 9999] Generating level 60 area "2_11_town" with seed 901
+2026/07/12 11:30:00 2100000 abc1234 [INFO Client 9999] : You have entered Karui Shores.
+2026/07/12 11:31:00 2160000 abc1234 [INFO Client 9999] : Exilena (Witch) is now level 70
+2026/07/12 11:34:00 2340000 abc1234 [DEBUG Client 9999] Got Instance Details from login server
+2026/07/12 11:34:57 2397000 abc1234 [DEBUG Client 9999] Generating level 68 area "MapWorldsBeach" with seed 902
+2026/07/12 11:35:00 2400000 abc1234 [INFO Client 9999] : You have entered Beach.
+2026/07/12 11:41:00 2760000 abc1234 [DEBUG Client 9999] Got Instance Details from login server
+2026/07/12 11:41:57 2817000 abc1234 [DEBUG Client 9999] Generating level 60 area "HideoutCoastal" with seed 903
+2026/07/12 11:42:00 2820000 abc1234 [INFO Client 9999] : You have entered Coastal Hideout.
+2026/07/12 11:44:00 2940000 abc1234 [DEBUG Client 9999] Got Instance Details from login server
+2026/07/12 11:44:57 2997000 abc1234 [DEBUG Client 9999] Generating level 69 area "MapWorldsDesert" with seed 904
+2026/07/12 11:45:00 3000000 abc1234 [INFO Client 9999] : You have entered Desert.
+2026/07/12 11:47:00 3120000 abc1234 [INFO Client 9999] : Exilena has been slain.
+2026/07/12 11:47:30 3150000 abc1234 [DEBUG Client 9999] Got Instance Details from login server
+2026/07/12 11:48:00 3180000 abc1234 [INFO Client 9999] : You have entered Coastal Hideout.
+2026/07/12 11:49:00 3240000 abc1234 [DEBUG Client 9999] Got Instance Details from login server
+2026/07/12 11:49:57 3297000 abc1234 [DEBUG Client 9999] Generating level 69 area "MapWorldsDunes" with seed 905
+2026/07/12 11:50:00 3300000 abc1234 [INFO Client 9999] : You have entered Dunes.
+2026/07/12 11:57:30 3750000 abc1234 [DEBUG Client 9999] Got Instance Details from login server
+2026/07/12 11:58:00 3780000 abc1234 [INFO Client 9999] : You have entered Coastal Hideout.
+2026/07/12 11:59:00 3840000 abc1234 [DEBUG Client 9999] Got Instance Details from login server
+2026/07/12 11:59:57 3897000 abc1234 [DEBUG Client 9999] Generating level 70 area "MapWorldsAtoll" with seed 906
+2026/07/12 12:00:00 3900000 abc1234 [INFO Client 9999] : You have entered Atoll.
+2026/07/12 12:09:30 4470000 abc1234 [DEBUG Client 9999] Got Instance Details from login server
+2026/07/12 12:10:00 4500000 abc1234 [INFO Client 9999] : You have entered Coastal Hideout.

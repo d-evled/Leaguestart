@@ -1,0 +1,12 @@
+2026/07/12 10:00:00 200000 abc1234 [DEBUG Client 9999] Got Instance Details from login server
+2026/07/12 10:00:01 201000 abc1234 [DEBUG Client 9999] Generating level 1 area "1_1_1" with seed 500
+2026/07/12 10:00:03 203000 abc1234 [INFO Client 9999] : You have entered The Twilight Strand.
+2026/07/12 10:00:30 230000 abc1234 [INFO Client 9999] : Exilena (Witch) is now level 2
+2026/07/12 10:01:00 260000 abc1234 [DEBUG Client 9999] Got Instance Details from login server
+2026/07/12 10:01:01 261000 abc1234 [DEBUG Client 9999] Generating level 2 area "1_1_2" with seed 501
+2026/07/12 10:01:03 263000 abc1234 [INFO Client 9999] : You have entered The Coast.
+2026/07/12 10:02:00 320000 abc1234 [DEBUG Client 9999] Got Instance Details from login server
+2026/07/12 10:02:01 321000 abc1234 [DEBUG Client 9999] Generating level 45 area "2_6_2" with seed 502
+2026/07/12 10:02:04 324000 abc1234 [INFO Client 9999] : You have entered The Coast.
+2026/07/12 10:03:00 380000 abc1234 [DEBUG Client 9999] Got Instance Details from login server
+2026/07/12 10:03:03 383000 abc1234 [INFO Client 9999] : You have entered The Coast.

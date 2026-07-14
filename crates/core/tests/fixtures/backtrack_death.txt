@@ -1,0 +1,24 @@
+2026/07/12 09:00:00 100000 abc1234 [INFO Client 9999] ***** LOG FILE OPENING *****
+2026/07/12 09:00:01 101000 abc1234 [DEBUG Client 9999] Got Instance Details from login server
+2026/07/12 09:00:02 102000 abc1234 [DEBUG Client 9999] Generating level 1 area "1_1_1" with seed 100
+2026/07/12 09:00:05 105000 abc1234 [INFO Client 9999] : You have entered The Twilight Strand.
+2026/07/12 09:01:00 160000 abc1234 [INFO Client 9999] : Exilena (Witch) is now level 2
+2026/07/12 09:02:00 220000 abc1234 [DEBUG Client 9999] Got Instance Details from login server
+2026/07/12 09:02:01 221000 abc1234 [DEBUG Client 9999] Generating level 1 area "1_1_town" with seed 101
+2026/07/12 09:02:04 224000 abc1234 [INFO Client 9999] : You have entered Lioneye's Watch.
+2026/07/12 09:03:00 280000 abc1234 [DEBUG Client 9999] Got Instance Details from login server
+2026/07/12 09:03:02 282000 abc1234 [DEBUG Client 9999] Generating level 2 area "1_1_2" with seed 102
+2026/07/12 09:03:05 285000 abc1234 [INFO Client 9999] : You have entered The Coast.
+2026/07/12 09:05:00 400000 abc1234 [INFO Client 9999] : Exilena (Witch) is now level 3
+2026/07/12 09:06:00 460000 abc1234 [DEBUG Client 9999] Got Instance Details from login server
+2026/07/12 09:06:01 461000 abc1234 [DEBUG Client 9999] Generating level 4 area "1_1_4" with seed 103
+2026/07/12 09:06:03 463000 abc1234 [INFO Client 9999] : You have entered The Mud Flats.
+2026/07/12 09:07:00 520000 abc1234 [INFO Client 9999] : Exilena has been slain.
+2026/07/12 09:07:01 521000 abc1234 [DEBUG Client 9999] Got Instance Details from login server
+2026/07/12 09:07:04 524000 abc1234 [INFO Client 9999] : You have entered Lioneye's Watch.
+2026/07/12 09:07:30 550000 abc1234 [DEBUG Client 9999] Got Instance Details from login server
+2026/07/12 09:07:33 553000 abc1234 [INFO Client 9999] : You have entered The Mud Flats.
+2026/07/12 09:08:00 580000 abc1234 [INFO Client 9999] : Exilena (Witch) is now level 4
+2026/07/12 09:09:00 640000 abc1234 [DEBUG Client 9999] Got Instance Details from login server
+2026/07/12 09:09:01 641000 abc1234 [DEBUG Client 9999] Generating level 5 area "1_1_5" with seed 104
+2026/07/12 09:09:04 644000 abc1234 [INFO Client 9999] : You have entered The Fetid Pool.
