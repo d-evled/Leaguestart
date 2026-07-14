@@ -95,13 +95,16 @@ pub fn upsert_plan(conn: &Connection, p: &PlanInput) -> Result<LeaguePlan> {
 
 pub fn get_plan(conn: &Connection, id: i64) -> Result<Option<LeaguePlan>> {
     Ok(conn
-        .query_row("SELECT * FROM league_plans WHERE id=?1", params![id], plan_from_row)
+        .query_row(
+            "SELECT * FROM league_plans WHERE id=?1",
+            params![id],
+            plan_from_row,
+        )
         .optional()?)
 }
 
 pub fn list_plans(conn: &Connection) -> Result<Vec<LeaguePlan>> {
-    let mut stmt =
-        conn.prepare("SELECT * FROM league_plans ORDER BY archived, created_at DESC")?;
+    let mut stmt = conn.prepare("SELECT * FROM league_plans ORDER BY archived, created_at DESC")?;
     let rows = stmt.query_map([], plan_from_row)?;
     Ok(rows.collect::<rusqlite::Result<Vec<_>>>()?)
 }
@@ -153,8 +156,8 @@ pub fn upsert_checkpoint(conn: &Connection, c: &CheckpointInput) -> Result<PobCh
 }
 
 pub fn list_checkpoints(conn: &Connection, plan_id: i64) -> Result<Vec<PobCheckpoint>> {
-    let mut stmt = conn
-        .prepare("SELECT * FROM pob_checkpoints WHERE plan_id=?1 ORDER BY sort_order")?;
+    let mut stmt =
+        conn.prepare("SELECT * FROM pob_checkpoints WHERE plan_id=?1 ORDER BY sort_order")?;
     let rows = stmt.query_map(params![plan_id], checkpoint_from_row)?;
     Ok(rows.collect::<rusqlite::Result<Vec<_>>>()?)
 }
@@ -209,7 +212,11 @@ pub fn upsert_link(conn: &Connection, l: &LinkInput) -> Result<GuideLink> {
             conn.last_insert_rowid()
         }
     };
-    Ok(conn.query_row("SELECT * FROM guide_links WHERE id=?1", params![id], link_from_row)?)
+    Ok(conn.query_row(
+        "SELECT * FROM guide_links WHERE id=?1",
+        params![id],
+        link_from_row,
+    )?)
 }
 
 pub fn list_links(conn: &Connection, plan_id: i64) -> Result<Vec<GuideLink>> {

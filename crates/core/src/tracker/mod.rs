@@ -78,7 +78,6 @@ struct PendingGen {
 struct RunState {
     run_id: i64,
     started_at: i64,
-    kind: String,
     character: Option<String>,
     current_segment: Option<i64>,
     visited: HashSet<String>,
@@ -160,7 +159,6 @@ impl Tracker {
             self.run = Some(RunState {
                 run_id: run.id,
                 started_at: run.started_at,
-                kind: run.kind.clone(),
                 character: run.character_name.clone(),
                 current_segment: runs::open_segment(&self.conn, run.id)?.map(|s| s.id),
                 visited: runs::visited_area_ids(&self.conn, run.id)?
@@ -216,7 +214,11 @@ impl Tracker {
                 self.pending_load = Some(line.ts_ms);
                 Ok(vec![])
             }
-            LogEvent::AreaGenerating { area_level, client_id, seed } => {
+            LogEvent::AreaGenerating {
+                area_level,
+                client_id,
+                seed,
+            } => {
                 self.pending_gen = Some(PendingGen {
                     area_level: *area_level,
                     client_id: client_id.clone(),
@@ -225,9 +227,11 @@ impl Tracker {
                 Ok(vec![])
             }
             LogEvent::ZoneEntered { name } => self.on_zone_entered(name, line.ts_ms),
-            LogEvent::LevelUp { character, class, level } => {
-                self.on_level_up(character, class, *level, line.ts_ms)
-            }
+            LogEvent::LevelUp {
+                character,
+                class,
+                level,
+            } => self.on_level_up(character, class, *level, line.ts_ms),
             LogEvent::Death { character } => self.on_death(character, line.ts_ms),
             LogEvent::AfkMode { .. } => Ok(vec![]),
         }
@@ -265,9 +269,10 @@ impl Tracker {
 
         // -- Run lifecycle --
         if resolved.area_id == RUN_START_AREA {
-            let restart_same_run = self.run.as_ref().is_some_and(|r| {
-                r.act <= 1 && ts - r.started_at < RESTART_GRACE_MS
-            });
+            let restart_same_run = self
+                .run
+                .as_ref()
+                .is_some_and(|r| r.act <= 1 && ts - r.started_at < RESTART_GRACE_MS);
             if !restart_same_run {
                 if self.run.is_some() {
                     out.extend(self.finish_run("abandoned", ts)?);
@@ -289,7 +294,6 @@ impl Tracker {
                 self.run = Some(RunState {
                     run_id: run.id,
                     started_at: ts,
-                    kind: run.kind.clone(),
                     character: None,
                     current_segment: None,
                     visited: HashSet::new(),
@@ -349,10 +353,8 @@ impl Tracker {
             if let Some(state) = &mut self.atlas {
                 if resolved.kind == SegmentKind::Map {
                     if let Some(tier) = resolved.map_tier {
-                        let existing =
-                            atlas::milestone_for_tier(&self.conn, state.id, tier)?;
-                        let completed =
-                            existing.is_some_and(|m| m.status == "completed");
+                        let existing = atlas::milestone_for_tier(&self.conn, state.id, tier)?;
+                        let completed = existing.is_some_and(|m| m.status == "completed");
                         if !completed {
                             let char_level = state
                                 .character
@@ -364,17 +366,17 @@ impl Tracker {
                                 &atlas::CandidateInput {
                                     progression_id: state.id,
                                     tier,
-                                    map_area_id: gen
-                                        .as_ref()
-                                        .map(|g| g.client_id.as_str()),
+                                    map_area_id: gen.as_ref().map(|g| g.client_id.as_str()),
                                     map_name: Some(&resolved.name),
                                     char_level,
                                     entered_at: ts,
                                     elapsed_ms: Some(ts - state.started_at),
                                 },
                             )?;
-                            state.current_map =
-                                Some(MapState { milestone_id: m.id, died: false });
+                            state.current_map = Some(MapState {
+                                milestone_id: m.id,
+                                died: false,
+                            });
                             out.push(TrackerOutput::Atlas(state.id));
                         } else {
                             state.current_map = None;
@@ -496,7 +498,10 @@ impl Tracker {
             runs::close_segment(&self.conn, seg_id, ts)?;
         }
         let run = runs::finish_run(&self.conn, run_state.run_id, status, ts)?;
-        let mut out = vec![TrackerOutput::RunFinished(run.clone()), TrackerOutput::Snapshot];
+        let mut out = vec![
+            TrackerOutput::RunFinished(run.clone()),
+            TrackerOutput::Snapshot,
+        ];
         if status == "completed" && run.kind == "league_start" {
             let p = atlas::create_progression(
                 &self.conn,
@@ -546,7 +551,11 @@ impl Tracker {
             self.last_uptime = Some(up);
         }
         match &line.event {
-            LogEvent::AreaGenerating { area_level, client_id, seed } => {
+            LogEvent::AreaGenerating {
+                area_level,
+                client_id,
+                seed,
+            } => {
                 self.pending_gen = Some(PendingGen {
                     area_level: *area_level,
                     client_id: client_id.clone(),
@@ -558,7 +567,11 @@ impl Tracker {
                     self.open_instances.insert(name.clone(), g);
                 }
             }
-            LogEvent::LevelUp { character, class, level } => {
+            LogEvent::LevelUp {
+                character,
+                class,
+                level,
+            } => {
                 self.char_levels
                     .insert(character.clone(), (class.clone(), *level));
             }

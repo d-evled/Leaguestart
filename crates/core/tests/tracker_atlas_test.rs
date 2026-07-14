@@ -16,7 +16,9 @@ fn league_start_run_rolls_into_atlas_progression_with_tier_milestones() {
     assert_eq!(all[0].kind, "league_start");
 
     // Progression auto-created, anchored at the run start.
-    let p = atlas::active_progression(t.conn()).unwrap().expect("progression");
+    let p = atlas::active_progression(t.conn())
+        .unwrap()
+        .expect("progression");
     assert_eq!(p.run_id, Some(all[0].id));
     assert_eq!(p.character_name.as_deref(), Some("Exilena"));
     assert_eq!(p.started_at, all[0].started_at);
@@ -94,7 +96,9 @@ fn manual_milestone_status_edits() {
     let ms = atlas::milestones(t.conn(), p.id).unwrap();
 
     atlas::set_milestone_status(t.conn(), ms[0].id, "dismissed").unwrap();
-    let after = atlas::milestone_for_tier(t.conn(), p.id, 1).unwrap().unwrap();
+    let after = atlas::milestone_for_tier(t.conn(), p.id, 1)
+        .unwrap()
+        .unwrap();
     assert_eq!(after.status, "dismissed");
     assert!(after.manual);
 }

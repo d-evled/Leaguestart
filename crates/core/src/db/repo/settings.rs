@@ -4,9 +4,7 @@ use std::collections::HashMap;
 
 pub fn get_all(conn: &Connection) -> Result<HashMap<String, serde_json::Value>> {
     let mut stmt = conn.prepare("SELECT key, value FROM app_settings")?;
-    let rows = stmt.query_map([], |r| {
-        Ok((r.get::<_, String>(0)?, r.get::<_, String>(1)?))
-    })?;
+    let rows = stmt.query_map([], |r| Ok((r.get::<_, String>(0)?, r.get::<_, String>(1)?)))?;
     let mut out = HashMap::new();
     for row in rows {
         let (k, v) = row?;

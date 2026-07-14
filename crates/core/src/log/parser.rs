@@ -24,12 +24,26 @@ pub struct LogLine {
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum LogEvent {
-    ZoneEntered { name: String },
-    AreaGenerating { area_level: i64, client_id: String, seed: Option<i64> },
+    ZoneEntered {
+        name: String,
+    },
+    AreaGenerating {
+        area_level: i64,
+        client_id: String,
+        seed: Option<i64>,
+    },
     InstanceDetails,
-    LevelUp { character: String, class: String, level: i64 },
-    Death { character: String },
-    AfkMode { on: bool },
+    LevelUp {
+        character: String,
+        class: String,
+        level: i64,
+    },
+    Death {
+        character: String,
+    },
+    AfkMode {
+        on: bool,
+    },
 }
 
 static PREFIX: LazyLock<Regex> = LazyLock::new(|| {
@@ -43,13 +57,11 @@ static ZONE: LazyLock<Regex> =
 static GENERATING: LazyLock<Regex> = LazyLock::new(|| {
     Regex::new(r#"^Generating level (\d+) area "([^"]+)"(?: with seed (\d+))?"#).unwrap()
 });
-static LEVEL_UP: LazyLock<Regex> = LazyLock::new(|| {
-    Regex::new(r"^: (\S+) \((\w+)\) is now level (\d+)$").unwrap()
-});
+static LEVEL_UP: LazyLock<Regex> =
+    LazyLock::new(|| Regex::new(r"^: (\S+) \((\w+)\) is now level (\d+)$").unwrap());
 static DEATH: LazyLock<Regex> =
     LazyLock::new(|| Regex::new(r"^: (\S+) has been slain\.$").unwrap());
-static AFK: LazyLock<Regex> =
-    LazyLock::new(|| Regex::new(r"^: AFK mode is now (ON|OFF)").unwrap());
+static AFK: LazyLock<Regex> = LazyLock::new(|| Regex::new(r"^: AFK mode is now (ON|OFF)").unwrap());
 
 /// Parse one log line. Returns `None` for anything that isn't a tracked event.
 pub fn parse_line(line: &str) -> Option<LogLine> {
@@ -76,7 +88,11 @@ pub fn parse_line(line: &str) -> Option<LogLine> {
         .timestamp_millis();
     let uptime_ms = caps[7].parse::<i64>().ok();
 
-    Some(LogLine { ts_ms, uptime_ms, event })
+    Some(LogLine {
+        ts_ms,
+        uptime_ms,
+        event,
+    })
 }
 
 fn parse_body(body: &str) -> Option<LogEvent> {
@@ -91,7 +107,9 @@ fn parse_body(body: &str) -> Option<LogEvent> {
         return Some(LogEvent::InstanceDetails);
     }
     if let Some(c) = ZONE.captures(body) {
-        return Some(LogEvent::ZoneEntered { name: c[1].to_string() });
+        return Some(LogEvent::ZoneEntered {
+            name: c[1].to_string(),
+        });
     }
     if let Some(c) = LEVEL_UP.captures(body) {
         return Some(LogEvent::LevelUp {
@@ -101,7 +119,9 @@ fn parse_body(body: &str) -> Option<LogEvent> {
         });
     }
     if let Some(c) = DEATH.captures(body) {
-        return Some(LogEvent::Death { character: c[1].to_string() });
+        return Some(LogEvent::Death {
+            character: c[1].to_string(),
+        });
     }
     if let Some(c) = AFK.captures(body) {
         return Some(LogEvent::AfkMode { on: &c[1] == "ON" });
@@ -122,7 +142,12 @@ mod tests {
         let e = body_of(
             "2026/07/10 20:31:43 12345678 abc123f [INFO Client 1234] : You have entered The Coast.",
         );
-        assert_eq!(e, Some(LogEvent::ZoneEntered { name: "The Coast".into() }));
+        assert_eq!(
+            e,
+            Some(LogEvent::ZoneEntered {
+                name: "The Coast".into()
+            })
+        );
     }
 
     #[test]
@@ -143,7 +168,11 @@ mod tests {
         );
         assert!(matches!(
             e,
-            Some(LogEvent::AreaGenerating { area_level: 83, seed: None, .. })
+            Some(LogEvent::AreaGenerating {
+                area_level: 83,
+                seed: None,
+                ..
+            })
         ));
     }
 
@@ -159,7 +188,9 @@ mod tests {
         );
         assert_eq!(
             body_of("2026/07/10 20:36:00 1000 a [INFO Client 1] : Exilena has been slain."),
-            Some(LogEvent::Death { character: "Exilena".into() })
+            Some(LogEvent::Death {
+                character: "Exilena".into()
+            })
         );
         assert_eq!(
             body_of("2026/07/10 20:36:10 1000 a [INFO Client 1] : AFK mode is now ON. Autoreply \"afk\""),
@@ -196,10 +227,9 @@ mod tests {
 
     #[test]
     fn timestamps_are_ordered_and_uptime_captured() {
-        let a = parse_line(
-            "2026/07/10 20:31:43 5000 a [INFO Client 1] : You have entered The Coast.",
-        )
-        .unwrap();
+        let a =
+            parse_line("2026/07/10 20:31:43 5000 a [INFO Client 1] : You have entered The Coast.")
+                .unwrap();
         let b = parse_line(
             "2026/07/10 20:31:45 7000 a [INFO Client 1] : You have entered The Mud Flats.",
         )

@@ -11,6 +11,7 @@
     "tauri": "tauri",
     "replay": "node scripts/replay-log.mjs",
     "gen:areas": "node scripts/gen-areas.mjs",
+    "gen:fixture": "node scripts/gen-fixture.mjs",
     "gen:icons": "node scripts/gen-icon.mjs"
   },
   "dependencies": {

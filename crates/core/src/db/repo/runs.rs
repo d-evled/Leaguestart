@@ -95,7 +95,11 @@ pub fn insert_run(conn: &Connection, new: &NewRun) -> Result<Run> {
 
 pub fn get_run(conn: &Connection, id: i64) -> Result<Option<Run>> {
     Ok(conn
-        .query_row("SELECT * FROM runs WHERE id = ?1", params![id], run_from_row)
+        .query_row(
+            "SELECT * FROM runs WHERE id = ?1",
+            params![id],
+            run_from_row,
+        )
         .optional()?)
 }
 
@@ -128,15 +132,13 @@ pub fn run_detail(conn: &Connection, id: i64) -> Result<Option<RunDetail>> {
 }
 
 pub fn segments(conn: &Connection, run_id: i64) -> Result<Vec<ZoneSegment>> {
-    let mut stmt =
-        conn.prepare("SELECT * FROM zone_segments WHERE run_id = ?1 ORDER BY seq")?;
+    let mut stmt = conn.prepare("SELECT * FROM zone_segments WHERE run_id = ?1 ORDER BY seq")?;
     let rows = stmt.query_map(params![run_id], segment_from_row)?;
     Ok(rows.collect::<rusqlite::Result<Vec<_>>>()?)
 }
 
 pub fn levels(conn: &Connection, run_id: i64) -> Result<Vec<LevelEvent>> {
-    let mut stmt =
-        conn.prepare("SELECT * FROM level_events WHERE run_id = ?1 ORDER BY at")?;
+    let mut stmt = conn.prepare("SELECT * FROM level_events WHERE run_id = ?1 ORDER BY at")?;
     let rows = stmt.query_map(params![run_id], level_from_row)?;
     Ok(rows.collect::<rusqlite::Result<Vec<_>>>()?)
 }
@@ -154,12 +156,7 @@ pub fn deaths(conn: &Connection, run_id: i64) -> Result<Vec<DeathEvent>> {
     Ok(rows.collect::<rusqlite::Result<Vec<_>>>()?)
 }
 
-pub fn set_run_character(
-    conn: &Connection,
-    run_id: i64,
-    name: &str,
-    class: &str,
-) -> Result<()> {
+pub fn set_run_character(conn: &Connection, run_id: i64, name: &str, class: &str) -> Result<()> {
     conn.execute(
         "UPDATE runs SET character_name = ?2, character_class = ?3 WHERE id = ?1",
         params![run_id, name, class],
@@ -279,8 +276,7 @@ pub fn open_segment(conn: &Connection, run_id: i64) -> Result<Option<ZoneSegment
 }
 
 pub fn visited_area_ids(conn: &Connection, run_id: i64) -> Result<Vec<String>> {
-    let mut stmt =
-        conn.prepare("SELECT DISTINCT area_id FROM zone_segments WHERE run_id = ?1")?;
+    let mut stmt = conn.prepare("SELECT DISTINCT area_id FROM zone_segments WHERE run_id = ?1")?;
     let rows = stmt.query_map(params![run_id], |r| r.get::<_, String>(0))?;
     Ok(rows.collect::<rusqlite::Result<Vec<_>>>()?)
 }
@@ -307,7 +303,15 @@ pub fn insert_level_event(conn: &Connection, e: &NewLevelEvent) -> Result<LevelE
     conn.execute(
         "INSERT INTO level_events (run_id, progression_id, segment_id, character, class, level, at)
          VALUES (?1,?2,?3,?4,?5,?6,?7)",
-        params![e.run_id, e.progression_id, e.segment_id, e.character, e.class, e.level, e.at],
+        params![
+            e.run_id,
+            e.progression_id,
+            e.segment_id,
+            e.character,
+            e.class,
+            e.level,
+            e.at
+        ],
     )?;
     let id = conn.last_insert_rowid();
     Ok(conn.query_row(
@@ -331,7 +335,11 @@ pub fn insert_death(
         params![run_id, progression_id, segment_id, character, at],
     )?;
     let id = conn.last_insert_rowid();
-    Ok(conn.query_row("SELECT * FROM deaths WHERE id = ?1", params![id], death_from_row)?)
+    Ok(conn.query_row(
+        "SELECT * FROM deaths WHERE id = ?1",
+        params![id],
+        death_from_row,
+    )?)
 }
 
 /// Latest level seen for a character in a run or progression context.

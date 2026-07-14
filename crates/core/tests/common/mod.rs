@@ -39,6 +39,10 @@ pub fn fixture(name: &str) -> String {
 /// Build a log line quickly for inline scenarios.
 /// `ts` like "2026/07/12 09:00:00".
 pub fn log_line(ts: &str, uptime: i64, body: &str) -> String {
-    let level = if body.starts_with(':') { "INFO" } else { "DEBUG" };
+    let level = if body.starts_with(':') {
+        "INFO"
+    } else {
+        "DEBUG"
+    };
     format!("{ts} {uptime} abc1234 [{level} Client 9999] {body}")
 }

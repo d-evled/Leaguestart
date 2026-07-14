@@ -31,7 +31,10 @@ fn two_runs() -> leaguestart_core::tracker::Tracker {
             mk(30, ": Speedy (Witch) is now level 2"),
             mk(63, r#"Generating level 2 area "1_1_2" with seed 2"#),
             mk(63, ": You have entered The Coast."),
-            mk(63 + coast_secs, r#"Generating level 68 area "MapWorldsBeach" with seed 3"#),
+            mk(
+                63 + coast_secs,
+                r#"Generating level 68 area "MapWorldsBeach" with seed 3"#,
+            ),
             mk(63 + coast_secs, ": You have entered Beach."),
         ]
         .join("\n")
@@ -73,8 +76,16 @@ fn compare_aligns_zones_and_reports_deltas() {
     assert_eq!(strand.per_run_ms[0], strand.per_run_ms[1]);
 
     // Rows come out in canonical campaign order: strand before coast.
-    let i_strand = cmp.rows.iter().position(|r| r.area_id == "a1-the-twilight-strand").unwrap();
-    let i_coast = cmp.rows.iter().position(|r| r.area_id == "a1-the-coast").unwrap();
+    let i_strand = cmp
+        .rows
+        .iter()
+        .position(|r| r.area_id == "a1-the-twilight-strand")
+        .unwrap();
+    let i_coast = cmp
+        .rows
+        .iter()
+        .position(|r| r.area_id == "a1-the-coast")
+        .unwrap();
     assert!(i_strand < i_coast);
 
     // Cumulative series end at each run's total active (load-removed) time.
@@ -99,14 +110,27 @@ fn zone_stats_flag_the_slow_zone() {
     assert_eq!(coast.median_ms, 200_000);
     assert_eq!(coast.last_ms, 300_000);
     assert_eq!(coast.iqr_ms, 100_000);
-    assert!(coast.auto_flag, "coast should be auto-flagged as a bottleneck");
+    assert!(
+        coast.auto_flag,
+        "coast should be auto-flagged as a bottleneck"
+    );
 
-    let strand = stats.iter().find(|s| s.area_id == "a1-the-twilight-strand").unwrap();
+    let strand = stats
+        .iter()
+        .find(|s| s.area_id == "a1-the-twilight-strand")
+        .unwrap();
     assert!(!strand.auto_flag);
     assert!(strand.share_of_act > 0.0 && strand.share_of_act < 1.0);
 
     // Manual flags/notes join in.
-    notes::set(t.conn(), "poe1", "a1-the-coast", Some("bad layout RNG"), true).unwrap();
+    notes::set(
+        t.conn(),
+        "poe1",
+        "a1-the-coast",
+        Some("bad layout RNG"),
+        true,
+    )
+    .unwrap();
     let stats = analysis::zone_stats(t.conn(), &areas, None, "poe1").unwrap();
     let coast = stats.iter().find(|s| s.area_id == "a1-the-coast").unwrap();
     assert!(coast.flagged);

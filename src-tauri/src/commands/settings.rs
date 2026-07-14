@@ -18,7 +18,7 @@ const TRACKER_KEYS: &[&str] = &[
 
 #[tauri::command]
 pub fn get_settings(state: State<AppState>) -> Result<HashMap<String, serde_json::Value>, String> {
-    settings::get_all(&conn(&state)?).map_err(err_str)
+    settings::get_all(&*conn(&state)?).map_err(err_str)
 }
 
 #[tauri::command]
@@ -28,7 +28,7 @@ pub fn set_setting(
     key: String,
     value: serde_json::Value,
 ) -> Result<(), String> {
-    settings::set(&conn(&state)?, &key, &value).map_err(err_str)?;
+    settings::set(&*conn(&state)?, &key, &value).map_err(err_str)?;
     if TRACKER_KEYS.contains(&key.as_str()) {
         let _ = state.ctl.send(CtlMsg::Reload);
     }

@@ -11,7 +11,9 @@ fn full_run_fixture_produces_one_completed_run() {
     let mut t = tracker(RunGoal::FirstMap, "practice");
     let out = feed(&mut t, &fixture("full_run.txt"));
 
-    assert!(out.iter().any(|o| matches!(o, TrackerOutput::RunStarted(_))));
+    assert!(out
+        .iter()
+        .any(|o| matches!(o, TrackerOutput::RunStarted(_))));
     assert!(out
         .iter()
         .any(|o| matches!(o, TrackerOutput::RunFinished(r) if r.status == "completed")));
@@ -36,8 +38,14 @@ fn full_run_fixture_produces_one_completed_run() {
 
     let segs = runs::segments(t.conn(), run.id).unwrap();
     assert_eq!(segs.len(), expected_segments);
-    assert!(segs.iter().all(|s| !s.is_revisit), "golden path never revisits");
-    assert!(segs.iter().all(|s| s.exited_at.is_some()), "all segments closed");
+    assert!(
+        segs.iter().all(|s| !s.is_revisit),
+        "golden path never revisits"
+    );
+    assert!(
+        segs.iter().all(|s| s.exited_at.is_some()),
+        "all segments closed"
+    );
 
     // Every loading screen in the fixture is exactly 3s.
     assert_eq!(run.total_load_ms, Some(3000 * expected_segments as i64));
@@ -46,11 +54,8 @@ fn full_run_fixture_produces_one_completed_run() {
 
     // Every zone dwell is exactly 60s: check act sums = 60s * zone count.
     for act in 1..=10i64 {
-        let expected: i64 = golden
-            .iter()
-            .filter(|a| a.act == Some(act as u8))
-            .count() as i64
-            * 60_000;
+        let expected: i64 =
+            golden.iter().filter(|a| a.act == Some(act as u8)).count() as i64 * 60_000;
         let actual: i64 = segs
             .iter()
             .filter(|s| s.act == Some(act))
@@ -81,7 +86,9 @@ fn backtracking_and_deaths_attach_to_the_right_segments() {
     let mut t = tracker(RunGoal::FirstMap, "practice");
     feed(&mut t, &fixture("backtrack_death.txt"));
 
-    let run = runs::active_run(t.conn()).unwrap().expect("run still active");
+    let run = runs::active_run(t.conn())
+        .unwrap()
+        .expect("run still active");
     assert_eq!(run.deaths, 1);
 
     let segs = runs::segments(t.conn(), run.id).unwrap();
@@ -99,15 +106,17 @@ fn backtracking_and_deaths_attach_to_the_right_segments() {
         ]
     );
     let revisits: Vec<_> = segs.iter().map(|s| s.is_revisit).collect();
-    assert_eq!(revisits, vec![false, false, false, false, true, true, false]);
+    assert_eq!(
+        revisits,
+        vec![false, false, false, false, true, true, false]
+    );
 
     // Death happened in the first Mud Flats visit (seq 4).
     let deaths = runs::deaths(t.conn(), run.id).unwrap();
     assert_eq!(deaths[0].segment_id, Some(segs[3].id));
 
     // Merged zone math: Coast 175s; Mud Flats 58s + 87s.
-    let dur =
-        |s: &leaguestart_core::db::models::ZoneSegment| s.exited_at.unwrap() - s.entered_at;
+    let dur = |s: &leaguestart_core::db::models::ZoneSegment| s.exited_at.unwrap() - s.entered_at;
     assert_eq!(dur(&segs[2]), 175_000);
     assert_eq!(dur(&segs[3]) + dur(&segs[5]), 145_000);
     // Loading screens are excluded from dwell and recorded on the segment.
@@ -132,7 +141,12 @@ fn duplicate_zone_names_resolve_across_acts() {
     let ids: Vec<_> = segs.iter().map(|s| s.area_id.as_str()).collect();
     assert_eq!(
         ids,
-        vec!["a1-the-twilight-strand", "a1-the-coast", "a6-the-coast", "a6-the-coast"]
+        vec![
+            "a1-the-twilight-strand",
+            "a1-the-coast",
+            "a6-the-coast",
+            "a6-the-coast"
+        ]
     );
     assert_eq!(segs[1].act, Some(1));
     assert_eq!(segs[2].act, Some(6));
@@ -149,11 +163,27 @@ fn twilight_strand_relog_grace_vs_new_run() {
     // Relog within grace period, still act 1 → same run.
     let mut t = tracker(RunGoal::FirstMap, "practice");
     let lines = [
-        log_line("2026/07/12 09:00:00", 1_000, r#"Generating level 1 area "1_1_1" with seed 1"#),
-        log_line("2026/07/12 09:00:03", 4_000, ": You have entered The Twilight Strand."),
+        log_line(
+            "2026/07/12 09:00:00",
+            1_000,
+            r#"Generating level 1 area "1_1_1" with seed 1"#,
+        ),
+        log_line(
+            "2026/07/12 09:00:03",
+            4_000,
+            ": You have entered The Twilight Strand.",
+        ),
         // Relog 5 minutes in: back to the strand (fresh instance).
-        log_line("2026/07/12 09:05:00", 304_000, r#"Generating level 1 area "1_1_1" with seed 2"#),
-        log_line("2026/07/12 09:05:03", 307_000, ": You have entered The Twilight Strand."),
+        log_line(
+            "2026/07/12 09:05:00",
+            304_000,
+            r#"Generating level 1 area "1_1_1" with seed 2"#,
+        ),
+        log_line(
+            "2026/07/12 09:05:03",
+            307_000,
+            ": You have entered The Twilight Strand.",
+        ),
     ]
     .join("\n");
     feed(&mut t, &lines);
@@ -166,10 +196,26 @@ fn twilight_strand_relog_grace_vs_new_run() {
     // Outside the grace period → old run abandoned, new run started.
     let mut t = tracker(RunGoal::FirstMap, "practice");
     let lines = [
-        log_line("2026/07/12 09:00:00", 1_000, r#"Generating level 1 area "1_1_1" with seed 1"#),
-        log_line("2026/07/12 09:00:03", 4_000, ": You have entered The Twilight Strand."),
-        log_line("2026/07/12 09:20:00", 1_204_000, r#"Generating level 1 area "1_1_1" with seed 3"#),
-        log_line("2026/07/12 09:20:03", 1_207_000, ": You have entered The Twilight Strand."),
+        log_line(
+            "2026/07/12 09:00:00",
+            1_000,
+            r#"Generating level 1 area "1_1_1" with seed 1"#,
+        ),
+        log_line(
+            "2026/07/12 09:00:03",
+            4_000,
+            ": You have entered The Twilight Strand.",
+        ),
+        log_line(
+            "2026/07/12 09:20:00",
+            1_204_000,
+            r#"Generating level 1 area "1_1_1" with seed 3"#,
+        ),
+        log_line(
+            "2026/07/12 09:20:03",
+            1_207_000,
+            ": You have entered The Twilight Strand.",
+        ),
     ]
     .join("\n");
     let out = feed(&mut t, &lines);
@@ -221,11 +267,27 @@ fn character_filter_ignores_other_characters() {
         cfg,
     );
     let lines = [
-        log_line("2026/07/12 09:00:00", 1_000, r#"Generating level 1 area "1_1_1" with seed 1"#),
-        log_line("2026/07/12 09:00:03", 4_000, ": You have entered The Twilight Strand."),
-        log_line("2026/07/12 09:00:30", 31_000, ": SomeMule (Duelist) is now level 2"),
+        log_line(
+            "2026/07/12 09:00:00",
+            1_000,
+            r#"Generating level 1 area "1_1_1" with seed 1"#,
+        ),
+        log_line(
+            "2026/07/12 09:00:03",
+            4_000,
+            ": You have entered The Twilight Strand.",
+        ),
+        log_line(
+            "2026/07/12 09:00:30",
+            31_000,
+            ": SomeMule (Duelist) is now level 2",
+        ),
         log_line("2026/07/12 09:00:40", 41_000, ": SomeMule has been slain."),
-        log_line("2026/07/12 09:01:00", 61_000, ": MyMain (Witch) is now level 2"),
+        log_line(
+            "2026/07/12 09:01:00",
+            61_000,
+            ": MyMain (Witch) is now level 2",
+        ),
     ]
     .join("\n");
     feed(&mut t, &lines);

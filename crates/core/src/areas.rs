@@ -123,7 +123,11 @@ impl AreaDb {
         if part != "1" && part != "2" {
             return None;
         }
-        parts.next()?.parse::<u8>().ok().filter(|a| (1..=11).contains(a))
+        parts
+            .next()?
+            .parse::<u8>()
+            .ok()
+            .filter(|a| (1..=11).contains(a))
     }
 
     /// Resolve an observed zone entry to an area.
@@ -174,9 +178,7 @@ impl AreaDb {
 
         let candidates = self.by_name(name);
         if !candidates.is_empty() {
-            let hint = act_hint.or_else(|| {
-                client_id.and_then(Self::act_hint_from_client_id)
-            });
+            let hint = act_hint.or_else(|| client_id.and_then(Self::act_hint_from_client_id));
             let best = candidates
                 .iter()
                 .min_by_key(|a| {
@@ -184,9 +186,7 @@ impl AreaDb {
                     // 30+ levels between parts); fall back to act distance.
                     match (area_level, hint, a.act) {
                         (Some(l), _, _) => (a.level - l).unsigned_abs(),
-                        (None, Some(h), Some(act)) => {
-                            (act as i64 - h as i64).unsigned_abs()
-                        }
+                        (None, Some(h), Some(act)) => (act as i64 - h as i64).unsigned_abs(),
                         _ => 0,
                     }
                 })

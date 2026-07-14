@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #0f1219;
+  --color-panel: #171b26;
+  --color-panel-2: #1d2230;
+  --color-line: #2a3042;
+  --color-ink: #d6dbe8;
+  --color-ink-dim: #8b95b3;
+  --color-accent: #e8a33d;
+  --color-good: #5eead4;
+  --color-bad: #f87171;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  @apply bg-bg text-ink antialiased;
+  font-family: ui-sans-serif, system-ui, "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+}
+
+/* Shared primitives */
+.panel {
+  @apply bg-panel border border-line rounded-lg;
+}
+.btn,
+.btn-accent,
+.btn-danger {
+  @apply px-3 py-1.5 rounded-md border border-line bg-panel-2 text-ink text-sm
+    transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed;
+}
+.btn {
+  @apply hover:border-accent/60 hover:text-accent;
+}
+.btn-accent {
+  @apply border-accent/60 text-accent;
+}
+.btn-danger {
+  @apply hover:border-bad hover:text-bad;
+}
+.input {
+  @apply px-2.5 py-1.5 rounded-md border border-line bg-panel-2 text-ink text-sm
+    outline-none focus:border-accent/70 placeholder:text-ink-dim/60 w-full;
+}
+.label {
+  @apply block text-xs uppercase tracking-wider text-ink-dim mb-1;
+}
+.th {
+  @apply text-left text-xs uppercase tracking-wider text-ink-dim font-medium px-3 py-2;
+}
+.td {
+  @apply px-3 py-1.5 border-t border-line/60;
+}
+.badge {
+  @apply inline-block px-1.5 py-0.5 rounded text-[11px] font-medium align-middle;
+}

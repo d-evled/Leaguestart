@@ -29,7 +29,11 @@ impl LogWatcher {
     /// replayed — use [`backscan_lines`] to warm context instead).
     pub fn start_at_end(path: &Path) -> std::io::Result<Self> {
         let offset = std::fs::metadata(path).map(|m| m.len()).unwrap_or(0);
-        Ok(LogWatcher { path: path.to_path_buf(), offset, remainder: Vec::new() })
+        Ok(LogWatcher {
+            path: path.to_path_buf(),
+            offset,
+            remainder: Vec::new(),
+        })
     }
 
     /// Resume from a persisted cursor. Falls back to end-of-file when the
@@ -37,7 +41,11 @@ impl LogWatcher {
     pub fn start_at(path: &Path, offset: u64) -> std::io::Result<Self> {
         let len = std::fs::metadata(path).map(|m| m.len()).unwrap_or(0);
         let offset = if offset <= len { offset } else { len };
-        Ok(LogWatcher { path: path.to_path_buf(), offset, remainder: Vec::new() })
+        Ok(LogWatcher {
+            path: path.to_path_buf(),
+            offset,
+            remainder: Vec::new(),
+        })
     }
 
     pub fn path(&self) -> &Path {
@@ -129,7 +137,10 @@ mod tests {
         let mut w = LogWatcher::start_at_end(&path).unwrap();
         assert_eq!(w.poll().unwrap().lines.len(), 0, "history is skipped");
 
-        let mut f = std::fs::OpenOptions::new().append(true).open(&path).unwrap();
+        let mut f = std::fs::OpenOptions::new()
+            .append(true)
+            .open(&path)
+            .unwrap();
         f.write_all(b"new line A\nnew li").unwrap();
         f.flush().unwrap();
         let r = w.poll().unwrap();

@@ -8,15 +8,18 @@ use crate::db::repo::{notes, runs};
 use crate::Result;
 use std::collections::HashMap;
 
+/// Display metadata for an area seen in a run: (name, act, kind).
+type AreaMeta = (String, Option<i64>, String);
+
 /// Merged active milliseconds per area for one run (loads excluded because
 /// they are stored separately; open segments are ignored).
 /// Returns (area_id -> ms) plus display metadata for areas seen in this run.
 fn merged_zone_times(
     conn: &rusqlite::Connection,
     run_id: i64,
-) -> Result<(HashMap<String, i64>, HashMap<String, (String, Option<i64>, String)>)> {
+) -> Result<(HashMap<String, i64>, HashMap<String, AreaMeta>)> {
     let mut times: HashMap<String, i64> = HashMap::new();
-    let mut meta: HashMap<String, (String, Option<i64>, String)> = HashMap::new();
+    let mut meta: HashMap<String, AreaMeta> = HashMap::new();
     for s in runs::segments(conn, run_id)? {
         if s.excluded {
             continue;
@@ -39,14 +42,20 @@ fn canonical_order(areas: &AreaDb, area_id: &str) -> (i64, i64) {
     }
 }
 
-pub fn compare(conn: &rusqlite::Connection, areas: &AreaDb, run_ids: &[i64]) -> Result<CompareData> {
+pub fn compare(
+    conn: &rusqlite::Connection,
+    areas: &AreaDb,
+    run_ids: &[i64],
+) -> Result<CompareData> {
     let mut run_rows = Vec::new();
     let mut per_run_times = Vec::new();
-    let mut union_meta: HashMap<String, (String, Option<i64>, String)> = HashMap::new();
+    let mut union_meta: HashMap<String, AreaMeta> = HashMap::new();
     let mut first_seen: HashMap<String, usize> = HashMap::new();
 
     for &id in run_ids {
-        let Some(run) = runs::get_run(conn, id)? else { continue };
+        let Some(run) = runs::get_run(conn, id)? else {
+            continue;
+        };
         let (times, meta) = merged_zone_times(conn, id)?;
         for (aid, m) in meta {
             let idx = first_seen.len();
@@ -88,7 +97,10 @@ pub fn compare(conn: &rusqlite::Connection, areas: &AreaDb, run_ids: &[i64]) -> 
                 .filter_map(|(i, row)| {
                     times.get(&row.area_id).map(|ms| {
                         acc += ms;
-                        CumulativePoint { row_index: i as i64, cumulative_ms: acc }
+                        CumulativePoint {
+                            row_index: i as i64,
+                            cumulative_ms: acc,
+                        }
                     })
                 })
                 .collect()
@@ -101,12 +113,20 @@ pub fn compare(conn: &rusqlite::Connection, areas: &AreaDb, run_ids: &[i64]) -> 
         level_curves.push(
             levels
                 .iter()
-                .map(|l| LevelPoint { elapsed_ms: l.at - run.started_at, level: l.level })
+                .map(|l| LevelPoint {
+                    elapsed_ms: l.at - run.started_at,
+                    level: l.level,
+                })
                 .collect(),
         );
     }
 
-    Ok(CompareData { runs: run_rows, rows, cumulative, level_curves })
+    Ok(CompareData {
+        runs: run_rows,
+        rows,
+        cumulative,
+        level_curves,
+    })
 }
 
 fn percentile(sorted: &[i64], p: f64) -> i64 {
@@ -197,7 +217,11 @@ pub fn zone_stats(
             let median = medians[&aid];
             let iqr = percentile(&acc.values, 0.75) - percentile(&acc.values, 0.25);
             let n = acc.values.len() as i64;
-            let typical = acc.act.and_then(|a| act_typical.get(&a)).copied().unwrap_or(0);
+            let typical = acc
+                .act
+                .and_then(|a| act_typical.get(&a))
+                .copied()
+                .unwrap_or(0);
             let share = acc
                 .act
                 .and_then(|a| act_totals.get(&a))
@@ -206,8 +230,7 @@ pub fn zone_stats(
                 .unwrap_or(0.0);
             let auto_flag = (typical > 0 && median >= (typical as f64 * 1.4) as i64)
                 || (n >= 3 && iqr * 2 > median && median > 0);
-            let (flagged, note_md) =
-                note_map.get(&aid).cloned().unwrap_or((false, None));
+            let (flagged, note_md) = note_map.get(&aid).cloned().unwrap_or((false, None));
             let order = areas.by_id(&aid).and_then(|a| a.order);
             ZoneStat {
                 area_name: acc.name,

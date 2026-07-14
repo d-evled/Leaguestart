@@ -70,14 +70,13 @@ fn setup_watcher(
         .ok()
         .flatten()
         .and_then(|v| {
-            let same = v.get("path").and_then(|p| p.as_str())
-                == path.to_str();
+            let same = v.get("path").and_then(|p| p.as_str()) == path.to_str();
             let offset = v.get("offset").and_then(|o| o.as_u64())?;
             same.then_some(offset)
         });
     let file_len = std::fs::metadata(&path).map(|m| m.len()).unwrap_or(0);
-    let resume = cursor_offset
-        .filter(|&off| off <= file_len && file_len - off <= CURSOR_RESUME_MAX_BYTES);
+    let resume =
+        cursor_offset.filter(|&off| off <= file_len && file_len - off <= CURSOR_RESUME_MAX_BYTES);
 
     let w = match resume {
         Some(offset) => LogWatcher::start_at(&path, offset),
@@ -108,8 +107,7 @@ fn setup_watcher(
 
 fn refresh_ids(status: &mut TrackerStatus, conn: &Connection) {
     status.active_run_id = runs::active_run(conn).ok().flatten().map(|r| r.id);
-    status.active_progression_id =
-        atlas::active_progression(conn).ok().flatten().map(|p| p.id);
+    status.active_progression_id = atlas::active_progression(conn).ok().flatten().map(|p| p.id);
 }
 
 fn push_status(app: &AppHandle, status: &TrackerStatus) {
@@ -252,7 +250,7 @@ pub fn run(app: AppHandle, conn: Connection, rx: Receiver<CtlMsg>) {
         }
 
         ticks = ticks.wrapping_add(1);
-        if status_dirty || ticks % STATUS_EVERY_TICKS == 0 {
+        if status_dirty || ticks.is_multiple_of(STATUS_EVERY_TICKS) {
             push_status(&app, &status);
         }
     }

@@ -67,7 +67,11 @@ pub fn create_progression(
 
 pub fn get_progression(conn: &Connection, id: i64) -> Result<Option<AtlasProgression>> {
     Ok(conn
-        .query_row("SELECT * FROM atlas_progressions WHERE id=?1", params![id], prog_from_row)
+        .query_row(
+            "SELECT * FROM atlas_progressions WHERE id=?1",
+            params![id],
+            prog_from_row,
+        )
         .optional()?)
 }
 
@@ -116,8 +120,8 @@ pub fn progression_detail(conn: &Connection, id: i64) -> Result<Option<Progressi
 }
 
 pub fn milestones(conn: &Connection, prog_id: i64) -> Result<Vec<TierMilestone>> {
-    let mut stmt = conn
-        .prepare("SELECT * FROM atlas_tier_milestones WHERE progression_id=?1 ORDER BY tier")?;
+    let mut stmt =
+        conn.prepare("SELECT * FROM atlas_tier_milestones WHERE progression_id=?1 ORDER BY tier")?;
     let rows = stmt.query_map(params![prog_id], milestone_from_row)?;
     Ok(rows.collect::<rusqlite::Result<Vec<_>>>()?)
 }

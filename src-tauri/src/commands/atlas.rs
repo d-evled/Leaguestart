@@ -8,7 +8,7 @@ use tauri::{AppHandle, State};
 
 #[tauri::command]
 pub fn list_progressions(state: State<AppState>) -> Result<Vec<AtlasProgression>, String> {
-    atlas::list_progressions(&conn(&state)?).map_err(err_str)
+    atlas::list_progressions(&*conn(&state)?).map_err(err_str)
 }
 
 #[tauri::command]
@@ -16,7 +16,7 @@ pub fn get_progression_detail(
     state: State<AppState>,
     id: i64,
 ) -> Result<Option<ProgressionDetail>, String> {
-    atlas::progression_detail(&conn(&state)?, id).map_err(err_str)
+    atlas::progression_detail(&*conn(&state)?, id).map_err(err_str)
 }
 
 #[tauri::command]
@@ -26,7 +26,7 @@ pub fn create_progression(
     label: String,
     plan_id: Option<i64>,
 ) -> Result<AtlasProgression, String> {
-    let p = atlas::create_progression(&conn(&state)?, plan_id, None, &label, None, now_ms())
+    let p = atlas::create_progression(&*conn(&state)?, plan_id, None, &label, None, now_ms())
         .map_err(err_str)?;
     let _ = state.ctl.send(CtlMsg::Reload);
     emit_data_changed(&app, "atlas");
@@ -40,7 +40,7 @@ pub fn set_progression_active(
     id: i64,
     active: bool,
 ) -> Result<(), String> {
-    atlas::set_progression_active(&conn(&state)?, id, active).map_err(err_str)?;
+    atlas::set_progression_active(&*conn(&state)?, id, active).map_err(err_str)?;
     let _ = state.ctl.send(CtlMsg::Reload);
     emit_data_changed(&app, "atlas");
     Ok(())
@@ -48,7 +48,7 @@ pub fn set_progression_active(
 
 #[tauri::command]
 pub fn delete_progression(app: AppHandle, state: State<AppState>, id: i64) -> Result<(), String> {
-    atlas::delete_progression(&conn(&state)?, id).map_err(err_str)?;
+    atlas::delete_progression(&*conn(&state)?, id).map_err(err_str)?;
     let _ = state.ctl.send(CtlMsg::Reload);
     emit_data_changed(&app, "atlas");
     Ok(())
@@ -61,7 +61,7 @@ pub fn set_milestone_status(
     id: i64,
     status: String,
 ) -> Result<(), String> {
-    atlas::set_milestone_status(&conn(&state)?, id, &status).map_err(err_str)?;
+    atlas::set_milestone_status(&*conn(&state)?, id, &status).map_err(err_str)?;
     emit_data_changed(&app, "atlas");
     Ok(())
 }

@@ -12,7 +12,9 @@ pub enum CtlMsg {
     /// the active run/progression was changed from the UI: re-read config
     /// and state from the database.
     Reload,
-    StopRun { abandon: bool },
+    StopRun {
+        abandon: bool,
+    },
     Shutdown,
 }
 
