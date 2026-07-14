@@ -1,0 +1,21 @@
+# Node
+node_modules/
+dist/
+
+# Rust
+target/
+
+# Local data / scratch
+*.db3
+*.db3-wal
+*.db3-shm
+/tmp/
+
+# Tauri generated schemas
+src-tauri/gen/
+
+# Editor/OS noise
+.DS_Store
+*.swp
+.idea/
+.vscode/
