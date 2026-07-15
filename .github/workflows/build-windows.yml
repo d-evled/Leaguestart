@@ -2,8 +2,9 @@ name: Build Windows installer
 
 on:
   push:
-    branches: ["claude/poe-league-start-tool-t3oayb", "main"]
+    branches: ["main"]
     tags: ["v*"]
+  pull_request:
   workflow_dispatch:
 
 permissions:
