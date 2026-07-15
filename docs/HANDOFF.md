@@ -21,6 +21,8 @@ Everything game-adjacent lives in `crates/core` and is fully testable headless o
 |---|---|
 | Plan: league/class/asc dropdowns, PoB auto-fill (code / pastebin / pobb.in / poe.ninja), checkpoints, guide links | `src/pages/PlanPage.tsx`, `src-tauri/src/commands/pob.rs`, `crates/core/src/pob.rs` |
 | Live run tracking: per-zone splits, load removal, revisits, levels, deaths, goals | `crates/core/src/tracker/mod.rs`, `crates/core/src/log/`, `src/pages/LiveRunPage.tsx` |
+| Run timer pauses: auto on logout/disconnect/game close (retroactive)/AFK, manual pause/resume, pause-removed times everywhere | `crates/core/src/tracker/mod.rs` (`start_pause`/`resume_playing`), `run_pauses` table, `src/pages/LiveRunPage.tsx` |
+| Run library: rename (label), user-defined groups, sortable columns (name/time/avg-per-act/deaths/date) | `crates/core/src/db/repo/groups.rs`, `src/pages/RunsPage.tsx` |
 | Atlas: tier 1–16 milestones (candidate/complete heuristic) + manual voidstones | `crates/core/src/tracker/mod.rs`, `src/pages/AtlasPage.tsx` |
 | Run history / detail / compare (delta splits, cumulative + level charts) | `src/pages/{Runs,RunDetail,Compare}Page.tsx`, `crates/core/src/db/repo/analysis.rs` |
 | Bottlenecks: per-zone stats, auto-flagging, notes, layout cross-links | `src/pages/BottlenecksPage.tsx` |
@@ -54,7 +56,7 @@ These are product commitments, not implementation details. Do not trade them awa
 1. **Ship v0.1.0**: bump the version in `src-tauri/tauri.conf.json`, `package.json`, and the workspace `Cargo.toml`, then `git tag v0.1.0 && git push origin v0.1.0`. This activates the update loop for installed apps.
 2. **Real-log validation session** (gap #2 above).
 3. **Ask Definitiv for permission** to bundle images/richer content with attribution (draft below). If granted: extend `scripts/gen-layouts.mjs` / repurpose the fetcher, and populate `guideUrl`s.
-4. Polish leftovers from the original plan (M6): AFK/pause annotation, segment exclusion + mule detection UI, `single-instance` + `window-state` plugins, league-vs-league atlas overlay.
+4. Polish leftovers from the original plan (M6): mule detection UI, `single-instance` + `window-state` plugins, league-vs-league atlas overlay. (AFK/pause handling shipped with the run-pause feature.)
 5. Optional: in-app guide browser fallback (gap #1 contingency).
 
 ## Draft: permission request to Definitiv

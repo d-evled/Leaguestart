@@ -15,6 +15,8 @@ pub enum CtlMsg {
     StopRun {
         abandon: bool,
     },
+    PauseRun,
+    ResumeRun,
     Shutdown,
 }
 

@@ -175,6 +175,14 @@ pub fn run(app: AppHandle, conn: Connection, rx: Receiver<CtlMsg>) {
                 refresh_ids(&mut status, tracker.conn());
                 push_status(&app, &status);
             }
+            Ok(CtlMsg::PauseRun) => {
+                let outs = tracker.pause_active_run().unwrap_or_default();
+                events::emit_outputs(&app, tracker.conn(), &outs);
+            }
+            Ok(CtlMsg::ResumeRun) => {
+                let outs = tracker.resume_active_run().unwrap_or_default();
+                events::emit_outputs(&app, tracker.conn(), &outs);
+            }
             Err(RecvTimeoutError::Timeout) => {}
         }
 

@@ -1,13 +1,13 @@
 use super::{conn, err_str};
 use crate::events::{active_run_snapshot, emit_data_changed};
 use crate::state::{AppState, CtlMsg};
-use leaguestart_core::db::models::{Run, RunDetail};
-use leaguestart_core::db::repo::runs;
+use leaguestart_core::db::models::{RunDetail, RunGroup, RunListEntry};
+use leaguestart_core::db::repo::{groups, runs};
 use tauri::{AppHandle, State};
 
 #[tauri::command]
-pub fn list_runs(state: State<AppState>) -> Result<Vec<Run>, String> {
-    runs::list_runs(&*conn(&state)?).map_err(err_str)
+pub fn list_runs(state: State<AppState>) -> Result<Vec<RunListEntry>, String> {
+    runs::list_run_entries(&*conn(&state)?).map_err(err_str)
 }
 
 #[tauri::command]
@@ -54,6 +54,65 @@ pub fn delete_run(app: AppHandle, state: State<AppState>, id: i64) -> Result<(),
 #[tauri::command]
 pub fn stop_active_run(state: State<AppState>, abandon: bool) -> Result<(), String> {
     state.ctl.send(CtlMsg::StopRun { abandon }).map_err(err_str)
+}
+
+#[tauri::command]
+pub fn pause_active_run(state: State<AppState>) -> Result<(), String> {
+    state.ctl.send(CtlMsg::PauseRun).map_err(err_str)
+}
+
+#[tauri::command]
+pub fn resume_active_run(state: State<AppState>) -> Result<(), String> {
+    state.ctl.send(CtlMsg::ResumeRun).map_err(err_str)
+}
+
+// ---- Run groups ----
+
+#[tauri::command]
+pub fn list_run_groups(state: State<AppState>) -> Result<Vec<RunGroup>, String> {
+    groups::list(&*conn(&state)?).map_err(err_str)
+}
+
+#[tauri::command]
+pub fn create_run_group(
+    app: AppHandle,
+    state: State<AppState>,
+    name: String,
+) -> Result<RunGroup, String> {
+    let group = groups::create(&*conn(&state)?, name.trim()).map_err(err_str)?;
+    emit_data_changed(&app, "runs");
+    Ok(group)
+}
+
+#[tauri::command]
+pub fn rename_run_group(
+    app: AppHandle,
+    state: State<AppState>,
+    id: i64,
+    name: String,
+) -> Result<(), String> {
+    groups::rename(&*conn(&state)?, id, name.trim()).map_err(err_str)?;
+    emit_data_changed(&app, "runs");
+    Ok(())
+}
+
+#[tauri::command]
+pub fn delete_run_group(app: AppHandle, state: State<AppState>, id: i64) -> Result<(), String> {
+    groups::delete(&*conn(&state)?, id).map_err(err_str)?;
+    emit_data_changed(&app, "runs");
+    Ok(())
+}
+
+#[tauri::command]
+pub fn set_run_group(
+    app: AppHandle,
+    state: State<AppState>,
+    id: i64,
+    group_id: Option<i64>,
+) -> Result<(), String> {
+    groups::set_run_group(&*conn(&state)?, id, group_id).map_err(err_str)?;
+    emit_data_changed(&app, "runs");
+    Ok(())
 }
 
 #[tauri::command]

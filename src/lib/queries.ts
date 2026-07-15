@@ -58,6 +58,10 @@ export function useRuns() {
   return useQuery({ queryKey: ["runs"], queryFn: ipc.listRuns });
 }
 
+export function useRunGroups() {
+  return useQuery({ queryKey: ["runGroups"], queryFn: ipc.listRunGroups });
+}
+
 export function useRunDetail(id: number | null) {
   return useQuery({
     queryKey: ["run", id],

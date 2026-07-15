@@ -14,10 +14,36 @@ export interface Run {
   goal: { type: "first_map" | "complete_act10" | "manual" } | null;
   totalMs: number | null;
   totalLoadMs: number | null;
+  /** Sum of closed pause intervals; effective time = totalMs - pausedMs. */
+  pausedMs: number;
   deaths: number;
   notesMd: string | null;
   game: string;
   patch: string | null;
+  groupId: number | null;
+}
+
+/** A run plus list-view stats (what `list_runs` returns). */
+export interface RunListEntry extends Run {
+  /** Distinct campaign acts (1-10) with segments — divisor for avg/act. */
+  actsSeen: number;
+}
+
+/** Wall-clock interval during which the run timer was paused. */
+export interface RunPause {
+  id: number;
+  runId: number;
+  startedAt: number;
+  /** null = pause still open. */
+  endedAt: number | null;
+  kind: "exit" | "afk" | "manual";
+  auto: boolean;
+}
+
+export interface RunGroup {
+  id: number;
+  name: string;
+  createdAt: number;
 }
 
 export interface ZoneSegment {
@@ -63,6 +89,7 @@ export interface RunDetail {
   segments: ZoneSegment[];
   levels: LevelEvent[];
   deaths: DeathEvent[];
+  pauses: RunPause[];
 }
 
 export interface LeaguePlan {

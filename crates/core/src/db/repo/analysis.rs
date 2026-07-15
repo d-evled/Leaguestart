@@ -110,11 +110,20 @@ pub fn compare(
     let mut level_curves = Vec::new();
     for run in &run_rows {
         let levels = runs::levels(conn, run.id)?;
+        // Elapsed is pause-removed so curves stay comparable across runs
+        // with different break patterns.
+        let pauses = runs::pauses(conn, run.id)?;
+        let paused_before = |ts: i64| -> i64 {
+            pauses
+                .iter()
+                .map(|p| (p.ended_at.unwrap_or(ts).min(ts) - p.started_at).max(0))
+                .sum()
+        };
         level_curves.push(
             levels
                 .iter()
                 .map(|l| LevelPoint {
-                    elapsed_ms: l.at - run.started_at,
+                    elapsed_ms: l.at - run.started_at - paused_before(l.at),
                     level: l.level,
                 })
                 .collect(),

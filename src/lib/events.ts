@@ -7,7 +7,7 @@ import { getActiveRun, getTrackerStatus } from "./ipc";
 import { fmtDur } from "./time";
 
 const DOMAIN_KEYS: Record<string, string[][]> = {
-  runs: [["runs"], ["run"], ["compare"], ["zoneStats"]],
+  runs: [["runs"], ["run"], ["runGroups"], ["compare"], ["zoneStats"]],
   atlas: [["progressions"], ["progression"]],
   plans: [["plans"], ["checkpoints"], ["links"]],
   notes: [["zoneNotes"], ["zoneStats"]],

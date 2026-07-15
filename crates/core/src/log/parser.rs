@@ -44,6 +44,15 @@ pub enum LogEvent {
     AfkMode {
         on: bool,
     },
+    /// `***** LOG FILE OPENING *****` — the game client just started; the
+    /// previous session (if any) ended some time before this line.
+    GameStarted,
+    /// The client is connecting to the login server: written at startup and
+    /// when the player exits to the login screen.
+    LoginScreen,
+    /// The connection to the instance server dropped (crash to character
+    /// select / login, or a logout-by-disconnect).
+    Disconnected,
 }
 
 static PREFIX: LazyLock<Regex> = LazyLock::new(|| {
@@ -62,13 +71,17 @@ static LEVEL_UP: LazyLock<Regex> =
 static DEATH: LazyLock<Regex> =
     LazyLock::new(|| Regex::new(r"^: (\S+) has been slain\.$").unwrap());
 static AFK: LazyLock<Regex> = LazyLock::new(|| Regex::new(r"^: AFK mode is now (ON|OFF)").unwrap());
+// The log-open banner has the timestamp but not the uptime/client fields.
+static LOG_OPEN: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(r"^(\d{4})/(\d{2})/(\d{2}) (\d{2}):(\d{2}):(\d{2}).*\*{3,} LOG FILE OPENING \*{3,}")
+        .unwrap()
+});
+static LOGIN_CONNECT: LazyLock<Regex> =
+    LazyLock::new(|| Regex::new(r"^Async connecting to \S+").unwrap());
+static DISCONNECT: LazyLock<Regex> =
+    LazyLock::new(|| Regex::new(r"^Abnormal disconnect: ").unwrap());
 
-/// Parse one log line. Returns `None` for anything that isn't a tracked event.
-pub fn parse_line(line: &str) -> Option<LogLine> {
-    let caps = PREFIX.captures(line.trim_end_matches(['\r', '\n']))?;
-    let body = caps.get(8).unwrap().as_str();
-    let event = parse_body(body)?;
-
+fn ts_from_captures(caps: &regex::Captures) -> Option<i64> {
     let (y, mo, d, h, mi, s) = (
         caps[1].parse().ok()?,
         caps[2].parse().ok()?,
@@ -82,10 +95,30 @@ pub fn parse_line(line: &str) -> Option<LogLine> {
         NaiveTime::from_hms_opt(h, mi, s)?,
     );
     // `earliest` disambiguates DST-fold times deterministically.
-    let ts_ms = Local
-        .from_local_datetime(&naive)
-        .earliest()?
-        .timestamp_millis();
+    Some(
+        Local
+            .from_local_datetime(&naive)
+            .earliest()?
+            .timestamp_millis(),
+    )
+}
+
+/// Parse one log line. Returns `None` for anything that isn't a tracked event.
+pub fn parse_line(line: &str) -> Option<LogLine> {
+    let line = line.trim_end_matches(['\r', '\n']);
+    let Some(caps) = PREFIX.captures(line) else {
+        // The log-open banner is the one tracked line without the standard
+        // uptime/client prefix.
+        let caps = LOG_OPEN.captures(line)?;
+        return Some(LogLine {
+            ts_ms: ts_from_captures(&caps)?,
+            uptime_ms: None,
+            event: LogEvent::GameStarted,
+        });
+    };
+    let body = caps.get(8).unwrap().as_str();
+    let event = parse_body(body)?;
+    let ts_ms = ts_from_captures(&caps)?;
     let uptime_ms = caps[7].parse::<i64>().ok();
 
     Some(LogLine {
@@ -125,6 +158,12 @@ fn parse_body(body: &str) -> Option<LogEvent> {
     }
     if let Some(c) = AFK.captures(body) {
         return Some(LogEvent::AfkMode { on: &c[1] == "ON" });
+    }
+    if LOGIN_CONNECT.is_match(body) {
+        return Some(LogEvent::LoginScreen);
+    }
+    if DISCONNECT.is_match(body) {
+        return Some(LogEvent::Disconnected);
     }
     None
 }
@@ -199,6 +238,22 @@ mod tests {
         assert_eq!(
             body_of("2026/07/10 20:31:39 1000 a [DEBUG Client 1] Got Instance Details from login server"),
             Some(LogEvent::InstanceDetails)
+        );
+    }
+
+    #[test]
+    fn parses_session_boundary_lines() {
+        // The log-open banner has no uptime/client prefix.
+        let e = parse_line("2026/07/10 20:31:38 ***** LOG FILE OPENING *****").unwrap();
+        assert_eq!(e.event, LogEvent::GameStarted);
+        assert_eq!(e.uptime_ms, None);
+        assert_eq!(
+            body_of("2026/07/10 20:31:39 900 a [INFO Client 1] Async connecting to us.login.pathofexile.com:20481"),
+            Some(LogEvent::LoginScreen)
+        );
+        assert_eq!(
+            body_of("2026/07/10 21:40:00 4100900 a [INFO Client 1] Abnormal disconnect: An unexpected disconnection occurred."),
+            Some(LogEvent::Disconnected)
         );
     }
 

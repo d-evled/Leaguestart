@@ -18,10 +18,47 @@ pub struct Run {
     pub goal: serde_json::Value,
     pub total_ms: Option<i64>,
     pub total_load_ms: Option<i64>,
+    /// Sum of closed pause intervals (see `run_pauses`). Effective run
+    /// duration = total_ms - paused_ms.
+    pub paused_ms: i64,
     pub deaths: i64,
     pub notes_md: Option<String>,
     pub game: String,
     pub patch: Option<String>,
+    pub group_id: Option<i64>,
+}
+
+/// A wall-clock interval during which the run timer was paused.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct RunPause {
+    pub id: i64,
+    pub run_id: i64,
+    pub started_at: i64,
+    /// None = pause still open.
+    pub ended_at: Option<i64>,
+    pub kind: String, // exit | afk | manual
+    pub auto: bool,
+}
+
+/// User-defined bucket for organizing the run library.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct RunGroup {
+    pub id: i64,
+    pub name: String,
+    pub created_at: i64,
+}
+
+/// A run plus the list-view stats that aren't stored on the row itself.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct RunListEntry {
+    #[serde(flatten)]
+    pub run: Run,
+    /// Distinct campaign acts (1-10) this run has segments in — the divisor
+    /// for "average time per act".
+    pub acts_seen: i64,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -75,6 +112,7 @@ pub struct RunDetail {
     pub segments: Vec<ZoneSegment>,
     pub levels: Vec<LevelEvent>,
     pub deaths: Vec<DeathEvent>,
+    pub pauses: Vec<RunPause>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
