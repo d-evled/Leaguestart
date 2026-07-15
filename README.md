@@ -10,17 +10,18 @@ A desktop companion for **Path of Exile 1** league-start preparation. Plan your 
 - **Live run tracking** — the app tails PoE's `logs/Client.txt` and records campaign runs automatically: per-zone splits with loading screens measured separately (load removal), level-ups, deaths, and backtracking. No interaction needed while you play.
 - **Atlas progression** — when you enter a map of a new tier for the first time, the app records your character level and elapsed time as a milestone (with a completion heuristic you can confirm or edit). The four Voidstones are one-click manual milestones.
 - **Bottlenecks** — per-zone statistics across all your runs (best / median / last / spread / share of act time), automatic flagging of zones that consistently eat your time, plus your own flags and notes.
-- **Layouts** — searchable layout notes for every campaign zone (the shape to expect, the rule to follow, trials and quest stops, and a consistency rating). Zones your runs flag as bottlenecks link straight to their layout notes, and every zone links out to the community [Definitiv Guide](https://www.definitivguide.com/docs/category/path-of-exile-1) for full maps and images. The in-app notes are original condensed summaries of common routing knowledge — external guide content is linked, not copied (see `scripts/gen-layouts.mjs` for provenance and how to extend entries).
+- **Layouts** — searchable layout notes for every campaign zone (the shape to expect, the rule to follow, trials and quest stops, and a consistency rating). Zones your runs flag as bottlenecks link straight to their layout notes, and every zone links out to the community [Definitiv Guide](https://www.definitivguide.com/docs/category/path-of-exile-1) for full maps and images. Optionally, the app can download the guide's layout images into a **personal, local-only cache** so they show inline on zone cards and bottleneck rows (see the network section below). The in-app notes are original condensed summaries of common routing knowledge — external guide content is linked or cached locally for personal use, never copied into the app (see `scripts/gen-layouts.mjs` for provenance and how to extend entries).
 - **Compare** — run-vs-run split deltas aligned by campaign order, cumulative time charts, and level-vs-time curves; practice runs vs the real league start.
 
 ## How tracking works (and GGG Terms of Service)
 
 Leaguestart only ever **reads** the game's text log (`logs/Client.txt`), the same passive mechanism used for years by tools like Awakened PoE Trade, TraXile, mapwatch, and LiveSplit autosplitters. It never modifies game files, never reads game memory, never touches the network traffic, and never sends any input to the game — nothing to configure, nothing that can violate the [Terms of Use](https://www.pathofexile.com/legal/terms-of-use-and-privacy-policy).
 
-The app makes exactly two kinds of network requests, neither to GGG servers, and both under your control:
+The app makes exactly three kinds of network requests, none to GGG servers, and all under your control:
 
 - **PoB import**: pasting a pastebin.com / pobb.in / poe.ninja link in the Plan page fetches that one paste to decode it (pasting the PoB code itself is fully offline).
 - **Update check**: on launch and once a day it asks GitHub whether a newer release exists (one request to `api.github.com`; nothing about you or your runs is sent). Toggle it off in Settings → Updates.
+- **Layout images (optional)**: clicking *Download layout images* on the Layouts page crawls the guide site once, on your machine, and caches its images in your local app-data folder for personal use. The crawl honors the site's robots.txt, is rate-limited, identifies itself honestly, and every image keeps a link to its source page. The images are never bundled with the app, committed to this repo, or re-shared — your copy stays yours, like a browser cache.
 
 Requirements:
 

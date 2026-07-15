@@ -4,13 +4,15 @@ import { openUrl } from "@tauri-apps/plugin-opener";
 import { setZoneNote } from "../lib/ipc";
 import {
   useInvalidatingMutation,
+  useLayoutImages,
   useLayouts,
   usePlans,
   useZoneStats,
 } from "../lib/queries";
 import { ACT_LABELS, fmtDur } from "../lib/time";
 import { guideSearchUrl } from "./LayoutsPage";
-import type { ZoneLayout, ZoneStat } from "../types/ipc";
+import LayoutImageStrip from "../components/LayoutImages";
+import type { LayoutZoneImages, ZoneLayout, ZoneStat } from "../types/ipc";
 
 export default function BottlenecksPage() {
   const { data: plans } = usePlans();
@@ -29,6 +31,13 @@ export default function BottlenecksPage() {
     for (const z of layoutDb?.zones ?? []) m.set(z.areaId, z);
     return m;
   }, [layoutDb]);
+
+  const { data: imageManifest } = useLayoutImages();
+  const imagesById = useMemo(() => {
+    const m = new Map<string, LayoutZoneImages>();
+    for (const z of imageManifest?.zones ?? []) m.set(z.areaId, z);
+    return m;
+  }, [imageManifest]);
 
   const flaggedCount = (stats ?? []).filter((s) => s.autoFlag || s.flagged).length;
 
@@ -91,6 +100,7 @@ export default function BottlenecksPage() {
                   key={s.areaId}
                   s={s}
                   layout={layoutsById.get(s.areaId)}
+                  images={imagesById.get(s.areaId)}
                   guideName={layoutDb?.source.name ?? "the guide"}
                   guideBase={layoutDb?.source.url}
                   expanded={expanded === s.areaId}
@@ -113,6 +123,7 @@ export default function BottlenecksPage() {
 function Row({
   s,
   layout,
+  images,
   guideName,
   guideBase,
   expanded,
@@ -121,6 +132,7 @@ function Row({
 }: {
   s: ZoneStat;
   layout: ZoneLayout | undefined;
+  images: LayoutZoneImages | undefined;
   guideName: string;
   guideBase: string | undefined;
   expanded: boolean;
@@ -205,6 +217,7 @@ function Row({
                         e.stopPropagation();
                         openUrl(
                           layout.guideUrl ??
+                            images?.pageUrl ??
                             guideSearchUrl(guideBase, layout.name, layout.act),
                         );
                       }}
@@ -221,6 +234,11 @@ function Row({
                     </li>
                   ))}
                 </ul>
+                {images && (
+                  <div className="mt-2">
+                    <LayoutImageStrip entry={images} sourceName={guideName} compact />
+                  </div>
+                )}
               </div>
             )}
             <div className="flex gap-2 items-start py-1">

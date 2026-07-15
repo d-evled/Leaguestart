@@ -249,4 +249,43 @@ export interface LayoutDb {
   zones: ZoneLayout[];
 }
 
+// Personal layout-image cache (downloaded to local app data on demand —
+// never bundled with the app; see src-tauri/src/commands/layout_images.rs).
+
+export interface LayoutImageFile {
+  /** Absolute path on this machine — render via convertFileSrc(). */
+  path: string;
+  srcUrl: string;
+}
+
+export interface LayoutZoneImages {
+  areaId: string;
+  pageUrl: string;
+  pageTitle: string;
+  files: LayoutImageFile[];
+}
+
+export interface LayoutImagesManifest {
+  fetchedAt: number;
+  sourceUrl: string;
+  zones: LayoutZoneImages[];
+  unmatchedPages: string[];
+  zonesWithoutImages: string[];
+}
+
+export interface LayoutImagesSummary {
+  pagesCrawled: number;
+  zonesWithImages: number;
+  imagesDownloaded: number;
+  unmatchedPages: string[];
+  errors: string[];
+}
+
+export interface LayoutImagesProgress {
+  phase: string;
+  done: number;
+  total: number;
+  message: string;
+}
+
 export type Settings = Record<string, unknown>;

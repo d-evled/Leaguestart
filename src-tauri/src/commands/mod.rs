@@ -1,5 +1,6 @@
 pub mod analysis;
 pub mod atlas;
+pub mod layout_images;
 pub mod layouts;
 pub mod notes;
 pub mod plans;

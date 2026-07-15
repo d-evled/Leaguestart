@@ -105,3 +105,13 @@ export function useLayouts() {
     staleTime: Infinity,
   });
 }
+
+export function useLayoutImages() {
+  // Local cache manifest — changes only via fetch/clear mutations, which
+  // invalidate this key explicitly.
+  return useQuery({
+    queryKey: ["layoutImages"],
+    queryFn: ipc.getLayoutImages,
+    staleTime: Infinity,
+  });
+}

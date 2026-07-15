@@ -6,6 +6,8 @@ import type {
   GuideLink,
   LeaguePlan,
   LayoutDb,
+  LayoutImagesManifest,
+  LayoutImagesSummary,
   LogPathValidation,
   PobCheckpoint,
   PobImport,
@@ -114,6 +116,13 @@ export const checkForUpdate = () => invoke<UpdateInfo | null>("check_for_update"
 
 // layouts (static embedded data)
 export const getLayouts = () => invoke<LayoutDb>("get_layouts");
+
+// layout images (personal local cache, downloaded on demand)
+export const getLayoutImages = () =>
+  invoke<LayoutImagesManifest | null>("get_layout_images");
+export const fetchLayoutImages = () =>
+  invoke<LayoutImagesSummary>("fetch_layout_images");
+export const clearLayoutImages = () => invoke<void>("clear_layout_images");
 
 // notes
 export const getZoneNotes = () => invoke<ZoneNote[]>("get_zone_notes");

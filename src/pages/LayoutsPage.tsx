@@ -1,9 +1,17 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { listen } from "@tauri-apps/api/event";
 import { openUrl } from "@tauri-apps/plugin-opener";
-import { useLayouts } from "../lib/queries";
+import { clearLayoutImages, fetchLayoutImages } from "../lib/ipc";
+import { useLayoutImages, useLayouts } from "../lib/queries";
 import { ACT_LABELS } from "../lib/time";
-import type { ZoneLayout } from "../types/ipc";
+import LayoutImageStrip from "../components/LayoutImages";
+import type {
+  LayoutImagesProgress,
+  LayoutZoneImages,
+  ZoneLayout,
+} from "../types/ipc";
 
 const CONSISTENCY = {
   1: { label: "fixed layout", cls: "bg-good" },
@@ -18,11 +26,179 @@ export const guideSearchUrl = (siteUrl: string, name: string, act: number) => {
   return `https://duckduckgo.com/?q=${encodeURIComponent(`site:${host} ${name} act ${act}`)}`;
 };
 
+const PHASE_LABELS: Record<string, string> = {
+  robots: "checking robots.txt",
+  index: "reading the guide index",
+  pages: "reading zone pages",
+  images: "downloading images",
+  done: "finishing up",
+};
+
+/** Download / status panel for the personal layout-image cache. Images are
+ *  fetched by the app on this machine only — never bundled or re-shared. */
+function ImagesPanel() {
+  const { data: manifest, isLoading } = useLayoutImages();
+  const qc = useQueryClient();
+  const [progress, setProgress] = useState<LayoutImagesProgress | null>(null);
+  const [confirmClear, setConfirmClear] = useState(false);
+
+  useEffect(() => {
+    const un = listen<LayoutImagesProgress>("layoutimages://progress", (e) =>
+      setProgress(e.payload),
+    );
+    return () => {
+      un.then((f) => f());
+    };
+  }, []);
+
+  const fetchMut = useMutation({
+    mutationFn: fetchLayoutImages,
+    onSettled: () => {
+      setProgress(null);
+      qc.invalidateQueries({ queryKey: ["layoutImages"] });
+    },
+  });
+  const clearMut = useMutation({
+    mutationFn: clearLayoutImages,
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["layoutImages"] }),
+  });
+
+  if (isLoading) return null;
+
+  if (fetchMut.isPending) {
+    const label = progress
+      ? `${PHASE_LABELS[progress.phase] ?? progress.phase}${
+          progress.total > 0
+            ? ` (${Math.min(progress.done + 1, progress.total)}/${progress.total})`
+            : ""
+        } — ${progress.message}`
+      : "starting…";
+    return (
+      <div className="panel px-3.5 py-2.5 text-sm flex items-center gap-2.5">
+        <span className="inline-block w-2 h-2 rounded-full bg-accent animate-pulse shrink-0" />
+        <span className="text-ink-dim truncate">
+          Downloading layout images: {label}
+        </span>
+      </div>
+    );
+  }
+
+  if (!manifest) {
+    return (
+      <div className="panel p-3.5 space-y-2">
+        <div className="font-medium text-sm">Layout images</div>
+        <p className="text-sm text-ink-dim max-w-3xl">
+          The guide’s images are its strongest part. Download them into a
+          personal cache to see them inline on every zone card. They are saved
+          only on this machine — never bundled with the app or re-shared —
+          every image keeps a link back to its source page, and the site’s
+          robots.txt is honored.
+        </p>
+        <div className="flex items-center gap-3 flex-wrap">
+          <button className="btn-accent text-sm" onClick={() => fetchMut.mutate()}>
+            Download layout images
+          </button>
+          <span className="text-xs text-ink-dim">
+            one-time, rate-limited download (a few minutes) — works offline
+            afterwards
+          </span>
+        </div>
+        {fetchMut.isError && (
+          <p className="text-bad text-sm">{String(fetchMut.error)}</p>
+        )}
+      </div>
+    );
+  }
+
+  const cachedZones = manifest.zones.filter((z) => z.files.length > 0).length;
+  const gaps =
+    manifest.zonesWithoutImages.length > 0 || manifest.unmatchedPages.length > 0;
+  return (
+    <div className="panel px-3.5 py-2.5 text-sm space-y-1.5">
+      <div className="flex items-center gap-3 flex-wrap">
+        <span>
+          <span className="text-good">✓</span> images cached for {cachedZones}{" "}
+          zones
+          <span className="text-ink-dim">
+            {" "}
+            · fetched {new Date(manifest.fetchedAt).toLocaleDateString()}
+          </span>
+        </span>
+        <span className="flex-1" />
+        <button
+          className="btn text-xs"
+          title="Re-crawl the guide; already-downloaded images are kept"
+          onClick={() => fetchMut.mutate()}
+        >
+          Refresh
+        </button>
+        {confirmClear ? (
+          <span className="inline-flex items-center gap-2">
+            <span className="text-ink-dim text-xs">delete the local cache?</span>
+            <button
+              className="btn text-xs text-bad"
+              onClick={() => {
+                setConfirmClear(false);
+                clearMut.mutate();
+              }}
+            >
+              Yes, clear
+            </button>
+            <button className="btn text-xs" onClick={() => setConfirmClear(false)}>
+              Keep
+            </button>
+          </span>
+        ) : (
+          <button className="btn text-xs" onClick={() => setConfirmClear(true)}>
+            Clear cache
+          </button>
+        )}
+      </div>
+      {fetchMut.data && (
+        <p className="text-xs text-ink-dim">
+          last run: {fetchMut.data.imagesDownloaded} new images ·{" "}
+          {fetchMut.data.pagesCrawled} pages crawled
+          {fetchMut.data.errors.length > 0 &&
+            ` · ${fetchMut.data.errors.length} errors`}
+        </p>
+      )}
+      {gaps && (
+        <details className="text-xs text-ink-dim">
+          <summary className="cursor-pointer">
+            coverage report: {manifest.zonesWithoutImages.length} zones without
+            images · {manifest.unmatchedPages.length} guide pages not matched
+          </summary>
+          {manifest.zonesWithoutImages.length > 0 && (
+            <p className="mt-1.5">
+              <span className="text-ink">No images:</span>{" "}
+              {manifest.zonesWithoutImages.join(", ")}
+            </p>
+          )}
+          {manifest.unmatchedPages.length > 0 && (
+            <p className="mt-1.5">
+              <span className="text-ink">Unmatched pages:</span>{" "}
+              {manifest.unmatchedPages.join(", ")}
+            </p>
+          )}
+        </details>
+      )}
+      {fetchMut.isError && <p className="text-bad">{String(fetchMut.error)}</p>}
+    </div>
+  );
+}
+
 export default function LayoutsPage() {
   const { data: db } = useLayouts();
+  const { data: imageManifest } = useLayoutImages();
   const [params, setParams] = useSearchParams();
   const focus = params.get("area");
   const [q, setQ] = useState("");
+
+  const imagesById = useMemo(() => {
+    const m = new Map<string, LayoutZoneImages>();
+    for (const z of imageManifest?.zones ?? []) m.set(z.areaId, z);
+    return m;
+  }, [imageManifest]);
 
   const zones = useMemo(() => {
     const all = db?.zones ?? [];
@@ -80,6 +256,8 @@ export default function LayoutsPage() {
         . Zones your runs flag as bottlenecks link straight here.
       </p>
 
+      <ImagesPanel />
+
       <div className="flex gap-4 text-xs text-ink-dim">
         {Object.entries(CONSISTENCY).map(([k, c]) => (
           <span key={k} className="inline-flex items-center gap-1.5">
@@ -105,6 +283,7 @@ export default function LayoutsPage() {
             <div className="grid md:grid-cols-2 gap-2">
               {list.map((z) => {
                 const focused = z.areaId === focus;
+                const imgs = imagesById.get(z.areaId);
                 return (
                   <div
                     key={z.areaId}
@@ -131,7 +310,11 @@ export default function LayoutsPage() {
                       <button
                         className="text-accent hover:underline text-xs shrink-0"
                         onClick={() =>
-                          openUrl(z.guideUrl ?? guideSearchUrl(db.source.url, z.name, z.act))
+                          openUrl(
+                            z.guideUrl ??
+                              imgs?.pageUrl ??
+                              guideSearchUrl(db.source.url, z.name, z.act),
+                          )
                         }
                         title={`Find ${z.name} in ${db.source.name}`}
                       >
@@ -156,6 +339,9 @@ export default function LayoutsPage() {
                         </li>
                       ))}
                     </ul>
+                    {imgs && (
+                      <LayoutImageStrip entry={imgs} sourceName={db.source.name} />
+                    )}
                   </div>
                 );
               })}
