@@ -61,6 +61,8 @@ pub fn run() {
             commands::plans::list_links,
             commands::plans::upsert_link,
             commands::plans::delete_link,
+            commands::pob::import_pob,
+            commands::update::check_for_update,
             commands::runs::list_runs,
             commands::runs::get_run_detail,
             commands::runs::get_active_run,

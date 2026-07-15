@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { open as openDialog } from "@tauri-apps/plugin-dialog";
 import { useQuery } from "@tanstack/react-query";
-import { recentParsedEvents, validateLogPath } from "../lib/ipc";
+import { openUrl } from "@tauri-apps/plugin-opener";
+import { checkForUpdate, recentParsedEvents, validateLogPath } from "../lib/ipc";
 import { usePlans, useSettings, useSetSetting } from "../lib/queries";
 import { useTrackerStore } from "../stores/trackerStore";
 import { fmtAgo } from "../lib/time";
-import type { LogPathValidation } from "../types/ipc";
+import type { LogPathValidation, UpdateInfo } from "../types/ipc";
 
 export default function SettingsPage() {
   const { data: settings } = useSettings();
@@ -16,7 +17,9 @@ export default function SettingsPage() {
   const [logPath, setLogPath] = useState("");
   const [character, setCharacter] = useState("");
   const [validation, setValidation] = useState<LogPathValidation | null>(null);
+  const [justSaved, setJustSaved] = useState(false);
 
+  const persistedPath = (settings?.["client_log_path"] as string) ?? "";
   useEffect(() => {
     if (settings) {
       setLogPath((settings["client_log_path"] as string) ?? "");
@@ -29,11 +32,17 @@ export default function SettingsPage() {
     "first_map";
   const runKind = (settings?.["default_run_kind"] as string) ?? "practice";
   const activePlanId = (settings?.["active_plan_id"] as number | null) ?? null;
+  const updateCheckEnabled =
+    (settings?.["update_check_enabled"] as boolean | null) ?? true;
 
-  const saveLogPath = async (path: string) => {
-    setLogPath(path);
+  const dirty = logPath.trim() !== persistedPath;
+
+  const saveLogPath = async () => {
+    const path = logPath.trim();
     setSetting.mutate({ key: "client_log_path", value: path || null });
     setValidation(path ? await validateLogPath(path) : null);
+    setJustSaved(true);
+    setTimeout(() => setJustSaved(false), 2500);
   };
 
   const browse = async () => {
@@ -41,7 +50,10 @@ export default function SettingsPage() {
       multiple: false,
       filters: [{ name: "Client.txt", extensions: ["txt"] }],
     });
-    if (typeof picked === "string") await saveLogPath(picked);
+    if (typeof picked === "string") {
+      setLogPath(picked);
+      setValidation(null);
+    }
   };
 
   return (
@@ -63,26 +75,36 @@ export default function SettingsPage() {
             className="input font-mono text-xs"
             value={logPath}
             placeholder="C:\...\Path of Exile\logs\Client.txt"
-            onChange={(e) => setLogPath(e.target.value)}
-            onBlur={(e) => saveLogPath(e.target.value.trim())}
+            onChange={(e) => {
+              setLogPath(e.target.value);
+              setValidation(null);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") saveLogPath();
+            }}
           />
           <button className="btn shrink-0" onClick={browse}>
             Browse…
           </button>
           <button
-            className="btn shrink-0"
-            onClick={async () => setValidation(await validateLogPath(logPath))}
-            disabled={!logPath}
+            className={`shrink-0 ${dirty ? "btn-accent" : "btn"}`}
+            onClick={saveLogPath}
+            disabled={!dirty && !logPath.trim()}
           >
-            Validate
+            {justSaved ? "✓ Saved" : "Save"}
           </button>
         </div>
+        {dirty && (
+          <p className="text-xs text-accent">
+            Path changed — click Save to apply it to the tracker.
+          </p>
+        )}
         {validation && (
           <div className="text-sm">
             {validation.exists ? (
               <ul className="space-y-0.5">
-                <li>
-                  ✓ File exists ({(validation.size / 1024 / 1024).toFixed(1)} MB),
+                <li className="text-good">
+                  ✓ Saved — file exists ({(validation.size / 1024 / 1024).toFixed(1)} MB),
                   last written {fmtAgo(validation.modifiedAgoMs)}
                 </li>
                 <li className={validation.sampleEvents > 0 ? "text-good" : "text-accent"}>
@@ -92,7 +114,10 @@ export default function SettingsPage() {
                 </li>
               </ul>
             ) : (
-              <span className="text-bad">✗ File not found</span>
+              <span className="text-bad">
+                ✗ Saved, but no file exists at this path yet — the tracker will
+                pick it up when it appears.
+              </span>
             )}
           </div>
         )}
@@ -177,6 +202,11 @@ export default function SettingsPage() {
         </div>
       </section>
 
+      <UpdatesSection
+        enabled={updateCheckEnabled}
+        onToggle={(v) => setSetting.mutate({ key: "update_check_enabled", value: v })}
+      />
+
       <DebugPanel />
 
       <p className="text-xs text-ink-dim">
@@ -185,6 +215,70 @@ export default function SettingsPage() {
         sends input — it only reads Client.txt.
       </p>
     </div>
+  );
+}
+
+type CheckState =
+  | { kind: "idle" }
+  | { kind: "busy" }
+  | { kind: "latest" }
+  | { kind: "update"; info: UpdateInfo }
+  | { kind: "error"; msg: string };
+
+function UpdatesSection({
+  enabled,
+  onToggle,
+}: {
+  enabled: boolean;
+  onToggle: (v: boolean) => void;
+}) {
+  const [check, setCheck] = useState<CheckState>({ kind: "idle" });
+
+  const checkNow = async () => {
+    setCheck({ kind: "busy" });
+    try {
+      const info = await checkForUpdate();
+      setCheck(info ? { kind: "update", info } : { kind: "latest" });
+    } catch (e) {
+      setCheck({ kind: "error", msg: String(e) });
+    }
+  };
+
+  return (
+    <section className="panel p-5 space-y-3">
+      <h2 className="font-medium">Updates</h2>
+      <label className="flex items-center gap-2 text-sm cursor-pointer">
+        <input
+          type="checkbox"
+          checked={enabled}
+          onChange={(e) => onToggle(e.target.checked)}
+        />
+        Check for new versions on launch and once a day
+      </label>
+      <p className="text-xs text-ink-dim">
+        Checks the project’s GitHub releases (one request to api.github.com);
+        nothing about you or your runs is sent.
+      </p>
+      <div className="flex items-center gap-3">
+        <button className="btn" onClick={checkNow} disabled={check.kind === "busy"}>
+          {check.kind === "busy" ? "Checking…" : "Check now"}
+        </button>
+        {check.kind === "latest" && (
+          <span className="text-good text-sm">✓ You’re on the latest version</span>
+        )}
+        {check.kind === "update" && (
+          <button
+            className="text-accent hover:underline text-sm"
+            onClick={() => openUrl(check.info.url)}
+          >
+            v{check.info.latest} is available — open the release page ↗
+          </button>
+        )}
+        {check.kind === "error" && (
+          <span className="text-bad text-sm">✗ {check.msg}</span>
+        )}
+      </div>
+    </section>
   );
 }
 

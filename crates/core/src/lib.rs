@@ -1,6 +1,7 @@
 pub mod areas;
 pub mod db;
 pub mod log;
+pub mod pob;
 pub mod tracker;
 
 pub use rusqlite;

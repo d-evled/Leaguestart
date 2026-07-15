@@ -11,6 +11,8 @@ import { bootstrapEvents } from "./lib/events";
 import { useTrackerStore } from "./stores/trackerStore";
 import StatusBanner from "./components/StatusBanner";
 import Notices from "./components/Notices";
+import TitleBar from "./components/TitleBar";
+import UpdateToast from "./components/UpdateToast";
 import LiveRunPage from "./pages/LiveRunPage";
 import PlanPage from "./pages/PlanPage";
 import RunsPage from "./pages/RunsPage";
@@ -33,56 +35,54 @@ const NAV = [
 function AppShell() {
   const status = useTrackerStore((s) => s.status);
   return (
-    <div className="flex h-full">
-      <aside className="w-44 shrink-0 border-r border-line bg-panel flex flex-col">
-        <div className="px-4 py-4">
-          <div className="text-accent font-semibold tracking-wide text-lg">
-            Leaguestart
+    <div className="flex flex-col h-full">
+      <TitleBar />
+      <div className="flex flex-1 min-h-0">
+        <aside className="w-44 shrink-0 border-r border-line bg-panel flex flex-col">
+          <nav className="flex-1 px-2 pt-3 space-y-0.5">
+            {NAV.map((n) => (
+              <NavLink
+                key={n.to}
+                to={n.to}
+                end={n.end}
+                className={({ isActive }) =>
+                  `block px-3 py-1.5 rounded-md text-sm transition-colors ${
+                    isActive
+                      ? "bg-panel-2 text-accent"
+                      : "text-ink-dim hover:text-ink hover:bg-panel-2/60"
+                  }`
+                }
+              >
+                {n.label}
+              </NavLink>
+            ))}
+          </nav>
+          <UpdateToast />
+          <div className="px-4 py-3 text-[11px] text-ink-dim border-t border-line">
+            <span
+              className={`inline-block w-2 h-2 rounded-full mr-1.5 ${
+                status?.state === "watching"
+                  ? "bg-good"
+                  : status?.state === "no_file"
+                    ? "bg-bad"
+                    : "bg-ink-dim"
+              }`}
+            />
+            {status?.state === "watching"
+              ? "watching log"
+              : status?.state === "no_file"
+                ? "log missing"
+                : "no log set"}
           </div>
-          <div className="text-[11px] text-ink-dim">PoE 1 league-start prep</div>
-        </div>
-        <nav className="flex-1 px-2 space-y-0.5">
-          {NAV.map((n) => (
-            <NavLink
-              key={n.to}
-              to={n.to}
-              end={n.end}
-              className={({ isActive }) =>
-                `block px-3 py-1.5 rounded-md text-sm transition-colors ${
-                  isActive
-                    ? "bg-panel-2 text-accent"
-                    : "text-ink-dim hover:text-ink hover:bg-panel-2/60"
-                }`
-              }
-            >
-              {n.label}
-            </NavLink>
-          ))}
-        </nav>
-        <div className="px-4 py-3 text-[11px] text-ink-dim border-t border-line">
-          <span
-            className={`inline-block w-2 h-2 rounded-full mr-1.5 ${
-              status?.state === "watching"
-                ? "bg-good"
-                : status?.state === "no_file"
-                  ? "bg-bad"
-                  : "bg-ink-dim"
-            }`}
-          />
-          {status?.state === "watching"
-            ? "watching log"
-            : status?.state === "no_file"
-              ? "log missing"
-              : "no log set"}
-        </div>
-      </aside>
-      <main className="flex-1 overflow-y-auto">
-        <StatusBanner />
-        <div className="p-5 max-w-6xl">
-          <Outlet />
-        </div>
-      </main>
-      <Notices />
+        </aside>
+        <main className="flex-1 overflow-y-auto">
+          <StatusBanner />
+          <div className="p-5 max-w-6xl">
+            <Outlet />
+          </div>
+        </main>
+        <Notices />
+      </div>
     </div>
   );
 }

@@ -7,11 +7,13 @@ import type {
   LeaguePlan,
   LogPathValidation,
   PobCheckpoint,
+  PobImport,
   ProgressionDetail,
   Run,
   RunDetail,
   Settings,
   TrackerStatus,
+  UpdateInfo,
   Voidstone,
   ZoneNote,
   ZoneStat,
@@ -48,6 +50,10 @@ export const upsertCheckpoint = (input: {
   pobCode?: string | null;
   url?: string | null;
   notes?: string | null;
+  decodedClass?: string | null;
+  decodedAscendancy?: string | null;
+  decodedLevel?: number | null;
+  decodedMainSkill?: string | null;
 }) => invoke<PobCheckpoint>("upsert_checkpoint", { input });
 export const deleteCheckpoint = (id: number) => invoke<void>("delete_checkpoint", { id });
 export const reorderCheckpoints = (ids: number[]) =>
@@ -100,6 +106,10 @@ export const compareRuns = (runIds: number[]) =>
   invoke<CompareData>("compare_runs", { runIds });
 export const zoneStats = (planId?: number | null) =>
   invoke<ZoneStat[]>("zone_stats", { planId: planId ?? null });
+
+// pob / updates
+export const importPob = (input: string) => invoke<PobImport>("import_pob", { input });
+export const checkForUpdate = () => invoke<UpdateInfo | null>("check_for_update");
 
 // notes
 export const getZoneNotes = () => invoke<ZoneNote[]>("get_zone_notes");

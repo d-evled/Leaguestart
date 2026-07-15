@@ -213,4 +213,19 @@ export interface LogPathValidation {
   sampleEvents: number;
 }
 
+export interface PobImport {
+  class: string | null;
+  ascendancy: string | null;
+  level: number | null;
+  /** "code" for a pasted code, otherwise the raw URL that was fetched. */
+  source: string;
+}
+
+export interface UpdateInfo {
+  current: string;
+  latest: string;
+  url: string;
+  title: string | null;
+}
+
 export type Settings = Record<string, unknown>;

@@ -59,3 +59,13 @@ body {
 .badge {
   @apply inline-block px-1.5 py-0.5 rounded text-[11px] font-medium align-middle;
 }
+
+/* Frameless-window titlebar controls */
+.titlebar-btn {
+  @apply w-12 inline-flex items-center justify-center text-ink-dim
+    hover:text-ink hover:bg-panel-2 transition-colors cursor-default;
+}
+.titlebar-close:hover {
+  background-color: #e81123;
+  color: #fff;
+}

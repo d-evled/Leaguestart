@@ -2,8 +2,10 @@ pub mod analysis;
 pub mod atlas;
 pub mod notes;
 pub mod plans;
+pub mod pob;
 pub mod runs;
 pub mod settings;
+pub mod update;
 
 use crate::state::AppState;
 use leaguestart_core::rusqlite::Connection;

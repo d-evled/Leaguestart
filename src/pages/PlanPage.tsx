@@ -4,6 +4,7 @@ import {
   deleteCheckpoint,
   deleteLink,
   deletePlan,
+  importPob,
   reorderCheckpoints,
   upsertCheckpoint,
   upsertLink,
@@ -17,7 +18,8 @@ import {
   useSettings,
   useSetSetting,
 } from "../lib/queries";
-import type { GuideLink } from "../types/ipc";
+import { ASCENDANCIES, CLASSES, LEAGUE_PRESETS } from "../lib/poe";
+import type { GuideLink, PobImport } from "../types/ipc";
 
 const LINK_KINDS = ["maxroll", "youtube", "forum", "other"] as const;
 
@@ -37,6 +39,15 @@ export default function PlanPage() {
   const plan = plans?.find((p) => p.id === selectedId) ?? null;
   const savePlan = useInvalidatingMutation(upsertPlan, [["plans"]]);
   const removePlan = useInvalidatingMutation(deletePlan, [["plans"]]);
+
+  const applyImport = (r: PobImport) => {
+    if (!plan || !r.class) return;
+    savePlan.mutate({
+      ...planInput(plan),
+      class: r.class,
+      ascendancy: r.ascendancy,
+    });
+  };
 
   return (
     <div className="space-y-4">
@@ -84,11 +95,9 @@ export default function PlanPage() {
                 value={plan.name}
                 onSave={(v) => savePlan.mutate({ ...planInput(plan), name: v || plan.name })}
               />
-              <Field
-                label="League"
-                value={plan.leagueName ?? ""}
-                placeholder="e.g. 3.28 Mirage"
-                onSave={(v) => savePlan.mutate({ ...planInput(plan), leagueName: v || null })}
+              <LeagueSelect
+                value={plan.leagueName}
+                onSave={(v) => savePlan.mutate({ ...planInput(plan), leagueName: v })}
               />
               <Field
                 label="Build"
@@ -96,17 +105,32 @@ export default function PlanPage() {
                 placeholder="e.g. RF Chieftain"
                 onSave={(v) => savePlan.mutate({ ...planInput(plan), buildName: v || null })}
               />
-              <Field
+              <SelectField
                 label="Class"
-                value={plan.class ?? ""}
-                onSave={(v) => savePlan.mutate({ ...planInput(plan), class: v || null })}
+                value={plan.class}
+                options={[...CLASSES]}
+                onChange={(v) => {
+                  const keepAsc =
+                    v != null &&
+                    plan.ascendancy != null &&
+                    (ASCENDANCIES[v] ?? []).includes(plan.ascendancy);
+                  savePlan.mutate({
+                    ...planInput(plan),
+                    class: v,
+                    ascendancy: keepAsc ? plan.ascendancy : null,
+                  });
+                }}
               />
-              <Field
+              <SelectField
                 label="Ascendancy"
-                value={plan.ascendancy ?? ""}
-                onSave={(v) => savePlan.mutate({ ...planInput(plan), ascendancy: v || null })}
+                value={plan.ascendancy}
+                options={plan.class ? (ASCENDANCIES[plan.class] ?? []) : []}
+                disabled={!plan.class}
+                placeholder={plan.class ? "—" : "pick a class first"}
+                onChange={(v) => savePlan.mutate({ ...planInput(plan), ascendancy: v })}
               />
             </div>
+            <PobImportBox onApply={applyImport} />
             <div>
               <label className="label">Notes</label>
               <textarea
@@ -145,7 +169,14 @@ export default function PlanPage() {
             </div>
           </section>
 
-          <Checkpoints planId={plan.id} />
+          <Checkpoints
+            planId={plan.id}
+            onDecoded={(r) => {
+              // A decoded checkpoint fills the plan's class/ascendancy if
+              // they're still empty — never overwrites a manual choice.
+              if (!plan.class && r.class) applyImport(r);
+            }}
+          />
           <Links planId={plan.id} />
         </>
       )}
@@ -199,7 +230,175 @@ function Field({
   );
 }
 
-function Checkpoints({ planId }: { planId: number }) {
+function SelectField({
+  label,
+  value,
+  options,
+  onChange,
+  disabled,
+  placeholder = "—",
+}: {
+  label: string;
+  value: string | null;
+  options: string[];
+  onChange: (v: string | null) => void;
+  disabled?: boolean;
+  placeholder?: string;
+}) {
+  // Keep a value that's not in the list (legacy ascendancy names, imports
+  // from future patches) selectable instead of silently dropping it.
+  const opts = value && !options.includes(value) ? [value, ...options] : options;
+  return (
+    <div>
+      <label className="label">{label}</label>
+      <select
+        className="input"
+        value={value ?? ""}
+        disabled={disabled}
+        onChange={(e) => onChange(e.target.value || null)}
+      >
+        <option value="">{placeholder}</option>
+        {opts.map((o) => (
+          <option key={o} value={o}>
+            {o}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+}
+
+const CUSTOM = "__custom";
+
+function LeagueSelect({
+  value,
+  onSave,
+}: {
+  value: string | null;
+  onSave: (v: string | null) => void;
+}) {
+  const [customMode, setCustomMode] = useState(false);
+  const presets =
+    value && !LEAGUE_PRESETS.includes(value)
+      ? [value, ...LEAGUE_PRESETS]
+      : LEAGUE_PRESETS;
+  if (customMode) {
+    return (
+      <div>
+        <label className="label">League</label>
+        <input
+          className="input"
+          autoFocus
+          defaultValue={value ?? ""}
+          placeholder="e.g. Mercenaries HC"
+          onKeyDown={(e) => {
+            if (e.key === "Enter") (e.target as HTMLInputElement).blur();
+            if (e.key === "Escape") setCustomMode(false);
+          }}
+          onBlur={(e) => {
+            const v = e.target.value.trim();
+            if (v) onSave(v);
+            setCustomMode(false);
+          }}
+        />
+      </div>
+    );
+  }
+  return (
+    <div>
+      <label className="label">League</label>
+      <select
+        className="input"
+        value={value ?? ""}
+        onChange={(e) => {
+          if (e.target.value === CUSTOM) setCustomMode(true);
+          else onSave(e.target.value || null);
+        }}
+      >
+        <option value="">—</option>
+        {presets.map((l) => (
+          <option key={l} value={l}>
+            {l}
+          </option>
+        ))}
+        <option value={CUSTOM}>Custom… (challenge league)</option>
+      </select>
+    </div>
+  );
+}
+
+type ImportState =
+  | { kind: "idle" }
+  | { kind: "busy" }
+  | { kind: "done"; msg: string }
+  | { kind: "error"; msg: string };
+
+function PobImportBox({ onApply }: { onApply: (r: PobImport) => void }) {
+  const [value, setValue] = useState("");
+  const [state, setState] = useState<ImportState>({ kind: "idle" });
+
+  const run = async (text: string) => {
+    const input = text.trim();
+    if (!input) return;
+    setState({ kind: "busy" });
+    try {
+      const r = await importPob(input);
+      if (!r.class) {
+        setState({ kind: "error", msg: "Decoded the build, but it has no class set." });
+        return;
+      }
+      onApply(r);
+      setState({
+        kind: "done",
+        msg: `Detected ${r.class}${r.ascendancy ? ` · ${r.ascendancy}` : ""}${
+          r.level ? ` · level ${r.level}` : ""
+        } — class & ascendancy filled. (League isn't stored in PoB.)`,
+      });
+    } catch (e) {
+      setState({ kind: "error", msg: String(e) });
+    }
+  };
+
+  return (
+    <div>
+      <div className="flex gap-2">
+        <input
+          className="input font-mono text-xs"
+          placeholder="Auto-fill from PoB: paste an import code or a pastebin.com / pobb.in link"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          onPaste={(e) => {
+            const text = e.clipboardData.getData("text");
+            if (!text.trim()) return;
+            e.preventDefault();
+            setValue(text);
+            run(text);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") run(value);
+          }}
+        />
+        <button
+          className="btn shrink-0"
+          disabled={!value.trim() || state.kind === "busy"}
+          onClick={() => run(value)}
+        >
+          {state.kind === "busy" ? "Importing…" : "Import"}
+        </button>
+      </div>
+      {state.kind === "done" && <p className="text-good text-xs mt-1">✓ {state.msg}</p>}
+      {state.kind === "error" && <p className="text-bad text-xs mt-1">✗ {state.msg}</p>}
+    </div>
+  );
+}
+
+function Checkpoints({
+  planId,
+  onDecoded,
+}: {
+  planId: number;
+  onDecoded: (r: PobImport) => void;
+}) {
   const { data: checkpoints } = useCheckpoints(planId);
   const save = useInvalidatingMutation(upsertCheckpoint, [["checkpoints"]]);
   const remove = useInvalidatingMutation(deleteCheckpoint, [["checkpoints"]]);
@@ -232,8 +431,9 @@ function Checkpoints({ planId }: { planId: number }) {
 
       {adding && (
         <CheckpointForm
-          onSubmit={(v) => {
+          onSubmit={(v, decoded) => {
             save.mutate({ planId, ...v });
+            if (decoded) onDecoded(decoded);
             setAdding(false);
           }}
         />
@@ -252,6 +452,13 @@ function Checkpoints({ planId }: { planId: number }) {
             <div className="flex items-center gap-2">
               <span className="badge bg-panel-2 text-ink-dim">{i + 1}</span>
               <span className="font-medium">{c.label}</span>
+              {c.decodedClass && (
+                <span className="badge bg-panel-2 text-ink-dim">
+                  {c.decodedClass}
+                  {c.decodedAscendancy ? ` · ${c.decodedAscendancy}` : ""}
+                  {c.decodedLevel ? ` · lvl ${c.decodedLevel}` : ""}
+                </span>
+              )}
               {c.url && (
                 <button
                   className="text-accent hover:underline text-sm"
@@ -301,17 +508,53 @@ function Checkpoints({ planId }: { planId: number }) {
 function CheckpointForm({
   onSubmit,
 }: {
-  onSubmit: (v: {
-    label: string;
-    pobCode: string | null;
-    url: string | null;
-    notes: string | null;
-  }) => void;
+  onSubmit: (
+    v: {
+      label: string;
+      pobCode: string | null;
+      url: string | null;
+      notes: string | null;
+      decodedClass: string | null;
+      decodedAscendancy: string | null;
+      decodedLevel: number | null;
+    },
+    decoded: PobImport | null,
+  ) => void;
 }) {
   const [label, setLabel] = useState("");
   const [code, setCode] = useState("");
   const [url, setUrl] = useState("");
   const [notes, setNotes] = useState("");
+  const [busy, setBusy] = useState(false);
+
+  const add = async () => {
+    setBusy(true);
+    // Best-effort decode of the code (or link) so the card can show
+    // class/ascendancy/level; the checkpoint saves fine without it.
+    let decoded: PobImport | null = null;
+    const source = code.trim() || url.trim();
+    if (source) {
+      try {
+        decoded = await importPob(source);
+      } catch {
+        decoded = null;
+      }
+    }
+    onSubmit(
+      {
+        label: label.trim(),
+        pobCode: code.trim() || null,
+        url: url.trim() || null,
+        notes: notes.trim() || null,
+        decodedClass: decoded?.class ?? null,
+        decodedAscendancy: decoded?.ascendancy ?? null,
+        decodedLevel: decoded?.level ?? null,
+      },
+      decoded,
+    );
+    setBusy(false);
+  };
+
   return (
     <div className="border border-line rounded-md p-3 grid gap-2">
       <div className="grid md:grid-cols-2 gap-2">
@@ -343,17 +586,10 @@ function CheckpointForm({
       <div>
         <button
           className="btn-accent"
-          disabled={!label.trim() || (!code.trim() && !url.trim())}
-          onClick={() =>
-            onSubmit({
-              label: label.trim(),
-              pobCode: code.trim() || null,
-              url: url.trim() || null,
-              notes: notes.trim() || null,
-            })
-          }
+          disabled={busy || !label.trim() || (!code.trim() && !url.trim())}
+          onClick={add}
         >
-          Add checkpoint
+          {busy ? "Adding…" : "Add checkpoint"}
         </button>
       </div>
     </div>

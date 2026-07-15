@@ -123,14 +123,34 @@ pub struct CheckpointInput {
     pub pob_code: Option<String>,
     pub url: Option<String>,
     pub notes: Option<String>,
+    #[serde(default)]
+    pub decoded_class: Option<String>,
+    #[serde(default)]
+    pub decoded_ascendancy: Option<String>,
+    #[serde(default)]
+    pub decoded_level: Option<i64>,
+    #[serde(default)]
+    pub decoded_main_skill: Option<String>,
 }
 
 pub fn upsert_checkpoint(conn: &Connection, c: &CheckpointInput) -> Result<PobCheckpoint> {
     let id = match c.id {
         Some(id) => {
             conn.execute(
-                "UPDATE pob_checkpoints SET label=?2, pob_code=?3, url=?4, notes=?5 WHERE id=?1",
-                params![id, c.label, c.pob_code, c.url, c.notes],
+                "UPDATE pob_checkpoints SET label=?2, pob_code=?3, url=?4, notes=?5,
+                   decoded_class=?6, decoded_ascendancy=?7, decoded_level=?8, decoded_main_skill=?9
+                 WHERE id=?1",
+                params![
+                    id,
+                    c.label,
+                    c.pob_code,
+                    c.url,
+                    c.notes,
+                    c.decoded_class,
+                    c.decoded_ascendancy,
+                    c.decoded_level,
+                    c.decoded_main_skill
+                ],
             )?;
             id
         }
@@ -141,9 +161,22 @@ pub fn upsert_checkpoint(conn: &Connection, c: &CheckpointInput) -> Result<PobCh
                 |r| r.get(0),
             )?;
             conn.execute(
-                "INSERT INTO pob_checkpoints (plan_id, label, sort_order, pob_code, url, notes, created_at)
-                 VALUES (?1,?2,?3,?4,?5,?6,?7)",
-                params![c.plan_id, c.label, next, c.pob_code, c.url, c.notes, now_ms()],
+                "INSERT INTO pob_checkpoints (plan_id, label, sort_order, pob_code, url, notes,
+                   decoded_class, decoded_ascendancy, decoded_level, decoded_main_skill, created_at)
+                 VALUES (?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,?11)",
+                params![
+                    c.plan_id,
+                    c.label,
+                    next,
+                    c.pob_code,
+                    c.url,
+                    c.notes,
+                    c.decoded_class,
+                    c.decoded_ascendancy,
+                    c.decoded_level,
+                    c.decoded_main_skill,
+                    now_ms()
+                ],
             )?;
             conn.last_insert_rowid()
         }
