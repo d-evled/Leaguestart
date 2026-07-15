@@ -12,7 +12,21 @@ by a body:
 | Area generation | `Generating level <N> area "<id>"( with seed <N>)?` | `<id>` is the internal area id: campaign `1_4_2`-style, maps `MapWorlds…`, hideouts contain `Hideout`. Monster level `<N>` disambiguates duplicate zone names; map tier = level − 67 |
 | Level up | `: <Char> (<Class>) is now level <N>` | |
 | Death | `: <Char> has been slain.` | |
-| AFK toggle | `: AFK mode is now ON/OFF…` | Parsed, currently unused (reserved for pause detection) |
+| AFK toggle | `: AFK mode is now ON/OFF…` | Pauses/resumes the run timer in place |
+| Log open | `***** LOG FILE OPENING *****` | The one tracked line **without** the uptime/client prefix (timestamp + banner only). Game client started — an active run pauses retroactively from the last line of the previous session |
+| Login screen | `Async connecting to <host>:<port>` | Written at client start and when exiting to the login screen — pauses an active run |
+| Disconnect | `Abnormal disconnect: <reason>` | Instance connection dropped (crash / logout-by-disconnect, which lands at character select) — pauses an active run |
+
+## Pause detection
+
+The run timer stops on the "off-game" signals above and restarts on the next
+gameplay evidence (zone entry ends the pause at the moment loading began;
+a level-up, death, or AFK-off resumes in place). A **plain Escape → Exit to
+Character Selection writes no log line the tracker knows of**: it is only
+caught after the fact if the session then ends (retroactive restart pause) —
+otherwise use the manual Pause button in the Live view. If a real
+`Client.txt` shows a reliable line for that menu, add its shape to the
+parser table and pause on it like the others.
 
 Chat lines can *contain* any of these phrases (`: SomeGuy: You have entered …`)
 but never match, because system-message bodies start with `: ` followed

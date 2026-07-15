@@ -1,22 +1,35 @@
 import { useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { setSegmentExcluded, updateRunMeta } from "../lib/ipc";
+import { setRunGroup, setSegmentExcluded, updateRunMeta } from "../lib/ipc";
 import {
   useInvalidatingMutation,
   usePlans,
   useRunDetail,
+  useRunGroups,
 } from "../lib/queries";
 import { ACT_LABELS, fmtClock, fmtDur } from "../lib/time";
 import type { ZoneSegment } from "../types/ipc";
+
+const PAUSE_KIND_LABEL: Record<string, string> = {
+  exit: "logged out / game closed",
+  afk: "AFK",
+  manual: "manual",
+};
 
 export default function RunDetailPage() {
   const { id } = useParams();
   const runId = id ? Number(id) : null;
   const { data: detail } = useRunDetail(runId);
   const { data: plans } = usePlans();
+  const { data: runGroups } = useRunGroups();
   const [merged, setMerged] = useState(false);
 
   const save = useInvalidatingMutation(updateRunMeta, [["runs"], ["run"]]);
+  const assignGroup = useInvalidatingMutation(
+    ({ id, groupId }: { id: number; groupId: number | null }) =>
+      setRunGroup(id, groupId),
+    [["runs"], ["run"]],
+  );
   const exclude = useInvalidatingMutation(
     ({ segId, value }: { segId: number; value: boolean }) =>
       setSegmentExcluded(segId, value),
@@ -94,7 +107,7 @@ export default function RunDetailPage() {
             ← Runs
           </Link>
           <h1 className="text-xl font-semibold">
-            {run.characterName ?? "Run"} · {fmtClock(run.startedAt)}
+            {run.label || run.characterName || "Run"} · {fmtClock(run.startedAt)}
           </h1>
         </div>
         <button className="btn" onClick={() => setMerged(!merged)}>
@@ -102,13 +115,18 @@ export default function RunDetailPage() {
         </button>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <Stat label="Total" value={fmtDur(run.totalMs)} />
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+        <Stat
+          label="Time"
+          value={run.totalMs != null ? fmtDur(run.totalMs - run.pausedMs) : "—"}
+          title={`Wall clock ${fmtDur(run.totalMs)} minus pauses`}
+        />
+        <Stat label="Paused" value={run.pausedMs > 0 ? fmtDur(run.pausedMs) : "—"} />
         <Stat
           label="Load-removed"
           value={
             run.totalMs != null && run.totalLoadMs != null
-              ? fmtDur(run.totalMs - run.totalLoadMs)
+              ? fmtDur(run.totalMs - run.pausedMs - run.totalLoadMs)
               : "—"
           }
         />
@@ -119,7 +137,7 @@ export default function RunDetailPage() {
         />
       </div>
 
-      <div className="panel p-4 grid md:grid-cols-4 gap-3">
+      <div className="panel p-4 grid md:grid-cols-5 gap-3">
         <div>
           <label className="label">Kind</label>
           <select
@@ -140,11 +158,11 @@ export default function RunDetailPage() {
           </select>
         </div>
         <div>
-          <label className="label">Label</label>
+          <label className="label">Name</label>
           <input
             className="input"
             defaultValue={run.label ?? ""}
-            placeholder="e.g. attempt #3, new route"
+            placeholder={run.characterName ?? "e.g. attempt #3, new route"}
             onBlur={(e) =>
               save.mutate({
                 id: run.id,
@@ -180,6 +198,26 @@ export default function RunDetailPage() {
           </select>
         </div>
         <div>
+          <label className="label">Group</label>
+          <select
+            className="input"
+            value={run.groupId ?? ""}
+            onChange={(e) =>
+              assignGroup.mutate({
+                id: run.id,
+                groupId: e.target.value ? Number(e.target.value) : null,
+              })
+            }
+          >
+            <option value="">— none —</option>
+            {(runGroups ?? []).map((g) => (
+              <option key={g.id} value={g.id}>
+                {g.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
           <label className="label">Notes</label>
           <input
             className="input"
@@ -197,6 +235,26 @@ export default function RunDetailPage() {
           />
         </div>
       </div>
+
+      {detail.pauses.length > 0 && (
+        <div className="panel p-4">
+          <div className="label mb-2">Pauses (excluded from run time)</div>
+          <div className="space-y-1 text-sm">
+            {detail.pauses.map((p) => (
+              <div key={p.id} className="flex gap-3 tabular-nums">
+                <span className="text-ink-dim w-36">{fmtClock(p.startedAt)}</span>
+                <span className="w-20 text-right">
+                  {p.endedAt != null ? fmtDur(p.endedAt - p.startedAt) : "open"}
+                </span>
+                <span className="text-ink-dim">
+                  {PAUSE_KIND_LABEL[p.kind] ?? p.kind}
+                  {p.auto ? " (auto)" : ""}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className="panel overflow-hidden">
         {merged ? (
@@ -262,9 +320,17 @@ export default function RunDetailPage() {
   );
 }
 
-function Stat({ label, value }: { label: string; value: string }) {
+function Stat({
+  label,
+  value,
+  title,
+}: {
+  label: string;
+  value: string;
+  title?: string;
+}) {
   return (
-    <div className="panel p-4">
+    <div className="panel p-4" title={title}>
       <div className="label">{label}</div>
       <div className="text-xl font-semibold tabular-nums">{value}</div>
     </div>

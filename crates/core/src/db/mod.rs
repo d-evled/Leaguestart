@@ -5,7 +5,10 @@ use crate::Result;
 use rusqlite::Connection;
 use std::path::Path;
 
-const MIGRATIONS: &[&str] = &[include_str!("../migrations/001_init.sql")];
+const MIGRATIONS: &[&str] = &[
+    include_str!("../migrations/001_init.sql"),
+    include_str!("../migrations/002_pauses_groups.sql"),
+];
 
 /// Open (creating if needed) the database and bring it to the latest schema.
 pub fn open(path: &Path) -> Result<Connection> {

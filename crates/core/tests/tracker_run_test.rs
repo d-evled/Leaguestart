@@ -257,6 +257,223 @@ fn app_restart_mid_run_resumes_without_duplicates() {
 }
 
 #[test]
+fn logout_to_login_screen_pauses_the_run() {
+    let mut t = tracker(RunGoal::FirstMap, "practice");
+    let lines = [
+        log_line(
+            "2026/07/12 09:00:00",
+            1_000,
+            r#"Generating level 1 area "1_1_1" with seed 1"#,
+        ),
+        log_line(
+            "2026/07/12 09:00:03",
+            4_000,
+            ": You have entered The Twilight Strand.",
+        ),
+        log_line(
+            "2026/07/12 09:05:00",
+            301_000,
+            r#"Generating level 2 area "1_1_2" with seed 2"#,
+        ),
+        log_line(
+            "2026/07/12 09:05:03",
+            304_000,
+            ": You have entered The Coast.",
+        ),
+        // Exit to the login screen: the timer stops here.
+        log_line(
+            "2026/07/12 09:10:00",
+            599_000,
+            "Async connecting to us.login.pathofexile.com:20481",
+        ),
+        // ~20 minutes later: log back in, load into the same zone.
+        log_line(
+            "2026/07/12 09:29:57",
+            1_796_000,
+            "Got Instance Details from login server",
+        ),
+        log_line(
+            "2026/07/12 09:29:58",
+            1_797_000,
+            r#"Generating level 2 area "1_1_2" with seed 3"#,
+        ),
+        log_line(
+            "2026/07/12 09:30:00",
+            1_799_000,
+            ": You have entered The Coast.",
+        ),
+    ]
+    .join("\n");
+    feed(&mut t, &lines);
+
+    let run = runs::active_run(t.conn()).unwrap().unwrap();
+    let pauses = runs::pauses(t.conn(), run.id).unwrap();
+    assert_eq!(pauses.len(), 1);
+    let p = &pauses[0];
+    assert_eq!(p.kind, "exit");
+    assert!(p.auto);
+    // Pause spans logout -> start of the load back in (3s before re-entry).
+    assert_eq!(p.ended_at.unwrap() - p.started_at, 1_197_000);
+    assert_eq!(run.paused_ms, 1_197_000);
+
+    // The Coast's dwell ended at logout; the re-entry is a fresh revisit
+    // segment carrying the load.
+    let segs = runs::segments(t.conn(), run.id).unwrap();
+    assert_eq!(segs.len(), 3);
+    assert_eq!(segs[1].area_id, "a1-the-coast");
+    assert_eq!(segs[1].exited_at.unwrap() - segs[1].entered_at, 297_000);
+    assert!(segs[2].is_revisit);
+    assert_eq!(segs[2].load_ms, 3_000);
+    assert!(segs[2].exited_at.is_none());
+
+    // Finishing recomputes paused_ms from the intervals — same answer.
+    let out = t.stop_active_run(false).unwrap();
+    assert!(out
+        .iter()
+        .any(|o| matches!(o, TrackerOutput::RunFinished(r) if r.paused_ms == 1_197_000)));
+}
+
+#[test]
+fn game_close_pauses_retroactively_from_last_activity() {
+    let mut t = tracker(RunGoal::FirstMap, "practice");
+    let lines = [
+        log_line(
+            "2026/07/12 09:00:00",
+            1_000,
+            r#"Generating level 1 area "1_1_1" with seed 1"#,
+        ),
+        log_line(
+            "2026/07/12 09:00:03",
+            4_000,
+            ": You have entered The Twilight Strand.",
+        ),
+        log_line(
+            "2026/07/12 09:01:00",
+            61_000,
+            ": Exilena (Witch) is now level 2",
+        ),
+        // Game closed some time after 09:01 (no goodbye line), reopened at 11:00.
+        "2026/07/12 11:00:00 ***** LOG FILE OPENING *****".to_string(),
+        log_line(
+            "2026/07/12 11:00:05",
+            5_000,
+            "Async connecting to us.login.pathofexile.com:20481",
+        ),
+        log_line(
+            "2026/07/12 11:04:57",
+            297_000,
+            "Got Instance Details from login server",
+        ),
+        log_line(
+            "2026/07/12 11:04:58",
+            298_000,
+            r#"Generating level 2 area "1_1_2" with seed 2"#,
+        ),
+        log_line(
+            "2026/07/12 11:05:00",
+            300_000,
+            ": You have entered The Coast.",
+        ),
+    ]
+    .join("\n");
+    feed(&mut t, &lines);
+
+    let run = runs::active_run(t.conn()).unwrap().unwrap();
+    let pauses = runs::pauses(t.conn(), run.id).unwrap();
+    // One pause despite three restart signals (banner, login connect, uptime
+    // reset), starting at the last line seen before the close.
+    assert_eq!(pauses.len(), 1);
+    assert_eq!(
+        pauses[0].ended_at.unwrap() - pauses[0].started_at,
+        7_437_000
+    );
+
+    let segs = runs::segments(t.conn(), run.id).unwrap();
+    assert_eq!(segs.len(), 2);
+    // The strand's dwell ends at the last activity, not at re-entry.
+    assert_eq!(segs[0].exited_at.unwrap() - segs[0].entered_at, 57_000);
+    assert_eq!(segs[1].area_id, "a1-the-coast");
+}
+
+#[test]
+fn manual_pause_and_resume_reopen_the_zone() {
+    let mut t = tracker(RunGoal::FirstMap, "practice");
+    let lines = [
+        log_line(
+            "2026/07/12 09:00:00",
+            1_000,
+            r#"Generating level 1 area "1_1_1" with seed 1"#,
+        ),
+        log_line(
+            "2026/07/12 09:00:03",
+            4_000,
+            ": You have entered The Twilight Strand.",
+        ),
+    ]
+    .join("\n");
+    feed(&mut t, &lines);
+    let run = runs::active_run(t.conn()).unwrap().unwrap();
+
+    assert!(!t.is_paused());
+    t.pause_active_run().unwrap();
+    assert!(t.is_paused());
+    // Pausing twice is a no-op.
+    assert!(t.pause_active_run().unwrap().is_empty());
+    assert!(runs::open_segment(t.conn(), run.id).unwrap().is_none());
+    let p = runs::open_pause(t.conn(), run.id).unwrap().unwrap();
+    assert_eq!(p.kind, "manual");
+    assert!(!p.auto);
+
+    t.resume_active_run().unwrap();
+    assert!(!t.is_paused());
+    assert!(runs::open_pause(t.conn(), run.id).unwrap().is_none());
+    // The zone re-opened so dwell keeps accruing.
+    let seg = runs::open_segment(t.conn(), run.id).unwrap().unwrap();
+    assert_eq!(seg.area_id, "a1-the-twilight-strand");
+    assert!(seg.is_revisit);
+    assert_eq!(seg.load_ms, 0);
+}
+
+#[test]
+fn afk_mode_pauses_and_resumes_in_place() {
+    let mut t = tracker(RunGoal::FirstMap, "practice");
+    let lines = [
+        log_line(
+            "2026/07/12 09:00:00",
+            1_000,
+            r#"Generating level 1 area "1_1_1" with seed 1"#,
+        ),
+        log_line(
+            "2026/07/12 09:00:03",
+            4_000,
+            ": You have entered The Twilight Strand.",
+        ),
+        log_line(
+            "2026/07/12 09:10:00",
+            601_000,
+            ": AFK mode is now ON. Autoreply \"afk\"",
+        ),
+        log_line("2026/07/12 09:20:00", 1_201_000, ": AFK mode is now OFF."),
+    ]
+    .join("\n");
+    feed(&mut t, &lines);
+
+    let run = runs::active_run(t.conn()).unwrap().unwrap();
+    let pauses = runs::pauses(t.conn(), run.id).unwrap();
+    assert_eq!(pauses.len(), 1);
+    assert_eq!(pauses[0].kind, "afk");
+    assert_eq!(pauses[0].ended_at.unwrap() - pauses[0].started_at, 600_000);
+    assert_eq!(run.paused_ms, 600_000);
+
+    let segs = runs::segments(t.conn(), run.id).unwrap();
+    assert_eq!(segs.len(), 2);
+    assert_eq!(segs[0].exited_at.unwrap() - segs[0].entered_at, 597_000);
+    assert_eq!(segs[1].area_id, "a1-the-twilight-strand");
+    assert!(segs[1].is_revisit);
+    assert!(segs[1].exited_at.is_none());
+}
+
+#[test]
 fn character_filter_ignores_other_characters() {
     let conn = db::open_memory().unwrap();
     let mut cfg = config(RunGoal::FirstMap, "practice");

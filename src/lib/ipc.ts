@@ -12,8 +12,9 @@ import type {
   PobCheckpoint,
   PobImport,
   ProgressionDetail,
-  Run,
   RunDetail,
+  RunGroup,
+  RunListEntry,
   Settings,
   TrackerStatus,
   UpdateInfo,
@@ -73,7 +74,7 @@ export const upsertLink = (input: {
 export const deleteLink = (id: number) => invoke<void>("delete_link", { id });
 
 // runs
-export const listRuns = () => invoke<Run[]>("list_runs");
+export const listRuns = () => invoke<RunListEntry[]>("list_runs");
 export const getRunDetail = (id: number) => invoke<RunDetail | null>("get_run_detail", { id });
 export const getActiveRun = () => invoke<RunDetail | null>("get_active_run");
 export const updateRunMeta = (args: {
@@ -86,8 +87,21 @@ export const updateRunMeta = (args: {
 export const deleteRun = (id: number) => invoke<void>("delete_run", { id });
 export const stopActiveRun = (abandon: boolean) =>
   invoke<void>("stop_active_run", { abandon });
+export const pauseActiveRun = () => invoke<void>("pause_active_run");
+export const resumeActiveRun = () => invoke<void>("resume_active_run");
 export const setSegmentExcluded = (id: number, excluded: boolean) =>
   invoke<void>("set_segment_excluded", { id, excluded });
+
+// run groups
+export const listRunGroups = () => invoke<RunGroup[]>("list_run_groups");
+export const createRunGroup = (name: string) =>
+  invoke<RunGroup>("create_run_group", { name });
+export const renameRunGroup = (id: number, name: string) =>
+  invoke<void>("rename_run_group", { id, name });
+export const deleteRunGroup = (id: number) =>
+  invoke<void>("delete_run_group", { id });
+export const setRunGroup = (id: number, groupId: number | null) =>
+  invoke<void>("set_run_group", { id, groupId });
 
 // atlas
 export const listProgressions = () => invoke<AtlasProgression[]>("list_progressions");

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTrackerStore } from "../stores/trackerStore";
-import { stopActiveRun } from "../lib/ipc";
+import { pauseActiveRun, resumeActiveRun, stopActiveRun } from "../lib/ipc";
 import { ACT_LABELS, fmtDur } from "../lib/time";
 import type { ZoneSegment } from "../types/ipc";
 
@@ -31,7 +31,13 @@ export default function LiveRunPage() {
   const derived = useMemo(() => {
     if (!detail) return null;
     const loadSum = detail.segments.reduce((a, s) => a + s.loadMs, 0);
-    const elapsed = now - detail.run.startedAt;
+    // Pauses (an open one runs until "now") don't count as run time.
+    const pausedMs = detail.pauses.reduce(
+      (a, p) => a + Math.max(0, (p.endedAt ?? now) - p.startedAt),
+      0,
+    );
+    const paused = detail.pauses.some((p) => p.endedAt == null);
+    const elapsed = now - detail.run.startedAt - pausedMs;
     const level = detail.levels.at(-1)?.level ?? 1;
     const current = detail.segments.at(-1) ?? null;
     const levelsBySegment = new Map<number, number[]>();
@@ -46,7 +52,16 @@ export default function LiveRunPage() {
     const deathSegments = new Set(
       detail.deaths.map((d) => d.segmentId).filter((x) => x != null),
     );
-    return { loadSum, elapsed, level, current, levelsBySegment, deathSegments };
+    return {
+      loadSum,
+      pausedMs,
+      paused,
+      elapsed,
+      level,
+      current,
+      levelsBySegment,
+      deathSegments,
+    };
   }, [detail, now]);
 
   if (!detail || !derived) {
@@ -104,8 +119,24 @@ export default function LiveRunPage() {
           <span className="badge bg-accent/15 text-accent ml-2">
             {run.kind === "league_start" ? "LEAGUE START" : "practice"}
           </span>
+          {derived.paused && (
+            <span className="badge bg-panel-2 text-ink-dim ml-2">PAUSED</span>
+          )}
         </h1>
         <div className="flex gap-2">
+          {derived.paused ? (
+            <button className="btn" onClick={() => resumeActiveRun()}>
+              Resume
+            </button>
+          ) : (
+            <button
+              className="btn"
+              title="Also pauses automatically when you log out, the game closes, or AFK mode turns on — and resumes when play continues"
+              onClick={() => pauseActiveRun()}
+            >
+              Pause
+            </button>
+          )}
           <button className="btn" onClick={() => stopActiveRun(false)}>
             Finish run
           </button>
@@ -122,6 +153,11 @@ export default function LiveRunPage() {
             {fmtDur(derived.elapsed)}
             <span className="text-ink-dim text-lg"> / {fmtDur(adjusted)}</span>
           </div>
+          {derived.pausedMs > 0 && (
+            <div className="text-ink-dim text-xs mt-1 tabular-nums">
+              {fmtDur(derived.pausedMs)} paused{derived.paused ? " (paused now)" : ""}
+            </div>
+          )}
         </div>
         <div className="panel p-4">
           <div className="label">Character</div>

@@ -109,6 +109,12 @@ pub struct Tracker {
     run: Option<RunState>,
     atlas: Option<AtlasState>,
     last_uptime: Option<i64>,
+    /// Open `run_pauses` row for the active run, if the timer is paused.
+    open_pause: Option<i64>,
+    /// Timestamp of the last line seen — the best available proxy for when a
+    /// session that ended without a goodbye (game closed/crashed) was last
+    /// alive, so a retroactive pause can start there.
+    last_activity: Option<i64>,
 }
 
 impl Tracker {
@@ -124,6 +130,8 @@ impl Tracker {
             run: None,
             atlas: None,
             last_uptime: None,
+            open_pause: None,
+            last_activity: None,
         }
     }
 
@@ -145,7 +153,9 @@ impl Tracker {
     pub fn reload_from_db(&mut self) -> Result<Vec<TrackerOutput>> {
         let mut out = Vec::new();
         self.run = None;
+        self.open_pause = None;
         if let Some(run) = runs::active_run(&self.conn)? {
+            self.open_pause = runs::open_pause(&self.conn, run.id)?.map(|p| p.id);
             let segs = runs::segments(&self.conn, run.id)?;
             let act = segs
                 .iter()
@@ -198,6 +208,10 @@ impl Tracker {
     }
 
     pub fn handle(&mut self, line: &LogLine) -> Result<Vec<TrackerOutput>> {
+        let mut out = Vec::new();
+        let prev_activity = self.last_activity;
+        self.last_activity = Some(line.ts_ms);
+
         // Uptime counter went backwards => game restarted: all open
         // instances died with the client.
         if let Some(up) = line.uptime_ms {
@@ -205,14 +219,19 @@ impl Tracker {
                 self.pending_load = None;
                 self.pending_gen = None;
                 self.open_instances.clear();
+                // A run that lived through a restart was off-game since the
+                // last line of the previous session: pause retroactively.
+                if self.start_pause(prev_activity.unwrap_or(line.ts_ms), "exit", true)? {
+                    out.push(TrackerOutput::Snapshot);
+                }
             }
             self.last_uptime = Some(up);
         }
 
-        match &line.event {
+        let event_out = match &line.event {
             LogEvent::InstanceDetails => {
                 self.pending_load = Some(line.ts_ms);
-                Ok(vec![])
+                vec![]
             }
             LogEvent::AreaGenerating {
                 area_level,
@@ -224,17 +243,53 @@ impl Tracker {
                     client_id: client_id.clone(),
                     seed: *seed,
                 });
-                Ok(vec![])
+                vec![]
             }
-            LogEvent::ZoneEntered { name } => self.on_zone_entered(name, line.ts_ms),
+            LogEvent::ZoneEntered { name } => self.on_zone_entered(name, line.ts_ms)?,
             LogEvent::LevelUp {
                 character,
                 class,
                 level,
-            } => self.on_level_up(character, class, *level, line.ts_ms),
-            LogEvent::Death { character } => self.on_death(character, line.ts_ms),
-            LogEvent::AfkMode { .. } => Ok(vec![]),
-        }
+            } => self.on_level_up(character, class, *level, line.ts_ms)?,
+            LogEvent::Death { character } => self.on_death(character, line.ts_ms)?,
+            LogEvent::GameStarted => {
+                // Fresh client: nothing from the old session survived, and
+                // the uptime counter starts over.
+                self.pending_load = None;
+                self.pending_gen = None;
+                self.open_instances.clear();
+                self.last_uptime = None;
+                if self.start_pause(prev_activity.unwrap_or(line.ts_ms), "exit", true)? {
+                    vec![TrackerOutput::Snapshot]
+                } else {
+                    vec![]
+                }
+            }
+            LogEvent::LoginScreen | LogEvent::Disconnected => {
+                // Exited to the login screen or lost the instance connection
+                // (which lands at character select): off-game, stop the clock.
+                if self.start_pause(line.ts_ms, "exit", true)? {
+                    vec![TrackerOutput::Snapshot]
+                } else {
+                    vec![]
+                }
+            }
+            LogEvent::AfkMode { on } => {
+                if *on {
+                    if self.start_pause(line.ts_ms, "afk", true)? {
+                        vec![TrackerOutput::Snapshot]
+                    } else {
+                        vec![]
+                    }
+                } else if self.resume_playing(line.ts_ms)? {
+                    vec![TrackerOutput::Snapshot]
+                } else {
+                    vec![]
+                }
+            }
+        };
+        out.extend(event_out);
+        Ok(out)
     }
 
     fn ignored_by_filter(&self, character: &str) -> bool {
@@ -242,6 +297,68 @@ impl Tracker {
             .active_character
             .as_deref()
             .is_some_and(|f| !f.eq_ignore_ascii_case(character))
+    }
+
+    /// Begin a pause: the active segment closes (its dwell ends now) and a
+    /// pause interval opens. No-op without an active run or when already
+    /// paused, so overlapping signals (log-open + uptime reset + login
+    /// connect) produce a single pause.
+    fn start_pause(&mut self, ts: i64, kind: &str, auto: bool) -> Result<bool> {
+        if self.open_pause.is_some() {
+            return Ok(false);
+        }
+        let Some(run) = &mut self.run else {
+            return Ok(false);
+        };
+        let ts = ts.max(run.started_at);
+        if let Some(seg_id) = run.current_segment.take() {
+            runs::close_segment(&self.conn, seg_id, ts)?;
+        }
+        let p = runs::start_pause(&self.conn, run.run_id, ts, kind, auto)?;
+        self.open_pause = Some(p.id);
+        Ok(true)
+    }
+
+    /// Close the open pause, if any. Returns whether one was closed.
+    fn end_pause(&mut self, ts: i64) -> Result<bool> {
+        let Some(id) = self.open_pause.take() else {
+            return Ok(false);
+        };
+        runs::end_pause(&self.conn, id, ts)?;
+        Ok(true)
+    }
+
+    /// End an open pause because play visibly continued in place (manual
+    /// resume, AFK off, or a gameplay event while nominally paused): the zone
+    /// the character was in re-opens so dwell time keeps accruing.
+    fn resume_playing(&mut self, ts: i64) -> Result<bool> {
+        if !self.end_pause(ts)? {
+            return Ok(false);
+        }
+        if let Some(run) = &mut self.run {
+            if run.current_segment.is_none() {
+                if let Some(last) = runs::last_segment(&self.conn, run.run_id)? {
+                    let seg = runs::insert_segment(
+                        &self.conn,
+                        &runs::NewSegment {
+                            run_id: run.run_id,
+                            area_id: &last.area_id,
+                            client_area_id: last.client_area_id.as_deref(),
+                            area_name: &last.area_name,
+                            act: last.act,
+                            area_level: last.area_level,
+                            kind: &last.kind,
+                            entered_at: ts,
+                            load_ms: 0,
+                            is_revisit: true,
+                            instance_seed: last.instance_seed,
+                        },
+                    )?;
+                    run.current_segment = Some(seg.id);
+                }
+            }
+        }
+        Ok(true)
     }
 
     fn on_zone_entered(&mut self, name: &str, ts: i64) -> Result<Vec<TrackerOutput>> {
@@ -301,6 +418,13 @@ impl Tracker {
                 });
                 out.push(TrackerOutput::RunStarted(run));
             }
+        }
+
+        // -- Pause resume --
+        // Entering a zone while paused: the pause ended when loading back in
+        // began (the load itself is recorded on the new segment).
+        if self.run.is_some() && self.end_pause(ts - load_ms)? {
+            out.push(TrackerOutput::Snapshot);
         }
 
         // -- Segment stitching --
@@ -407,6 +531,11 @@ impl Tracker {
             return Ok(vec![]);
         }
         let mut out = Vec::new();
+        // A tracked character gaining a level while "paused" means play
+        // continued: resume in place.
+        if self.run.is_some() && self.resume_playing(ts)? {
+            out.push(TrackerOutput::Snapshot);
+        }
         if let Some(run) = &mut self.run {
             if run.character.is_none() {
                 run.character = Some(character.to_string());
@@ -459,6 +588,11 @@ impl Tracker {
             return Ok(vec![]);
         }
         let mut out = Vec::new();
+        // Dying while "paused" means play continued: resume in place so the
+        // death lands in the right (re-opened) segment.
+        if self.run.is_some() && self.resume_playing(ts)? {
+            out.push(TrackerOutput::Snapshot);
+        }
         if let Some(run) = &mut self.run {
             if run.character.is_none() {
                 run.character = Some(character.to_string());
@@ -494,6 +628,10 @@ impl Tracker {
         let Some(run_state) = self.run.take() else {
             return Ok(vec![]);
         };
+        // A run finishing while paused: the pause ends with the run.
+        if let Some(pause_id) = self.open_pause.take() {
+            runs::end_pause(&self.conn, pause_id, ts)?;
+        }
         if let Some(seg_id) = run_state.current_segment {
             runs::close_segment(&self.conn, seg_id, ts)?;
         }
@@ -534,8 +672,31 @@ impl Tracker {
         self.finish_run(status, crate::db::now_ms())
     }
 
+    /// Manual pause from the UI. Ends automatically the moment gameplay is
+    /// seen again (zone change, level-up, death) or via `resume_active_run`.
+    pub fn pause_active_run(&mut self) -> Result<Vec<TrackerOutput>> {
+        if self.start_pause(crate::db::now_ms(), "manual", false)? {
+            Ok(vec![TrackerOutput::Snapshot])
+        } else {
+            Ok(vec![])
+        }
+    }
+
+    /// Manual resume from the UI: re-opens the zone the character is in.
+    pub fn resume_active_run(&mut self) -> Result<Vec<TrackerOutput>> {
+        if self.resume_playing(crate::db::now_ms())? {
+            Ok(vec![TrackerOutput::Snapshot])
+        } else {
+            Ok(vec![])
+        }
+    }
+
     pub fn has_active_run(&self) -> bool {
         self.run.is_some()
+    }
+
+    pub fn is_paused(&self) -> bool {
+        self.open_pause.is_some()
     }
 
     /// Warm in-memory context (open instances, character levels, pending
@@ -543,6 +704,7 @@ impl Tracker {
     /// database. Used with `watcher::backscan_lines` when the app starts
     /// while the game is already running.
     pub fn warm(&mut self, line: &LogLine) {
+        self.last_activity = Some(line.ts_ms);
         if let Some(up) = line.uptime_ms {
             if self.last_uptime.is_some_and(|last| up < last) {
                 self.open_instances.clear();
@@ -551,6 +713,11 @@ impl Tracker {
             self.last_uptime = Some(up);
         }
         match &line.event {
+            LogEvent::GameStarted => {
+                self.open_instances.clear();
+                self.pending_gen = None;
+                self.last_uptime = None;
+            }
             LogEvent::AreaGenerating {
                 area_level,
                 client_id,

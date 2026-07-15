@@ -1,6 +1,9 @@
-use crate::db::models::{DeathEvent, LevelEvent, Run, RunDetail, ZoneSegment};
+use crate::db::models::{
+    DeathEvent, LevelEvent, Run, RunDetail, RunListEntry, RunPause, ZoneSegment,
+};
 use crate::Result;
 use rusqlite::{params, Connection, OptionalExtension, Row};
+use std::collections::HashMap;
 
 fn run_from_row(r: &Row) -> rusqlite::Result<Run> {
     let goal_json: String = r.get("goal_json")?;
@@ -17,10 +20,23 @@ fn run_from_row(r: &Row) -> rusqlite::Result<Run> {
         goal: serde_json::from_str(&goal_json).unwrap_or(serde_json::Value::Null),
         total_ms: r.get("total_ms")?,
         total_load_ms: r.get("total_load_ms")?,
+        paused_ms: r.get("paused_ms")?,
         deaths: r.get("deaths")?,
         notes_md: r.get("notes_md")?,
         game: r.get("game")?,
         patch: r.get("patch")?,
+        group_id: r.get("group_id")?,
+    })
+}
+
+fn pause_from_row(r: &Row) -> rusqlite::Result<RunPause> {
+    Ok(RunPause {
+        id: r.get("id")?,
+        run_id: r.get("run_id")?,
+        started_at: r.get("started_at")?,
+        ended_at: r.get("ended_at")?,
+        kind: r.get("kind")?,
+        auto: r.get::<_, i64>("auto")? != 0,
     })
 }
 
@@ -119,6 +135,25 @@ pub fn list_runs(conn: &Connection) -> Result<Vec<Run>> {
     Ok(rows.collect::<rusqlite::Result<Vec<_>>>()?)
 }
 
+/// Runs plus list-view stats (acts seen, for average-per-act sorting).
+pub fn list_run_entries(conn: &Connection) -> Result<Vec<RunListEntry>> {
+    let mut stmt = conn.prepare(
+        "SELECT run_id, COUNT(DISTINCT act) FROM zone_segments
+         WHERE act BETWEEN 1 AND 10 AND kind IN ('campaign', 'town') AND excluded = 0
+         GROUP BY run_id",
+    )?;
+    let acts: HashMap<i64, i64> = stmt
+        .query_map([], |r| Ok((r.get::<_, i64>(0)?, r.get::<_, i64>(1)?)))?
+        .collect::<rusqlite::Result<_>>()?;
+    Ok(list_runs(conn)?
+        .into_iter()
+        .map(|run| RunListEntry {
+            acts_seen: acts.get(&run.id).copied().unwrap_or(0),
+            run,
+        })
+        .collect())
+}
+
 pub fn run_detail(conn: &Connection, id: i64) -> Result<Option<RunDetail>> {
     let Some(run) = get_run(conn, id)? else {
         return Ok(None);
@@ -127,6 +162,7 @@ pub fn run_detail(conn: &Connection, id: i64) -> Result<Option<RunDetail>> {
         segments: segments(conn, id)?,
         levels: levels(conn, id)?,
         deaths: deaths(conn, id)?,
+        pauses: pauses(conn, id)?,
         run,
     }))
 }
@@ -172,18 +208,26 @@ pub fn bump_deaths(conn: &Connection, run_id: i64) -> Result<()> {
     Ok(())
 }
 
-/// Finish a run: sets status, ended_at and both totals.
+/// Finish a run: sets status, ended_at and the totals. `paused_ms` is
+/// recomputed from the pause intervals (the tracker closes any open pause
+/// before finishing).
 pub fn finish_run(conn: &Connection, run_id: i64, status: &str, ended_at: i64) -> Result<Run> {
     let total_load: i64 = conn.query_row(
         "SELECT COALESCE(SUM(load_ms), 0) FROM zone_segments WHERE run_id = ?1",
         params![run_id],
         |r| r.get(0),
     )?;
+    let total_paused: i64 = conn.query_row(
+        "SELECT COALESCE(SUM(ended_at - started_at), 0) FROM run_pauses
+         WHERE run_id = ?1 AND ended_at IS NOT NULL",
+        params![run_id],
+        |r| r.get(0),
+    )?;
     conn.execute(
         "UPDATE runs SET status = ?2, ended_at = ?3,
-            total_ms = ?3 - started_at, total_load_ms = ?4
+            total_ms = ?3 - started_at, total_load_ms = ?4, paused_ms = ?5
          WHERE id = ?1",
-        params![run_id, status, ended_at, total_load],
+        params![run_id, status, ended_at, total_load, total_paused],
     )?;
     Ok(get_run(conn, run_id)?.expect("run exists"))
 }
@@ -273,6 +317,82 @@ pub fn open_segment(conn: &Connection, run_id: i64) -> Result<Option<ZoneSegment
             segment_from_row,
         )
         .optional()?)
+}
+
+/// Most recent segment of a run regardless of open/closed state — the zone
+/// the character is presumably still in when a pause is resumed in place.
+pub fn last_segment(conn: &Connection, run_id: i64) -> Result<Option<ZoneSegment>> {
+    Ok(conn
+        .query_row(
+            "SELECT * FROM zone_segments WHERE run_id = ?1 ORDER BY seq DESC LIMIT 1",
+            params![run_id],
+            segment_from_row,
+        )
+        .optional()?)
+}
+
+// ---- Pauses ----
+
+pub fn start_pause(
+    conn: &Connection,
+    run_id: i64,
+    started_at: i64,
+    kind: &str,
+    auto: bool,
+) -> Result<RunPause> {
+    conn.execute(
+        "INSERT INTO run_pauses (run_id, started_at, kind, auto) VALUES (?1, ?2, ?3, ?4)",
+        params![run_id, started_at, kind, auto as i64],
+    )?;
+    let id = conn.last_insert_rowid();
+    Ok(conn.query_row(
+        "SELECT * FROM run_pauses WHERE id = ?1",
+        params![id],
+        pause_from_row,
+    )?)
+}
+
+/// Close a pause and add its duration to the run's `paused_ms` (kept live so
+/// the list view is right for active runs; `finish_run` recomputes it).
+pub fn end_pause(conn: &Connection, pause_id: i64, ended_at: i64) -> Result<()> {
+    let Some((run_id, started_at)) = conn
+        .query_row(
+            "SELECT run_id, started_at FROM run_pauses WHERE id = ?1 AND ended_at IS NULL",
+            params![pause_id],
+            |r| Ok((r.get::<_, i64>(0)?, r.get::<_, i64>(1)?)),
+        )
+        .optional()?
+    else {
+        return Ok(());
+    };
+    let ended_at = ended_at.max(started_at);
+    conn.execute(
+        "UPDATE run_pauses SET ended_at = ?2 WHERE id = ?1",
+        params![pause_id, ended_at],
+    )?;
+    conn.execute(
+        "UPDATE runs SET paused_ms = paused_ms + ?2 WHERE id = ?1",
+        params![run_id, ended_at - started_at],
+    )?;
+    Ok(())
+}
+
+pub fn open_pause(conn: &Connection, run_id: i64) -> Result<Option<RunPause>> {
+    Ok(conn
+        .query_row(
+            "SELECT * FROM run_pauses WHERE run_id = ?1 AND ended_at IS NULL
+             ORDER BY id DESC LIMIT 1",
+            params![run_id],
+            pause_from_row,
+        )
+        .optional()?)
+}
+
+pub fn pauses(conn: &Connection, run_id: i64) -> Result<Vec<RunPause>> {
+    let mut stmt =
+        conn.prepare("SELECT * FROM run_pauses WHERE run_id = ?1 ORDER BY started_at")?;
+    let rows = stmt.query_map(params![run_id], pause_from_row)?;
+    Ok(rows.collect::<rusqlite::Result<Vec<_>>>()?)
 }
 
 pub fn visited_area_ids(conn: &Connection, run_id: i64) -> Result<Vec<String>> {
