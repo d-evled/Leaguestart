@@ -96,3 +96,12 @@ export function useZoneStats(planId: number | null) {
 export function useZoneNotes() {
   return useQuery({ queryKey: ["zoneNotes"], queryFn: ipc.getZoneNotes });
 }
+
+export function useLayouts() {
+  // Embedded static data — never refetch.
+  return useQuery({
+    queryKey: ["layouts"],
+    queryFn: ipc.getLayouts,
+    staleTime: Infinity,
+  });
+}

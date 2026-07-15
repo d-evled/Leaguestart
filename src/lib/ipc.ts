@@ -5,6 +5,7 @@ import type {
   CompareData,
   GuideLink,
   LeaguePlan,
+  LayoutDb,
   LogPathValidation,
   PobCheckpoint,
   PobImport,
@@ -110,6 +111,9 @@ export const zoneStats = (planId?: number | null) =>
 // pob / updates
 export const importPob = (input: string) => invoke<PobImport>("import_pob", { input });
 export const checkForUpdate = () => invoke<UpdateInfo | null>("check_for_update");
+
+// layouts (static embedded data)
+export const getLayouts = () => invoke<LayoutDb>("get_layouts");
 
 // notes
 export const getZoneNotes = () => invoke<ZoneNote[]>("get_zone_notes");

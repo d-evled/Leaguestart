@@ -1,0 +1,2017 @@
+{
+ "game": "poe1",
+ "writtenFor": "3.26",
+ "source": {
+  "name": "Definitiv Guide",
+  "url": "https://www.definitivguide.com/docs/category/path-of-exile-1"
+ },
+ "zones": [
+  {
+   "areaId": "a1-the-twilight-strand",
+   "name": "The Twilight Strand",
+   "act": 1,
+   "order": 10,
+   "side": false,
+   "waypoint": false,
+   "summary": "One straight beach into town — zero layout variance.",
+   "tips": [
+    "Kill only what blocks the lane; Hillock guards the town gate and has to die.",
+    "Treat it as your movement warm-up: pathing habits here set the tone for the run."
+   ],
+   "consistency": 1,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a1-the-coast",
+   "name": "The Coast",
+   "act": 1,
+   "order": 20,
+   "side": false,
+   "waypoint": true,
+   "summary": "Long strip between cliffs and sea; progress runs parallel to the water.",
+   "tips": [
+    "Hold the upper (cliff) edge — the Mud Flats exit is at the far end, up the rise.",
+    "Waypoint usually sits on the path past the midpoint; tag it in stride.",
+    "Tidal Island juts off the beach side — only detour if you're taking Mercy Mission (Quicksilver Flask)."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a1-the-tidal-island",
+   "name": "The Tidal Island",
+   "act": 1,
+   "order": 30,
+   "side": true,
+   "waypoint": false,
+   "summary": "Small island loop; Hailrake camps the far tip.",
+   "tips": [
+    "Sweep one side of the loop straight to Hailrake, grab the Medicine Chest, then logout/portal back.",
+    "The Quicksilver Flask reward is the biggest early movement upgrade — worth the detour on most routes."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a1-the-mud-flats",
+   "name": "The Mud Flats",
+   "act": 1,
+   "order": 40,
+   "side": false,
+   "waypoint": true,
+   "summary": "Open flats; three Rhoa mounds hold the glyphs that unlock the way forward.",
+   "tips": [
+    "The mounds ring the middle of the zone — clear the closest three and ignore everything else.",
+    "The Submerged Passage door sits on the far edge; the Fetid Pool is a separate dead-end loop.",
+    "Rhoa charges are the main death risk this early — keep moving, don't get surrounded."
+   ],
+   "consistency": 3,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a1-the-fetid-pool",
+   "name": "The Fetid Pool",
+   "act": 1,
+   "order": 50,
+   "side": true,
+   "waypoint": false,
+   "summary": "Small bog dead-end loop — purely optional.",
+   "tips": [
+    "If routed: circle the pool one way, clear the ritual mobs, and leave.",
+    "On fast runs skip it; the time cost rarely pays for itself."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a1-the-submerged-passage",
+   "name": "The Submerged Passage",
+   "act": 1,
+   "order": 60,
+   "side": false,
+   "waypoint": true,
+   "summary": "Flooded cave; a plank bridge crosses the chasm mid-zone.",
+   "tips": [
+    "Follow the water channel to the bridge, then push straight to the far stairs (The Ledge).",
+    "The Flooded Depths (Deep Dweller, +1 passive) branches off the lower pools — take it while leveling, skip when racing."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a1-the-flooded-depths",
+   "name": "The Flooded Depths",
+   "act": 1,
+   "order": 70,
+   "side": true,
+   "waypoint": false,
+   "summary": "Compact cave; the Deep Dweller sits in the far pool.",
+   "tips": [
+    "Kill the Dweller and portal out — the turn-in pays a passive skill point."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a1-the-ledge",
+   "name": "The Ledge",
+   "act": 1,
+   "order": 80,
+   "side": false,
+   "waypoint": true,
+   "summary": "The classic one-lane cliff shelf.",
+   "tips": [
+    "Commit to one direction along the shelf — the exit is at the top end.",
+    "Packs tend to come at you from the direction you should be heading; use them as a compass."
+   ],
+   "consistency": 1,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a1-the-climb",
+   "name": "The Climb",
+   "act": 1,
+   "order": 90,
+   "side": false,
+   "waypoint": true,
+   "summary": "S-shaped mountain trail with one real fork.",
+   "tips": [
+    "Stay on the worn path; the side pockets are loot bait, not progress.",
+    "The Lower Prison entrance is the lit gatehouse at the top of the trail."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a1-the-lower-prison",
+   "name": "The Lower Prison",
+   "act": 1,
+   "order": 100,
+   "side": false,
+   "waypoint": true,
+   "summary": "Rectangular prison floor; the stairs up sit across the floor from the entrance.",
+   "tips": [
+    "Run the outer corridor instead of threading cells.",
+    "Trial of Ascendancy #1 is here — take it now; it's on the Normal lab checklist."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a1-the-upper-prison",
+   "name": "The Upper Prison",
+   "act": 1,
+   "order": 110,
+   "side": false,
+   "waypoint": false,
+   "summary": "Cell blocks funneling toward Brutus.",
+   "tips": [
+    "Push forward room to room — Brutus' arena is the far end, and Prisoner's Gate opens behind him."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a1-prisoners-gate",
+   "name": "Prisoner's Gate",
+   "act": 1,
+   "order": 120,
+   "side": false,
+   "waypoint": true,
+   "summary": "Canyon road running downhill; everything hangs off the road.",
+   "tips": [
+    "Follow the road — the Ship Graveyard exit is past the gate at the low end.",
+    "Tag the waypoint for the Act 6 revisit (it hosts a trial then)."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a1-the-ship-graveyard",
+   "name": "The Ship Graveyard",
+   "act": 1,
+   "order": 130,
+   "side": false,
+   "waypoint": true,
+   "summary": "Wide wreck-littered beach — the act's most variable zone.",
+   "tips": [
+    "Hug the waterline instead of weaving between hulls; the Cavern of Wrath entrance reads from far away.",
+    "The Ship Graveyard Cave (Allflame / Marooned Mariner, +1 passive) hides among the wrecks — leveling yes, racing no.",
+    "If you're lost, pick an edge and commit — wandering the middle is the classic time sink here."
+   ],
+   "consistency": 3,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a1-the-ship-graveyard-cave",
+   "name": "The Ship Graveyard Cave",
+   "act": 1,
+   "order": 140,
+   "side": true,
+   "waypoint": false,
+   "summary": "Short cave loop beneath the wrecks.",
+   "tips": [
+    "Finish The Marooned Mariner here for the passive point, then portal out."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a1-the-cavern-of-wrath",
+   "name": "The Cavern of Wrath",
+   "act": 1,
+   "order": 150,
+   "side": false,
+   "waypoint": false,
+   "summary": "Winding sea cave descending toward Merveil.",
+   "tips": [
+    "Follow the water downhill; at forks the wider tunnel is usually the way.",
+    "No waypoint on this level — don't die deep without a portal."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a1-the-cavern-of-anger",
+   "name": "The Cavern of Anger",
+   "act": 1,
+   "order": 160,
+   "side": false,
+   "waypoint": true,
+   "summary": "Second cave layer ending at Merveil; Act 2 lies behind her.",
+   "tips": [
+    "Tag the waypoint on the way through, then push to the boss arena.",
+    "Clear a small pocket before engaging Merveil on squishier builds — her adds punish clutter."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a2-the-southern-forest",
+   "name": "The Southern Forest",
+   "act": 2,
+   "order": 10,
+   "side": false,
+   "waypoint": true,
+   "summary": "Forest road along the river, straight up to the Encampment.",
+   "tips": [
+    "Stay on the road — it runs to the town gate.",
+    "Tag the waypoint for the Act 6 return trip."
+   ],
+   "consistency": 1,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a2-the-old-fields",
+   "name": "The Old Fields",
+   "act": 2,
+   "order": 20,
+   "side": false,
+   "waypoint": false,
+   "summary": "Broad field between forest walls; Crossroads on the far side.",
+   "tips": [
+    "Cross roughly straight — the exit is opposite your entrance more often than not.",
+    "The Den pops up mid-field; enter only if your route uses it."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a2-the-den",
+   "name": "The Den",
+   "act": 2,
+   "order": 30,
+   "side": true,
+   "waypoint": false,
+   "summary": "Burrow loop with the Great White Beast at its heart.",
+   "tips": [
+    "It's one ring — pick a direction, kill the Beast, portal out."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a2-the-crossroads",
+   "name": "The Crossroads",
+   "act": 2,
+   "order": 40,
+   "side": false,
+   "waypoint": true,
+   "summary": "Four-way hub under the ruined aqueduct — the act's junction.",
+   "tips": [
+    "Waypoint at the central crossing; tag it before any branch.",
+    "North bridge → Broken Bridge (Kraityn). Uphill ruins → Chamber of Sins. South road → Fellshrine and the Crypt."
+   ],
+   "consistency": 1,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a2-the-broken-bridge",
+   "name": "The Broken Bridge",
+   "act": 2,
+   "order": 50,
+   "side": true,
+   "waypoint": true,
+   "summary": "Short dead-end at the collapsed span; Kraityn camps it.",
+   "tips": [
+    "Straight shot along the road — resolve Kraityn per your bandit plan and leave."
+   ],
+   "consistency": 1,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a2-the-fellshrine-ruins",
+   "name": "The Fellshrine Ruins",
+   "act": 2,
+   "order": 60,
+   "side": true,
+   "waypoint": false,
+   "summary": "Road to a ruined church; the Crypt sits beneath it.",
+   "tips": [
+    "Follow the road, not the woods — the church is at the far end and the Crypt entrance is in its yard."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a2-the-crypt-level-1",
+   "name": "The Crypt Level 1",
+   "act": 2,
+   "order": 70,
+   "side": true,
+   "waypoint": false,
+   "summary": "Dark indoor maze; Trial of Ascendancy inside.",
+   "tips": [
+    "Hug one wall — rooms loop back on themselves; the trial and the stairs sit deep, away from the entrance.",
+    "Normal-lab checklist stop: don't leave without the trial."
+   ],
+   "consistency": 3,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a2-the-crypt-level-2",
+   "name": "The Crypt Level 2",
+   "act": 2,
+   "order": 80,
+   "side": true,
+   "waypoint": false,
+   "summary": "Small burial level with the sealed chest chamber at the bottom.",
+   "tips": [
+    "Dead end — only descend if your route takes the optional chest quest."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a2-the-chamber-of-sins-level-1",
+   "name": "The Chamber of Sins Level 1",
+   "act": 2,
+   "order": 90,
+   "side": false,
+   "waypoint": true,
+   "summary": "Rectangular temple floor; the stairwell hides along the outer wall.",
+   "tips": [
+    "Run the perimeter until the stairs appear — the middle is a time sink.",
+    "Waypoint at the entrance is a useful act anchor."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a2-the-chamber-of-sins-level-2",
+   "name": "The Chamber of Sins Level 2",
+   "act": 2,
+   "order": 100,
+   "side": false,
+   "waypoint": false,
+   "summary": "Fidelitas' floor; a Trial of Ascendancy shares it.",
+   "tips": [
+    "Sweep for the green-lit trial door while heading to Fidelitas; kill him for the Baleful Gem and portal out."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a2-the-riverways",
+   "name": "The Riverways",
+   "act": 2,
+   "order": 110,
+   "side": false,
+   "waypoint": true,
+   "summary": "Long river road that forks the act: Western Forest ahead, Wetlands across.",
+   "tips": [
+    "Stay on the road; the waypoint marks the fork.",
+    "Western Forest side handles Alira/Weaver business; Wetlands continues the main quest."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a2-the-western-forest",
+   "name": "The Western Forest",
+   "act": 2,
+   "order": 120,
+   "side": false,
+   "waypoint": true,
+   "summary": "Road zone — everything hangs off the road.",
+   "tips": [
+    "Alira's camp is off one side of the road, the Weaver's cave off the other; don't leave the road otherwise.",
+    "Blackguard ambushes cluster at the road's pinch points."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a2-the-weavers-chambers",
+   "name": "The Weaver's Chambers",
+   "act": 2,
+   "order": 130,
+   "side": true,
+   "waypoint": false,
+   "summary": "Spider tunnels down to the Weaver.",
+   "tips": [
+    "Mostly a single descending path — kill the Weaver, take Maligaro's Spike, portal.",
+    "Know your 'Sharp and Cruel' support gem pick before the turn-in."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a2-the-wetlands",
+   "name": "The Wetlands",
+   "act": 2,
+   "order": 140,
+   "side": false,
+   "waypoint": true,
+   "summary": "Swamp basin; Oak's camp is the central island.",
+   "tips": [
+    "The waypoint sits by Oak — handle your bandit choice in passing.",
+    "The Vaal Ruins entrance is on the far side of the swamp from where you entered."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a2-the-vaal-ruins",
+   "name": "The Vaal Ruins",
+   "act": 2,
+   "order": 150,
+   "side": false,
+   "waypoint": false,
+   "summary": "Buried corridors; the Ancient Seal blocks the midpoint.",
+   "tips": [
+    "Smash the seal and keep moving — it's a winding corridor, not a maze.",
+    "Follow the wall torches; the dark hides ledge drops."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a2-the-northern-forest",
+   "name": "The Northern Forest",
+   "act": 2,
+   "order": 160,
+   "side": false,
+   "waypoint": true,
+   "summary": "Cliffside forest rising toward the Caverns.",
+   "tips": [
+    "Climb — the Caverns entrance is uphill along the cliff wall.",
+    "Dread Thicket branches mid-zone; it's optional in this act."
+   ],
+   "consistency": 3,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a2-the-dread-thicket",
+   "name": "The Dread Thicket",
+   "act": 2,
+   "order": 170,
+   "side": true,
+   "waypoint": false,
+   "summary": "Fern maze — optional in Act 2.",
+   "tips": [
+    "Skip on speed runs. If you must: wall-hug; it's a ring with pockets."
+   ],
+   "consistency": 3,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a2-the-caverns",
+   "name": "The Caverns",
+   "act": 2,
+   "order": 180,
+   "side": false,
+   "waypoint": true,
+   "summary": "Twisting crystal cave to the Ancient Pyramid.",
+   "tips": [
+    "Prefer the descending tunnel at forks; the Pyramid door is the deepest point.",
+    "Tag the mid-cave waypoint before committing to the boss push."
+   ],
+   "consistency": 3,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a2-the-ancient-pyramid",
+   "name": "The Ancient Pyramid",
+   "act": 2,
+   "order": 190,
+   "side": false,
+   "waypoint": false,
+   "summary": "Stacked floors up to the Vaal Oversoul on the roof.",
+   "tips": [
+    "Stairs chain corner to corner — sweep each floor's edge for the next flight.",
+    "The Act 3 exit is past the boss; no backtracking needed."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a3-the-city-of-sarn",
+   "name": "The City of Sarn",
+   "act": 3,
+   "order": 10,
+   "side": false,
+   "waypoint": true,
+   "summary": "Bridge entry into the ruined city; the town gate is across the district.",
+   "tips": [
+    "Follow the main avenue — Clarissa's event and the gate are at the far side.",
+    "Don't clear the city; packs thin as you near the gate."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a3-the-slums",
+   "name": "The Slums",
+   "act": 3,
+   "order": 20,
+   "side": false,
+   "waypoint": false,
+   "summary": "Streets linking town to the Crematorium, with the sewer grate mid-district.",
+   "tips": [
+    "The Crematorium sits at the far corner — cut the diagonal through courtyards.",
+    "Note the sewer entrance as you pass; you come back with the keys."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a3-the-crematorium",
+   "name": "The Crematorium",
+   "act": 3,
+   "order": 30,
+   "side": false,
+   "waypoint": true,
+   "summary": "Industrial interior; Trial of Ascendancy plus the Tolman story room.",
+   "tips": [
+    "Take the trial while sweeping — it's on the Normal lab checklist.",
+    "Portal out after the Piety scene instead of walking back."
+   ],
+   "consistency": 3,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a3-the-sewers",
+   "name": "The Sewers",
+   "act": 3,
+   "order": 40,
+   "side": false,
+   "waypoint": true,
+   "summary": "Three-armed sewer network between the Slums and the Marketplace.",
+   "tips": [
+    "Follow the waterway — the far ladder surfaces at the Marketplace.",
+    "Victario's three platinum busts sit one per arm; grab them only if your route wants that turn-in."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a3-the-marketplace",
+   "name": "The Marketplace",
+   "act": 3,
+   "order": 50,
+   "side": false,
+   "waypoint": true,
+   "summary": "Market blocks and courtyards; two onward exits.",
+   "tips": [
+    "The Battlefront exit is on the far street edge; the Catacombs (trial) hide in a courtyard.",
+    "Navigate by street intersections — the stall interiors all look alike."
+   ],
+   "consistency": 3,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a3-the-catacombs",
+   "name": "The Catacombs",
+   "act": 3,
+   "order": 60,
+   "side": true,
+   "waypoint": false,
+   "summary": "Compact crypt holding a Trial of Ascendancy.",
+   "tips": [
+    "Wall-hug to the trial and leave — there's nothing else down here."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a3-the-battlefront",
+   "name": "The Battlefront",
+   "act": 3,
+   "order": 70,
+   "side": false,
+   "waypoint": true,
+   "summary": "Open siege field; Docks at the waterline, Solaris gate across the field.",
+   "tips": [
+    "Tag the waypoint on the main road — two quest runs fan out from here.",
+    "The Docks entrance is the pier at the water's edge; Solaris Temple is the monumental gate opposite."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a3-the-solaris-temple-level-1",
+   "name": "The Solaris Temple Level 1",
+   "act": 3,
+   "order": 80,
+   "side": false,
+   "waypoint": true,
+   "summary": "Bright marble halls with generous corridors.",
+   "tips": [
+    "Near-linear — take the grand staircases and keep moving."
+   ],
+   "consistency": 1,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a3-the-solaris-temple-level-2",
+   "name": "The Solaris Temple Level 2",
+   "act": 3,
+   "order": 90,
+   "side": false,
+   "waypoint": false,
+   "summary": "Second Solaris floor; Dialla at the top.",
+   "tips": [
+    "Same drill as Level 1 — staircase to staircase; portal out after the quest hand-off."
+   ],
+   "consistency": 1,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a3-the-docks",
+   "name": "The Docks",
+   "act": 3,
+   "order": 100,
+   "side": false,
+   "waypoint": true,
+   "summary": "Night-time timber maze on the water; the Sulphite pickup.",
+   "tips": [
+    "Head to the far pier line first, then sweep laterally for the Sulphite warehouse.",
+    "Accept that this is one of the campaign's worst layouts — bank the pickup and portal straight out."
+   ],
+   "consistency": 3,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a3-the-ebony-barracks",
+   "name": "The Ebony Barracks",
+   "act": 3,
+   "order": 110,
+   "side": false,
+   "waypoint": true,
+   "summary": "Military yard; Gravicius mid-camp, Lunaris gate up the stairs.",
+   "tips": [
+    "Cut straight through the parade ground — Gravicius stands in the open.",
+    "Tag the waypoint by the Lunaris steps before the Piety push."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a3-the-lunaris-temple-level-1",
+   "name": "The Lunaris Temple Level 1",
+   "act": 3,
+   "order": 120,
+   "side": false,
+   "waypoint": true,
+   "summary": "Dark mirror of Solaris; a corridor spine with side labs.",
+   "tips": [
+    "Stay on the main-hall spine; ignore the side laboratories."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a3-the-lunaris-temple-level-2",
+   "name": "The Lunaris Temple Level 2",
+   "act": 3,
+   "order": 130,
+   "side": false,
+   "waypoint": false,
+   "summary": "Piety's floor.",
+   "tips": [
+    "Spine to the far end, kill Piety, portal — the walk back is pure waste."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a3-the-imperial-gardens",
+   "name": "The Imperial Gardens",
+   "act": 3,
+   "order": 140,
+   "side": false,
+   "waypoint": true,
+   "summary": "Formal gardens with a hedge maze; trial plus the Library branch.",
+   "tips": [
+    "Navigate by the Sceptre of God — the tower gate is visible from almost anywhere.",
+    "The Trial of Ascendancy sits by the hedge maze; take it in passing (last of the Normal six for many routes).",
+    "The Library detour is only for unlocking Siosa's gem shop."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a3-the-library",
+   "name": "The Library",
+   "act": 3,
+   "order": 150,
+   "side": true,
+   "waypoint": true,
+   "summary": "Grand hall — Siosa's quest hub with the Archives below.",
+   "tips": [
+    "Talk to Siosa, then only descend for the Golden Pages if your route wants the gem vendor."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a3-the-archives",
+   "name": "The Archives",
+   "act": 3,
+   "order": 160,
+   "side": true,
+   "waypoint": false,
+   "summary": "Book-stack maze holding the four Golden Pages.",
+   "tips": [
+    "Pages sit in separate wings — wall-follow and watch for the glowing pickups.",
+    "Pure side content; budget it consciously or skip."
+   ],
+   "consistency": 3,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a3-the-sceptre-of-god",
+   "name": "The Sceptre of God",
+   "act": 3,
+   "order": 170,
+   "side": false,
+   "waypoint": false,
+   "summary": "Tower ascent; stairwells chain upward.",
+   "tips": [
+    "Per floor: find the next stair, ignore the wings — no waypoint mid-tower, so commit."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a3-the-upper-sceptre-of-god",
+   "name": "The Upper Sceptre of God",
+   "act": 3,
+   "order": 180,
+   "side": false,
+   "waypoint": false,
+   "summary": "Final floors to Dominus' rooftop.",
+   "tips": [
+    "Linear once the stair chain starts; Dominus has two phases — bank a portal before engaging if unsure.",
+    "The Act 4 exit is on the rooftop past the fight."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a4-the-aqueduct",
+   "name": "The Aqueduct",
+   "act": 4,
+   "order": 10,
+   "side": false,
+   "waypoint": true,
+   "summary": "Straight water channel to Highgate.",
+   "tips": [
+    "It's a corridor — run it; nothing here is worth stopping for."
+   ],
+   "consistency": 1,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a4-the-dried-lake",
+   "name": "The Dried Lake",
+   "act": 4,
+   "order": 20,
+   "side": false,
+   "waypoint": true,
+   "summary": "Big cracked bowl; Voll near the middle; dead-end zone.",
+   "tips": [
+    "Sweep a shallow arc — Voll's arena mound stands above the flats and reads from a distance.",
+    "Kill Voll, then portal/waypoint back; the story continues from Highgate."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a4-the-mines-level-1",
+   "name": "The Mines Level 1",
+   "act": 4,
+   "order": 30,
+   "side": false,
+   "waypoint": false,
+   "summary": "Rail tunnels; the tracks are the route.",
+   "tips": [
+    "Follow the rails to the Level 2 shaft; treat side galleries as dead ends."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a4-the-mines-level-2",
+   "name": "The Mines Level 2",
+   "act": 4,
+   "order": 40,
+   "side": false,
+   "waypoint": false,
+   "summary": "Deeper galleries; Deshret's spirit breaks the way onward.",
+   "tips": [
+    "Find the banner/spirit chamber on the main line, trigger it, and keep descending to the Crystal Veins.",
+    "At junctions prefer the tunnel that goes down."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a4-the-crystal-veins",
+   "name": "The Crystal Veins",
+   "act": 4,
+   "order": 50,
+   "side": false,
+   "waypoint": true,
+   "summary": "Small hub cave: waypoint, Dialla, and both Dream portals.",
+   "tips": [
+    "Tag the waypoint immediately.",
+    "Kaom's and Daresso's sides can be run in either order — pick by what your build handles better (lava ledges vs arena packs)."
+   ],
+   "consistency": 1,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a4-kaoms-dream",
+   "name": "Kaom's Dream",
+   "act": 4,
+   "order": 60,
+   "side": false,
+   "waypoint": false,
+   "summary": "Lava ledges spiraling downward.",
+   "tips": [
+    "Follow the descending ledge line; misjudged drops cost more time than monsters.",
+    "The Stronghold door waits at the bottom."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a4-kaoms-stronghold",
+   "name": "Kaom's Stronghold",
+   "act": 4,
+   "order": 70,
+   "side": false,
+   "waypoint": false,
+   "summary": "Kaom's fortress arena — one of the two organ bosses.",
+   "tips": [
+    "Push straight to the throne arena; take the organ and portal back to the Veins."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a4-daressos-dream",
+   "name": "Daresso's Dream",
+   "act": 4,
+   "order": 80,
+   "side": false,
+   "waypoint": true,
+   "summary": "Sword-strewn dreamscape of bridges toward the Grand Arena.",
+   "tips": [
+    "Bridges chain forward — ignore the side stands.",
+    "Density spikes at chokepoints; don't fight in the narrows on hardcore."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a4-the-grand-arena",
+   "name": "The Grand Arena",
+   "act": 4,
+   "order": 90,
+   "side": false,
+   "waypoint": false,
+   "summary": "Colosseum pit chain ending at Daresso — the other organ.",
+   "tips": [
+    "Arena gates open in sequence; kill Daresso, grab the organ, portal out."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a4-the-belly-of-the-beast-level-1",
+   "name": "The Belly of the Beast Level 1",
+   "act": 4,
+   "order": 100,
+   "side": false,
+   "waypoint": false,
+   "summary": "Flesh tunnels — organic corridors that all look alike.",
+   "tips": [
+    "Prefer the widest artery at forks; the way down sits in the deepest chamber."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a4-the-belly-of-the-beast-level-2",
+   "name": "The Belly of the Beast Level 2",
+   "act": 4,
+   "order": 110,
+   "side": false,
+   "waypoint": false,
+   "summary": "Gut corridors to the Harvest.",
+   "tips": [
+    "Keep descending — the Harvest opens past the story scene at the bottom."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a4-the-harvest",
+   "name": "The Harvest",
+   "act": 4,
+   "order": 120,
+   "side": false,
+   "waypoint": true,
+   "summary": "Malachai's organ garden — hub with waypoint and the Black Core.",
+   "tips": [
+    "Tag the waypoint before anything else.",
+    "Malachai is two phases and mobile — bank a portal, clear the arena edges first."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a4-the-ascent",
+   "name": "The Ascent",
+   "act": 4,
+   "order": 130,
+   "side": false,
+   "waypoint": false,
+   "summary": "Bridge climb out of the mountain toward Act 5's ship.",
+   "tips": [
+    "Pure corridor — just run through the scripted scenery."
+   ],
+   "consistency": 1,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a5-the-slave-pens",
+   "name": "The Slave Pens",
+   "act": 5,
+   "order": 10,
+   "side": false,
+   "waypoint": true,
+   "summary": "Slaver interior into Oriath; Overseer Krow at the exit yard.",
+   "tips": [
+    "Room chain — keep pushing forward; Krow's yard opens to town."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a5-the-control-blocks",
+   "name": "The Control Blocks",
+   "act": 5,
+   "order": 20,
+   "side": false,
+   "waypoint": false,
+   "summary": "Prison block grid; the Miasmeter sits on the main path.",
+   "tips": [
+    "Sweep block to block toward the far gate; the story pickups are on the way, not hidden."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a5-oriath-square",
+   "name": "Oriath Square",
+   "act": 5,
+   "order": 30,
+   "side": false,
+   "waypoint": true,
+   "summary": "Large plaza district before the Templar complex.",
+   "tips": [
+    "Cross on the diagonal; the Templar Courts entrance is the cathedral facade.",
+    "Tag the waypoint — Act 5 loops back through this area's burned versions later."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a5-the-templar-courts",
+   "name": "The Templar Courts",
+   "act": 5,
+   "order": 40,
+   "side": false,
+   "waypoint": true,
+   "summary": "Church interior to the Chamber of Innocence.",
+   "tips": [
+    "Stick to the main aisle — side chapels are dead weight."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a5-the-chamber-of-innocence",
+   "name": "The Chamber of Innocence",
+   "act": 5,
+   "order": 50,
+   "side": false,
+   "waypoint": true,
+   "summary": "Boss floor — Innocence's sanctum.",
+   "tips": [
+    "Fight in the sanctum, then tag the waypoint here: the act revisits this complex after the fall."
+   ],
+   "consistency": 1,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a5-the-torched-courts",
+   "name": "The Torched Courts",
+   "act": 5,
+   "order": 60,
+   "side": false,
+   "waypoint": true,
+   "summary": "The Templar Courts burning — same bones, reversed traversal.",
+   "tips": [
+    "Run the aisle logic in reverse; fire-side packs hit harder, so keep moving."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a5-the-ruined-square",
+   "name": "The Ruined Square",
+   "act": 5,
+   "order": 70,
+   "side": false,
+   "waypoint": true,
+   "summary": "Oriath's plaza after the fall — the act's hub.",
+   "tips": [
+    "Waypoint central; the Reliquary and Ossuary branch off as side vaults, the Cathedral Rooftop continues the story.",
+    "Kitava's Torments roam — fight only what stands on your line."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a5-the-reliquary",
+   "name": "The Reliquary",
+   "act": 5,
+   "order": 80,
+   "side": true,
+   "waypoint": false,
+   "summary": "Vault wings around a central rotunda; story pickup inside.",
+   "tips": [
+    "In-and-out side zone: grab the objective, portal back to the Square."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a5-the-ossuary",
+   "name": "The Ossuary",
+   "act": 5,
+   "order": 90,
+   "side": true,
+   "waypoint": true,
+   "summary": "Bone crypt off the Square — optional in this act.",
+   "tips": [
+    "Side vault with a quest objective; wall-hug in, portal out. (Its Trial of Ascendancy only exists in the Act 10 version.)"
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a5-the-cathedral-rooftop",
+   "name": "The Cathedral Rooftop",
+   "act": 5,
+   "order": 100,
+   "side": false,
+   "waypoint": false,
+   "summary": "Rooftop approach to the first Kitava fight.",
+   "tips": [
+    "Linear path; the encounter is scripted set-pieces — dodge the slams, burn the phases.",
+    "Nothing to backtrack; Act 6 sails right after."
+   ],
+   "consistency": 1,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a6-the-twilight-strand",
+   "name": "The Twilight Strand",
+   "act": 6,
+   "order": 10,
+   "side": false,
+   "waypoint": false,
+   "summary": "The Strand again — hostile the whole way into the Watch.",
+   "tips": [
+    "Same straight beach as Act 1 with higher density; hold the line into town."
+   ],
+   "consistency": 1,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a6-the-coast",
+   "name": "The Coast",
+   "act": 6,
+   "order": 20,
+   "side": false,
+   "waypoint": true,
+   "summary": "Coast rerun at cruel difficulty.",
+   "tips": [
+    "Act 1 rule holds: cliff edge to the far-end exit, waypoint mid-strip.",
+    "Tidal Island is optional again — check your route before detouring."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a6-the-tidal-island",
+   "name": "The Tidal Island",
+   "act": 6,
+   "order": 30,
+   "side": true,
+   "waypoint": false,
+   "summary": "Island loop rerun — optional side kill.",
+   "tips": [
+    "Same loop as Act 1; only come for the quest target on the far tip, then portal."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a6-the-mud-flats",
+   "name": "The Mud Flats",
+   "act": 6,
+   "order": 40,
+   "side": false,
+   "waypoint": true,
+   "summary": "Flats rerun — no glyphs this time, just cross.",
+   "tips": [
+    "Head for the far edge: the Ridge continues the act; the Karui Fortress is the offshore side zone.",
+    "Density is the danger — keep moving through the Rhoa fields."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a6-the-karui-fortress",
+   "name": "The Karui Fortress",
+   "act": 6,
+   "order": 50,
+   "side": true,
+   "waypoint": false,
+   "summary": "Tukohama's island fort — side zone.",
+   "tips": [
+    "Cross to the fort, kill Tukohama for the 'Father of War' turn-in, portal out."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a6-the-ridge",
+   "name": "The Ridge",
+   "act": 6,
+   "order": 60,
+   "side": false,
+   "waypoint": true,
+   "summary": "Single ridgeline path — Act 6's answer to the Ledge.",
+   "tips": [
+    "One lane along the crest; the Lower Prison gate is at the top end. Just run."
+   ],
+   "consistency": 1,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a6-the-lower-prison",
+   "name": "The Lower Prison",
+   "act": 6,
+   "order": 70,
+   "side": false,
+   "waypoint": true,
+   "summary": "Prison rerun.",
+   "tips": [
+    "Outer-corridor rule from Act 1 applies; the stairs lead up to Shavronne's Tower."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a6-shavronnes-tower",
+   "name": "Shavronne's Tower",
+   "act": 6,
+   "order": 80,
+   "side": false,
+   "waypoint": true,
+   "summary": "Tower floors up to Shavronne.",
+   "tips": [
+    "Stair-chain per floor; after the fight the path drops toward Prisoner's Gate."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a6-prisoners-gate",
+   "name": "Prisoner's Gate",
+   "act": 6,
+   "order": 90,
+   "side": false,
+   "waypoint": true,
+   "summary": "The canyon road again — now hosting a Trial of Ascendancy (Cruel lab).",
+   "tips": [
+    "Downhill road rule applies; the trial pocket branches mid-road — it's on the Cruel checklist, take it.",
+    "The exit at the bottom opens the Riverways."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a6-the-riverways",
+   "name": "The Riverways",
+   "act": 6,
+   "order": 100,
+   "side": false,
+   "waypoint": true,
+   "summary": "River road rerun.",
+   "tips": [
+    "Stay on the road; the fork waypoint anchors the act — Wetlands is the way on."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a6-the-wetlands",
+   "name": "The Wetlands",
+   "act": 6,
+   "order": 110,
+   "side": false,
+   "waypoint": true,
+   "summary": "Swamp rerun; Ryslatha nests where Oak camped.",
+   "tips": [
+    "The central island holds Ryslatha ('The Puppet Mistress') — kill in passing.",
+    "Far-side exit continues toward the Southern Forest."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a6-the-southern-forest",
+   "name": "The Southern Forest",
+   "act": 6,
+   "order": 120,
+   "side": false,
+   "waypoint": true,
+   "summary": "Southern Forest in reverse — from the river toward the Beacon.",
+   "tips": [
+    "Follow the road; the Beacon replaces the town-gate end of Act 1's version."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a6-the-beacon",
+   "name": "The Beacon",
+   "act": 6,
+   "order": 130,
+   "side": false,
+   "waypoint": true,
+   "summary": "Coastal fort with the signal fire — an up-then-down zone.",
+   "tips": [
+    "Climb the switchbacks, light the beacon, then descend to the shore for Brine King's Reef.",
+    "Two phases, one route — don't clear the wings."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a6-brine-kings-reef",
+   "name": "Brine King's Reef",
+   "act": 6,
+   "order": 140,
+   "side": false,
+   "waypoint": false,
+   "summary": "Tidal causeway to the act boss.",
+   "tips": [
+    "The causeway is linear; the Brine King fight is about respecting the wave/geyser tells.",
+    "Act 7 departs right after the kill."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a7-the-broken-bridge",
+   "name": "The Broken Bridge",
+   "act": 7,
+   "order": 10,
+   "side": false,
+   "waypoint": false,
+   "summary": "The bridge again — now the act's opening crossing.",
+   "tips": [
+    "One road — cross it; the Crossroads exit is on the far side."
+   ],
+   "consistency": 1,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a7-the-crossroads",
+   "name": "The Crossroads",
+   "act": 7,
+   "order": 20,
+   "side": false,
+   "waypoint": true,
+   "summary": "The hub rerun; this act routes you south and uphill.",
+   "tips": [
+    "Same central waypoint; you want the Fellshrine road (Crypt trial) and the Chamber of Sins hill (main quest)."
+   ],
+   "consistency": 1,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a7-the-fellshrine-ruins",
+   "name": "The Fellshrine Ruins",
+   "act": 7,
+   "order": 30,
+   "side": true,
+   "waypoint": false,
+   "summary": "Church road rerun.",
+   "tips": [
+    "Road to the ruin; the Crypt below now carries a Trial of Ascendancy."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a7-the-crypt",
+   "name": "The Crypt",
+   "act": 7,
+   "order": 40,
+   "side": true,
+   "waypoint": true,
+   "summary": "Single-level Crypt holding a Cruel-lab Trial of Ascendancy.",
+   "tips": [
+    "Wall-hug to the trial, then portal — nothing else down here."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a7-the-chamber-of-sins-level-1",
+   "name": "The Chamber of Sins Level 1",
+   "act": 7,
+   "order": 50,
+   "side": false,
+   "waypoint": true,
+   "summary": "Chamber rerun, Level 1.",
+   "tips": [
+    "Perimeter rule to the stairs; Maligaro's Sanctum branches beneath as side content."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a7-the-chamber-of-sins-level-2",
+   "name": "The Chamber of Sins Level 2",
+   "act": 7,
+   "order": 60,
+   "side": false,
+   "waypoint": false,
+   "summary": "Level 2 — Maligaro's territory, with another Trial of Ascendancy.",
+   "tips": [
+    "Take the trial while sweeping to the story room — it completes most Cruel-lab checklists together with the Crypt and Prisoner's Gate.",
+    "The Ashen Fields open beyond."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a7-maligaros-sanctum",
+   "name": "Maligaro's Sanctum",
+   "act": 7,
+   "order": 70,
+   "side": true,
+   "waypoint": false,
+   "summary": "Maligaro's flesh workshop — side zone.",
+   "tips": [
+    "Push to the boss chamber, settle Maligaro, portal out."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a7-the-ashen-fields",
+   "name": "The Ashen Fields",
+   "act": 7,
+   "order": 80,
+   "side": false,
+   "waypoint": true,
+   "summary": "Burned farmland between the Chamber hill and the Northern Forest.",
+   "tips": [
+    "Cut across on the cart road; the forest gate is on the far side.",
+    "Tag the mid-field waypoint."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a7-the-northern-forest",
+   "name": "The Northern Forest",
+   "act": 7,
+   "order": 90,
+   "side": false,
+   "waypoint": true,
+   "summary": "Forest rerun; Greust's camp sits on the main path.",
+   "tips": [
+    "Handle the Greust interaction in passing — it gates later act business.",
+    "The Causeway exit is the aqueduct end; the Dread Thicket branches for the fireflies."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a7-the-dread-thicket",
+   "name": "The Dread Thicket",
+   "act": 7,
+   "order": 100,
+   "side": true,
+   "waypoint": false,
+   "summary": "Fern maze rerun — now holding the seven fireflies.",
+   "tips": [
+    "Fireflies glow through the fog — sweep the ring plus pockets until you have all seven.",
+    "One of the act's honest time sinks; deliberate practice here pays real seconds."
+   ],
+   "consistency": 3,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a7-the-causeway",
+   "name": "The Causeway",
+   "act": 7,
+   "order": 110,
+   "side": false,
+   "waypoint": true,
+   "summary": "Aqueduct span — linear, with Kishara's Star on the way.",
+   "tips": [
+    "Run the span; the Star pickup sits on the main line — don't leave the bridge for it.",
+    "Vaal City at the far end."
+   ],
+   "consistency": 1,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a7-the-vaal-city",
+   "name": "The Vaal City",
+   "act": 7,
+   "order": 120,
+   "side": false,
+   "waypoint": true,
+   "summary": "Overgrown city hub before Arakaali's temple.",
+   "tips": [
+    "Tag the central waypoint; make sure the act's pickups are done before the temple descent."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a7-the-temple-of-decay-level-1",
+   "name": "The Temple of Decay Level 1",
+   "act": 7,
+   "order": 130,
+   "side": false,
+   "waypoint": false,
+   "summary": "Web-choked corridors downward.",
+   "tips": [
+    "Near-linear — follow the webbing down; don't clear the side pockets."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a7-the-temple-of-decay-level-2",
+   "name": "The Temple of Decay Level 2",
+   "act": 7,
+   "order": 140,
+   "side": false,
+   "waypoint": false,
+   "summary": "Arakaali's floor — act finale.",
+   "tips": [
+    "Push to the arena; save movement/defensive flasks for her phase transitions.",
+    "The Act 8 exit is past the fight."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a8-the-sarn-ramparts",
+   "name": "The Sarn Ramparts",
+   "act": 8,
+   "order": 10,
+   "side": false,
+   "waypoint": true,
+   "summary": "City wall approach — a corridor with a view.",
+   "tips": [
+    "Run the wall line to the far tower; the Toxic Conduits drop below."
+   ],
+   "consistency": 1,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a8-the-toxic-conduits",
+   "name": "The Toxic Conduits",
+   "act": 8,
+   "order": 20,
+   "side": false,
+   "waypoint": true,
+   "summary": "Sewer junction under Sarn; Doedre's bowl at its heart.",
+   "tips": [
+    "Follow the main sludge line to the Cesspool arena; the city reopens after."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a8-doedres-cesspool",
+   "name": "Doedre's Cesspool",
+   "act": 8,
+   "order": 30,
+   "side": false,
+   "waypoint": true,
+   "summary": "Doedre's arena bowl.",
+   "tips": [
+    "Boss set-piece — clear the rim first, then fight in the middle; her sigils punish standing still."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a8-the-grand-promenade",
+   "name": "The Grand Promenade",
+   "act": 8,
+   "order": 40,
+   "side": false,
+   "waypoint": true,
+   "summary": "Elevated boulevard on the Lunaris side of the act.",
+   "tips": [
+    "Straight boulevard; the Bath House sits at the far end.",
+    "The High Gardens branch is side content — skip unless routed."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a8-the-high-gardens",
+   "name": "The High Gardens",
+   "act": 8,
+   "order": 50,
+   "side": true,
+   "waypoint": false,
+   "summary": "Terraced gardens — optional side zone.",
+   "tips": [
+    "Only enter if your route includes its quest; in, objective, portal."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a8-the-bath-house",
+   "name": "The Bath House",
+   "act": 8,
+   "order": 60,
+   "side": false,
+   "waypoint": true,
+   "summary": "Bathhouse interior holding an Eternal-lab Trial of Ascendancy.",
+   "tips": [
+    "Take the trial — first of the final three.",
+    "The exit continues toward the Lunaris Concourse."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a8-the-lunaris-concourse",
+   "name": "The Lunaris Concourse",
+   "act": 8,
+   "order": 70,
+   "side": false,
+   "waypoint": true,
+   "summary": "Plaza before Lunaris Temple, with waypoint.",
+   "tips": [
+    "Tag the waypoint; the temple door is the landmark — floors stack above."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a8-the-lunaris-temple-level-1",
+   "name": "The Lunaris Temple Level 1",
+   "act": 8,
+   "order": 80,
+   "side": false,
+   "waypoint": false,
+   "summary": "Lunaris rerun, Level 1.",
+   "tips": [
+    "Corridor spine rule — main hall forward, ignore the labs."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a8-the-lunaris-temple-level-2",
+   "name": "The Lunaris Temple Level 2",
+   "act": 8,
+   "order": 90,
+   "side": false,
+   "waypoint": false,
+   "summary": "Lunaris rerun, Level 2 — branch objective at the top.",
+   "tips": [
+    "Spine to the top, complete the temple objective, portal down."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a8-the-grain-gate",
+   "name": "The Grain Gate",
+   "act": 8,
+   "order": 100,
+   "side": false,
+   "waypoint": true,
+   "summary": "Warehouse gate district opening the Solaris side.",
+   "tips": [
+    "Push through the gate yards toward the Imperial Fields.",
+    "Gemling packs cluster at chokepoints — respect them on hardcore."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a8-the-imperial-fields",
+   "name": "The Imperial Fields",
+   "act": 8,
+   "order": 110,
+   "side": false,
+   "waypoint": true,
+   "summary": "Farm fields before the Solaris Concourse.",
+   "tips": [
+    "Cross on the road; the Concourse gate is far side, and the Quay branches at the water as side content."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a8-the-solaris-concourse",
+   "name": "The Solaris Concourse",
+   "act": 8,
+   "order": 120,
+   "side": false,
+   "waypoint": true,
+   "summary": "Solaris plaza with waypoint.",
+   "tips": [
+    "Tag the waypoint; same temple drill as the Lunaris side."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a8-the-solaris-temple-level-1",
+   "name": "The Solaris Temple Level 1",
+   "act": 8,
+   "order": 130,
+   "side": false,
+   "waypoint": false,
+   "summary": "Solaris rerun, Level 1.",
+   "tips": [
+    "Bright corridor spine — staircases forward."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a8-the-solaris-temple-level-2",
+   "name": "The Solaris Temple Level 2",
+   "act": 8,
+   "order": 140,
+   "side": false,
+   "waypoint": false,
+   "summary": "Solaris rerun, Level 2 — branch objective at the top.",
+   "tips": [
+    "Top floor, objective, portal down — mirror of the Lunaris branch."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a8-the-quay",
+   "name": "The Quay",
+   "act": 8,
+   "order": 150,
+   "side": true,
+   "waypoint": false,
+   "summary": "Docks district — optional side zone.",
+   "tips": [
+    "Skip unless your route takes its quest; it's a wandering waterfront otherwise."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a8-the-harbour-bridge",
+   "name": "The Harbour Bridge",
+   "act": 8,
+   "order": 160,
+   "side": false,
+   "waypoint": false,
+   "summary": "Final bridge — Solaris & Lunaris await.",
+   "tips": [
+    "Linear bridge to the arena; the twin fight alternates sun/moon phases — fight from the seam between their zones.",
+    "Act 9 sails after."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a9-the-blood-aqueduct",
+   "name": "The Blood Aqueduct",
+   "act": 9,
+   "order": 10,
+   "side": false,
+   "waypoint": true,
+   "summary": "The Aqueduct, bloodied — still one straight channel.",
+   "tips": [
+    "Run the channel; it's the campaign's most farmed zone, but on a timed run you're just passing through."
+   ],
+   "consistency": 1,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a9-the-descent",
+   "name": "The Descent",
+   "act": 9,
+   "order": 20,
+   "side": false,
+   "waypoint": false,
+   "summary": "Cliff switchbacks down from Highgate.",
+   "tips": [
+    "One path down; the Vastiri Desert opens at the bottom."
+   ],
+   "consistency": 1,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a9-the-vastiri-desert",
+   "name": "The Vastiri Desert",
+   "act": 9,
+   "order": 30,
+   "side": false,
+   "waypoint": true,
+   "summary": "Open desert crossing with the Oasis side basin.",
+   "tips": [
+    "Head for the far rock wall — the Foothills gate breaks the skyline.",
+    "The Oasis is a side basin; enter only if your route takes its quest.",
+    "Open-desert zones drift the most — pick a bearing early and commit."
+   ],
+   "consistency": 3,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a9-the-oasis",
+   "name": "The Oasis",
+   "act": 9,
+   "order": 40,
+   "side": true,
+   "waypoint": false,
+   "summary": "Palm basin — side zone.",
+   "tips": [
+    "The basin rings the water; in, objective, portal."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a9-the-foothills",
+   "name": "The Foothills",
+   "act": 9,
+   "order": 50,
+   "side": false,
+   "waypoint": true,
+   "summary": "Rising scrubland hub: Tunnel ahead, Boiling Lake aside, waypoint on the way.",
+   "tips": [
+    "Tag the waypoint; the Tunnel mouth sits high — climb toward it.",
+    "The Boiling Lake is side content for its quest pickup."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a9-the-boiling-lake",
+   "name": "The Boiling Lake",
+   "act": 9,
+   "order": 60,
+   "side": true,
+   "waypoint": false,
+   "summary": "Acid lake loop — side zone with the Basilisk.",
+   "tips": [
+    "The Basilisk guards the pickup at the lake's far side; kill, grab, portal."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a9-the-tunnel",
+   "name": "The Tunnel",
+   "act": 9,
+   "order": 70,
+   "side": false,
+   "waypoint": true,
+   "summary": "Mine tunnel carrying an Eternal-lab Trial of Ascendancy.",
+   "tips": [
+    "The trial is on the way — second of the final three.",
+    "The tunnel runs through to the Quarry; don't chase side shafts."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a9-the-quarry",
+   "name": "The Quarry",
+   "act": 9,
+   "order": 80,
+   "side": false,
+   "waypoint": true,
+   "summary": "Terraced quarry hub with waypoint and the act's story doors.",
+   "tips": [
+    "Tag the waypoint; the Refinery is side content, the Belly descent is the main line.",
+    "The hub is compact — follow quest markers rather than clearing terraces."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a9-the-refinery",
+   "name": "The Refinery",
+   "act": 9,
+   "order": 90,
+   "side": true,
+   "waypoint": false,
+   "summary": "Industrial side pocket.",
+   "tips": [
+    "Single quest objective inside — in, kill, out."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a9-the-belly-of-the-beast",
+   "name": "The Belly of the Beast",
+   "act": 9,
+   "order": 100,
+   "side": false,
+   "waypoint": false,
+   "summary": "Return to the flesh — single level this time.",
+   "tips": [
+    "Descend the gut corridor; the Rotting Core waits below."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a9-the-rotting-core",
+   "name": "The Rotting Core",
+   "act": 9,
+   "order": 110,
+   "side": false,
+   "waypoint": false,
+   "summary": "Malachai's remains — the Depraved Trinity finale.",
+   "tips": [
+    "Three arena pods branch off the core; clear the Trinity pod by pod without overstaying in the degen.",
+    "Act 10 follows the flask event — nothing to backtrack."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a10-the-cathedral-rooftop",
+   "name": "The Cathedral Rooftop",
+   "act": 10,
+   "order": 10,
+   "side": false,
+   "waypoint": false,
+   "summary": "Rooftop landing under siege — down into the Square.",
+   "tips": [
+    "Follow the breach line down; the Ravaged Square gate is below.",
+    "Density is brutal here — run, don't clear."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a10-the-ravaged-square",
+   "name": "The Ravaged Square",
+   "act": 10,
+   "order": 20,
+   "side": false,
+   "waypoint": true,
+   "summary": "Oriath's shattered hub — the whole act radiates from here.",
+   "tips": [
+    "Tag the central waypoint first.",
+    "Learn the compass: Torched Courts (→ Desecrated Chambers) one way, the Canals (→ Kitava) another, the Ossuary trial off to its own side — wrong doors cost minutes."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a10-the-torched-courts",
+   "name": "The Torched Courts",
+   "act": 10,
+   "order": 30,
+   "side": false,
+   "waypoint": true,
+   "summary": "The Courts under fire — route to the Desecrated Chambers.",
+   "tips": [
+    "Aisle rule as ever; the Chambers door is at the far end."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a10-the-desecrated-chambers",
+   "name": "The Desecrated Chambers",
+   "act": 10,
+   "order": 40,
+   "side": false,
+   "waypoint": true,
+   "summary": "The sanctum desecrated — Avarius reassembled.",
+   "tips": [
+    "Boss room at depth; after the kill, portal back to the Square rather than walking."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a10-the-ossuary",
+   "name": "The Ossuary",
+   "act": 10,
+   "order": 50,
+   "side": true,
+   "waypoint": true,
+   "summary": "Bone crypt — the final Trial of Ascendancy.",
+   "tips": [
+    "Side trip for the last Eternal trial; wall-hug in, trial, portal out."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a10-the-canals",
+   "name": "The Canals",
+   "act": 10,
+   "order": 60,
+   "side": false,
+   "waypoint": true,
+   "summary": "Waterway toward Kitava's harbor, waypoint mid-route.",
+   "tips": [
+    "Follow the water; tag the mid-zone waypoint — it's your boss-retry insurance."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  },
+  {
+   "areaId": "a10-the-feeding-trough",
+   "name": "The Feeding Trough",
+   "act": 10,
+   "order": 70,
+   "side": false,
+   "waypoint": false,
+   "summary": "Short, nasty run-up to Kitava round two.",
+   "tips": [
+    "Bank a portal before the arena; this Kitava hits like an act boss should.",
+    "The kill ends the campaign — Innocence ferries you to Karui Shores."
+   ],
+   "consistency": 2,
+   "guideUrl": null
+  }
+ ]
+}

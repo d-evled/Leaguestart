@@ -20,6 +20,7 @@ import RunDetailPage from "./pages/RunDetailPage";
 import AtlasPage from "./pages/AtlasPage";
 import ComparePage from "./pages/ComparePage";
 import BottlenecksPage from "./pages/BottlenecksPage";
+import LayoutsPage from "./pages/LayoutsPage";
 import SettingsPage from "./pages/SettingsPage";
 
 const NAV = [
@@ -29,6 +30,7 @@ const NAV = [
   { to: "/atlas", label: "Atlas" },
   { to: "/compare", label: "Compare" },
   { to: "/bottlenecks", label: "Bottlenecks" },
+  { to: "/layouts", label: "Layouts" },
   { to: "/settings", label: "Settings" },
 ];
 
@@ -99,6 +101,7 @@ const router = createHashRouter([
       { path: "atlas", element: <AtlasPage /> },
       { path: "compare", element: <ComparePage /> },
       { path: "bottlenecks", element: <BottlenecksPage /> },
+      { path: "layouts", element: <LayoutsPage /> },
       { path: "settings", element: <SettingsPage /> },
     ],
   },

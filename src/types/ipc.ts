@@ -228,4 +228,25 @@ export interface UpdateInfo {
   title: string | null;
 }
 
+export interface ZoneLayout {
+  areaId: string;
+  name: string;
+  act: number;
+  order: number;
+  side: boolean;
+  waypoint: boolean;
+  summary: string;
+  tips: string[];
+  /** 1 = fixed layout, 2 = variable but rule-based, 3 = high variance. */
+  consistency: 1 | 2 | 3;
+  guideUrl: string | null;
+}
+
+export interface LayoutDb {
+  game: string;
+  writtenFor: string;
+  source: { name: string; url: string };
+  zones: ZoneLayout[];
+}
+
 export type Settings = Record<string, unknown>;

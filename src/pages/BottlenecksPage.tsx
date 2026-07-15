@@ -1,23 +1,34 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
+import { openUrl } from "@tauri-apps/plugin-opener";
 import { setZoneNote } from "../lib/ipc";
 import {
   useInvalidatingMutation,
+  useLayouts,
   usePlans,
   useZoneStats,
 } from "../lib/queries";
 import { ACT_LABELS, fmtDur } from "../lib/time";
-import type { ZoneStat } from "../types/ipc";
+import { guideSearchUrl } from "./LayoutsPage";
+import type { ZoneLayout, ZoneStat } from "../types/ipc";
 
 export default function BottlenecksPage() {
   const { data: plans } = usePlans();
   const [planId, setPlanId] = useState<number | null>(null);
   const { data: stats } = useZoneStats(planId);
+  const { data: layoutDb } = useLayouts();
   const [expanded, setExpanded] = useState<string | null>(null);
   const noteMut = useInvalidatingMutation(
     ({ areaId, noteMd, flagged }: { areaId: string; noteMd: string | null; flagged: boolean }) =>
       setZoneNote(areaId, noteMd, flagged),
     [["zoneStats"], ["zoneNotes"]],
   );
+
+  const layoutsById = useMemo(() => {
+    const m = new Map<string, ZoneLayout>();
+    for (const z of layoutDb?.zones ?? []) m.set(z.areaId, z);
+    return m;
+  }, [layoutDb]);
 
   const flaggedCount = (stats ?? []).filter((s) => s.autoFlag || s.flagged).length;
 
@@ -50,8 +61,8 @@ export default function BottlenecksPage() {
         Per-zone time across your runs (loads excluded, revisits merged). A
         zone is auto-flagged when its median runs ≥1.4× the typical zone of its
         act, or when its spread (IQR) is large relative to its median — the
-        classic “layout RNG” signature. Flag zones yourself and note the fix
-        (route change, logout trick, skip strategy).
+        classic “layout RNG” signature. Expand a slow zone to see its layout
+        notes and study the full guide.
       </p>
 
       {!stats?.length ? (
@@ -79,6 +90,9 @@ export default function BottlenecksPage() {
                 <Row
                   key={s.areaId}
                   s={s}
+                  layout={layoutsById.get(s.areaId)}
+                  guideName={layoutDb?.source.name ?? "the guide"}
+                  guideBase={layoutDb?.source.url}
                   expanded={expanded === s.areaId}
                   onExpand={() =>
                     setExpanded(expanded === s.areaId ? null : s.areaId)
@@ -98,11 +112,17 @@ export default function BottlenecksPage() {
 
 function Row({
   s,
+  layout,
+  guideName,
+  guideBase,
   expanded,
   onExpand,
   onSave,
 }: {
   s: ZoneStat;
+  layout: ZoneLayout | undefined;
+  guideName: string;
+  guideBase: string | undefined;
   expanded: boolean;
   onExpand: () => void;
   onSave: (noteMd: string | null, flagged: boolean) => void;
@@ -119,6 +139,24 @@ function Row({
       >
         <td className="td">
           {s.areaName}
+          {layout && (
+            <span
+              className={`inline-block w-1.5 h-1.5 rounded-full ml-1.5 align-middle ${
+                layout.consistency === 3
+                  ? "bg-bad"
+                  : layout.consistency === 2
+                    ? "bg-accent"
+                    : "bg-good"
+              }`}
+              title={`layout notes available (${
+                layout.consistency === 3
+                  ? "high variance"
+                  : layout.consistency === 2
+                    ? "rule-based"
+                    : "fixed layout"
+              })`}
+            />
+          )}
           {s.noteMd && <span className="text-ink-dim ml-1.5" title={s.noteMd}>✎</span>}
         </td>
         <td className="td text-ink-dim">
@@ -148,6 +186,43 @@ function Row({
       {expanded && (
         <tr className="bg-panel-2/30">
           <td className="td" colSpan={9}>
+            {layout && (
+              <div className="py-2 border-b border-line/60 mb-2">
+                <div className="flex items-center gap-2 text-sm">
+                  <span className="font-medium">Layout notes</span>
+                  <span className="text-ink-dim">{layout.summary}</span>
+                  <span className="flex-1" />
+                  <Link
+                    className="text-accent hover:underline text-xs shrink-0"
+                    to={`/layouts?area=${encodeURIComponent(layout.areaId)}`}
+                  >
+                    open in Layouts
+                  </Link>
+                  {guideBase && (
+                    <button
+                      className="text-accent hover:underline text-xs shrink-0"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openUrl(
+                          layout.guideUrl ??
+                            guideSearchUrl(guideBase, layout.name, layout.act),
+                        );
+                      }}
+                    >
+                      {guideName} ↗
+                    </button>
+                  )}
+                </div>
+                <ul className="text-sm mt-1.5 space-y-1">
+                  {layout.tips.map((t, i) => (
+                    <li key={i} className="flex gap-1.5">
+                      <span className="text-accent shrink-0">›</span>
+                      <span>{t}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
             <div className="flex gap-2 items-start py-1">
               <textarea
                 className="input min-h-16 flex-1"

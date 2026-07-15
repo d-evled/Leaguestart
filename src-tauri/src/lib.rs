@@ -63,6 +63,7 @@ pub fn run() {
             commands::plans::delete_link,
             commands::pob::import_pob,
             commands::update::check_for_update,
+            commands::layouts::get_layouts,
             commands::runs::list_runs,
             commands::runs::get_run_detail,
             commands::runs::get_active_run,

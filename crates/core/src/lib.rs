@@ -1,5 +1,6 @@
 pub mod areas;
 pub mod db;
+pub mod layouts;
 pub mod log;
 pub mod pob;
 pub mod tracker;
